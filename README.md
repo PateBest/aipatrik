@@ -103,7 +103,7 @@ Sivuston kehitys ja ylläpito tapahtuu seuraavasti:
 
 Jos sinulla on kysyttävää tai ehdotuksia sivustoon liittyen, ota yhteyttä:
 
-- Sähköposti: info@aipatrik.com
+- Sähköposti: aipatrik@outlook.com
 - Verkkosivusto: [www.aipatrik.com](https://www.aipatrik.com)
 
 ## Lisenssi
