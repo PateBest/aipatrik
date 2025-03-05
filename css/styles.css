@@ -110,8 +110,8 @@ header .container {
 
 .logo-link h1 {
     margin-bottom: 0.5rem;
-    font-size: 2.8rem;
-    letter-spacing: 1px;
+    font-size: 2.5rem;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
     background: linear-gradient(to right, var(--text-light), var(--accent-color));
     -webkit-background-clip: text;
@@ -119,12 +119,14 @@ header .container {
     background-clip: text;
     text-fill-color: transparent;
     display: inline-block;
+    max-width: 90%;
 }
 
 .logo-link p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     opacity: 0.9;
     margin-bottom: 0;
+    max-width: 90%;
 }
 
 nav {
@@ -247,6 +249,11 @@ p {
     overflow: hidden;
     margin-top: 20px;
     text-decoration: none;
+    text-align: center;
+    line-height: 1.4;
+    white-space: normal;
+    max-width: 100%;
+    gap: 8px;
 }
 
 .btn::before {
@@ -282,6 +289,7 @@ p {
     margin-left: 8px;
     font-size: 12px;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .btn:hover::after {
@@ -309,22 +317,174 @@ p {
 }
 
 .hero {
-    text-align: center;
+    text-align: left;
     padding: 4rem 0;
     background-color: var(--dark-surface);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.hero .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2.5rem;
+    max-width: 1200px;
+}
+
+#viikon-tyokalu, .hero-content {
+    flex: 1 1 50%;
+    max-width: calc(50% - 1.25rem);
+    width: calc(50% - 1.25rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-content {
+    background: linear-gradient(145deg, rgba(30, 58, 95, 0.3), rgba(30, 58, 95, 0.1));
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    min-height: 500px;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(0, 230, 184, 0.1) 100%);
+    z-index: -1;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+}
+
+.hero-content-header {
+    background-color: rgba(74, 158, 255, 0.15);
+    margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+    padding: 1.2rem 2.5rem;
+    border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+}
+
+.hero-content-header h2 {
+    color: var(--accent-color);
+    font-size: 2.2rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
 .hero p {
-    max-width: 800px;
-    margin: 0 auto 2rem auto;
-    font-size: 1.2rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.hero-content .btn {
+    margin-top: auto;
+}
+
+.btn-special {
+    background: linear-gradient(135deg, var(--accent-color), #4a9eff);
+    color: var(--text-dark);
+    font-weight: 600;
+    padding: 1.2rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 230, 184, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.4;
+    white-space: normal;
+    max-width: 100%;
+    gap: 12px;
+    font-size: 17px;
+    min-height: 60px;
+    transform: translateY(0);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 230, 184, 0.3);
+    }
+    50% {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 230, 184, 0.5);
+    }
+    100% {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 230, 184, 0.3);
+    }
+}
+
+.btn-special::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: all 0.8s ease;
+}
+
+.btn-special:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 230, 184, 0.6);
+    background: linear-gradient(135deg, #00f2c3, #4a9eff);
+}
+
+.btn-special:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-special:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 230, 184, 0.4);
+}
+
+.btn-special::after {
+    content: '📚';
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.btn-special:hover::after {
+    transform: translate(5px, -50%) scale(1.1);
+}
+
+.hero-nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: auto;
+}
+
+.hero-nav-buttons .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    margin: 0;
 }
 
 .featured-tool {
     background: linear-gradient(145deg, var(--dark-surface), var(--dark-background));
     border-radius: 20px;
-    padding: 35px;
+    padding: 30px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -334,6 +494,9 @@ p {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .featured-tool::before {
@@ -359,8 +522,8 @@ p {
 }
 
 .featured-tool h3 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
     color: var(--accent-color);
     position: relative;
     padding-bottom: 15px;
@@ -379,10 +542,10 @@ p {
 }
 
 .featured-tool p {
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
     color: var(--text-light);
     line-height: 1.7;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     max-width: 100%;
 }
 
@@ -705,575 +868,37 @@ footer a:hover {
 }
 
 #viikon-tyokalu {
-    background-color: var(--dark-surface);
-}
-
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    nav ul li {
-        margin: 0.5rem 0;
-    }
-    
-    .newsletter-form {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .newsletter-form input {
-        width: 100%;
-        max-width: 300px;
-        border-radius: 50px;
-        margin-bottom: 0.8rem;
-    }
-    
-    .newsletter-form button {
-        width: 100%;
-        max-width: 300px;
-        border-radius: 50px;
-    }
-}
-
-.blog-post {
-    padding: 3rem 0;
-}
-
-.blog-post article {
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    padding: 2rem;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.post-meta {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 2rem;
-    font-style: italic;
-}
-
-.post-content {
-    line-height: 1.8;
-}
-
-.post-content h3 {
-    margin-top: 2rem;
-    color: var(--primary-color);
-}
-
-.post-content ul, .post-content ol {
-    margin-left: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-.post-content li {
-    margin-bottom: 0.5rem;
-}
-
-.post-content img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.post-content blockquote {
-    border-left: 4px solid var(--accent-color);
-    padding-left: 1.5rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.share-buttons {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.share-buttons h4 {
-    margin-bottom: 1rem;
-}
-
-.share-buttons a {
-    display: inline-block;
-    margin-right: 1rem;
-    background-color: var(--dark-surface-lighter);
-    color: var(--text-light);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.share-buttons a:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-.related-posts {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.related-posts h3 {
-    margin-bottom: 1.5rem;
-}
-
-.related-posts ul {
-    list-style: none;
-    padding: 0;
-}
-
-.related-posts li {
-    margin-bottom: 1rem;
-}
-
-.related-posts a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.related-posts a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-/* Arvostelu-sivujen tyylit */
-.review-content {
-    padding: 3rem 0;
-}
-
-.review-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.review-meta p {
-    color: rgba(255, 255, 255, 0.7);
-    font-style: italic;
-    margin-bottom: 0;
-}
-
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.stars {
-    color: var(--accent-color);
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-}
-
-.score {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: var(--text-light);
-}
-
-.review-summary {
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.review-summary h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-}
-
-.review-summary p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 0;
-}
-
-.pros-cons {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-@media (min-width: 768px) {
-    .pros-cons {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.pros, .cons {
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.pros h4, .cons h4 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.pros h4 {
-    color: var(--accent-color);
-}
-
-.cons h4 {
-    color: #ff6b6b;
-}
-
-.pros ul, .cons ul {
-    margin-left: 1.5rem;
-    margin-bottom: 0;
-}
-
-.pros li, .cons li {
-    margin-bottom: 0.5rem;
-}
-
-.pricing-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px var(--shadow-color);
-}
-
-.pricing-table th, .pricing-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.pricing-table th {
-    background-color: var(--dark-surface-lighter);
-    color: var(--text-light);
-    font-weight: 600;
-}
-
-.pricing-table tr:last-child td {
-    border-bottom: none;
-}
-
-.pricing-table tr:hover td {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.cta-section {
-    text-align: center;
-    margin: 3rem 0;
-    padding: 2rem;
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.cta-section h3 {
-    margin-top: 0;
-    color: var(--text-light);
-}
-
-.cta-section .btn {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    padding: 0.8rem 2rem;
-}
-
-/* Opas-sivujen tyylit */
-.guide-content {
-    padding: 3rem 0;
-}
-
-.guide-intro {
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 1.1rem;
-    line-height: 1.7;
-}
-
-.guide-section {
-    margin-bottom: 3rem;
-}
-
-.guide-section h3 {
-    color: var(--primary-color);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1.6rem;
-}
-
-.guide-section p {
-    margin-bottom: 1.2rem;
-    line-height: 1.7;
-}
-
-.guide-section ul, .guide-section ol {
-    margin-left: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-.guide-section li {
-    margin-bottom: 0.7rem;
-}
-
-.guide-section img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.guide-section blockquote {
-    border-left: 4px solid var(--accent-color);
-    padding-left: 1.5rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.guide-section code {
-    background-color: var(--dark-surface-lighter);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 0.9rem;
-}
-
-.guide-section pre {
-    background-color: var(--dark-surface-lighter);
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.guide-section pre code {
     background-color: transparent;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#viikon-tyokalu .container {
     padding: 0;
-}
-
-.guide-tips {
-    background-color: rgba(0, 230, 184, 0.1);
-    border-left: 4px solid var(--accent-color);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    border-radius: 0 8px 8px 0;
-}
-
-.guide-tips h4 {
-    color: var(--accent-color);
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.guide-warning {
-    background-color: rgba(255, 107, 107, 0.1);
-    border-left: 4px solid #ff6b6b;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    border-radius: 0 8px 8px 0;
-}
-
-.guide-warning h4 {
-    color: #ff6b6b;
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.guide-summary {
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    padding: 2rem;
-    margin: 3rem 0;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.guide-summary h3 {
-    margin-top: 0;
-    color: var(--text-light);
-}
-
-.guide-summary ul {
-    margin-bottom: 0;
-}
-
-.guide-next-steps {
-    text-align: center;
-    margin: 3rem 0;
-    padding: 2rem;
-    background-color: var(--dark-surface);
-    border-radius: 10px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.guide-next-steps h3 {
-    margin-top: 0;
-    color: var(--text-light);
-}
-
-.guide-next-steps .btn {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    padding: 0.8rem 2rem;
-}
-
-/* Työkalut-sivun korttien parannukset */
-#tyokalut .card {
-    background: linear-gradient(145deg, var(--dark-surface), var(--dark-background));
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    padding-top: 60px;
-}
-
-#tyokalut .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(0, 230, 184, 0.1) 100%);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-#tyokalut .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    border-color: rgba(138, 43, 226, 0.2);
-}
-
-#tyokalut .card:hover::before {
-    opacity: 1;
-}
-
-#tyokalut .card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: var(--accent-color);
-    position: relative;
-    padding-bottom: 15px;
-}
-
-#tyokalut .card h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-color), #8a2be2);
-    border-radius: 3px;
-}
-
-#tyokalut .card p {
-    margin-bottom: 20px;
-    color: var(--text-light);
-    line-height: 1.6;
-}
-
-#tyokalut .card::after {
-    content: '\f085';
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 24px;
-    color: var(--accent-color);
-    opacity: 0.7;
-    transition: all 0.3s ease;
-}
-
-#tyokalut .card:hover::after {
-    transform: rotate(30deg);
-    opacity: 1;
-    color: #8a2be2;
-}
-
-/* Eri ikonit eri työkalukorteille */
-#tyokalut .card:nth-child(1)::after {
-    content: '\f130'; /* mikrofoni */
-}
-
-#tyokalut .card:nth-child(2)::after {
-    content: '\f303'; /* kynä */
-}
-
-#tyokalut .card:nth-child(3)::after {
-    content: '\f1fc'; /* sivellin */
-}
-
-#tyokalut .card:nth-child(4)::after {
-    content: '\f0ac'; /* maapallo */
-}
-
-#tyokalut .card:nth-child(5)::after {
-    content: '\f0e0'; /* kirjekuori */
-}
-
-#tyokalut .card:nth-child(6)::after {
-    content: '\f080'; /* kaavio */
-}
-
-#tyokalut .card:nth-child(7)::after {
-    content: '\f03d'; /* video */
-}
-
-#tyokalut .card:nth-child(8)::after {
-    content: '\f086'; /* kommentti */
-}
-
-#tyokalut .card:nth-child(9)::after {
-    content: '\f0c0'; /* ihmiset */
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
 }
 
 #viikon-tyokalu .featured-tool {
-    background: linear-gradient(145deg, var(--dark-surface), var(--dark-background));
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(145deg, var(--dark-surface), rgba(30, 30, 30, 0.7));
     border-radius: 20px;
-    padding: 35px;
+    padding: 2.5rem;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
     z-index: 1;
     overflow: hidden;
+    height: auto;
+    min-height: 500px;
 }
 
 #viikon-tyokalu .featured-tool::before {
@@ -1286,650 +911,422 @@ footer a:hover {
     background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(0, 230, 184, 0.15) 100%);
     z-index: -1;
     opacity: 0.5;
-    transition: opacity 0.4s ease;
-}
-
-#viikon-tyokalu .featured-tool:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    transition: all 0.4s ease;
 }
 
 #viikon-tyokalu .featured-tool:hover::before {
-    opacity: 1;
+    opacity: 0.7;
 }
 
-#viikon-tyokalu .featured-tool h3 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+#viikon-tyokalu .featured-tool-header {
+    background-color: rgba(0, 230, 184, 0.15);
+    margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+    padding: 1.2rem 2.5rem;
+    border-bottom: 1px solid rgba(0, 230, 184, 0.3);
+}
+
+#viikon-tyokalu .featured-tool-header h2 {
     color: var(--accent-color);
-    position: relative;
-    padding-bottom: 15px;
-    display: inline-block;
-}
-
-#viikon-tyokalu .featured-tool h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), #8a2be2);
-    border-radius: 4px;
+    font-size: 2.2rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 #viikon-tyokalu .featured-tool p {
-    margin-bottom: 20px;
-    color: var(--text-light);
-    line-height: 1.7;
-    font-size: 1.05rem;
-}
-
-#viikon-tyokalu .featured-tool strong {
-    color: var(--accent-color);
-    font-weight: 600;
-}
-
-/* Viikon työkalun ikoni */
-#viikon-tyokalu .featured-tool::after {
-    content: '\f005'; /* tähti */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    font-size: 30px;
-    color: var(--accent-color);
-    opacity: 0.8;
-    transition: all 0.3s ease;
-}
-
-#viikon-tyokalu .featured-tool:hover::after {
-    transform: rotate(20deg) scale(1.2);
-    opacity: 1;
-    color: #8a2be2;
-}
-
-/* Lisää animaatio painikkeisiin */
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(138, 43, 226, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
-    }
-}
-
-#tyokalut .card a.btn, 
-#viikon-tyokalu .featured-tool a.btn {
-    animation: pulse 2s infinite;
-}
-
-#tyokalut .card:hover a.btn, 
-#viikon-tyokalu .featured-tool:hover a.btn {
-    animation: none;
-}
-
-/* Modernit työkalupainikkeet */
-#tyokalut .card a.btn, 
-#viikon-tyokalu .featured-tool a.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, var(--accent-color) 0%, #8a2be2 100%);
-    color: white;
-    border-radius: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 14px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: none;
-    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-    text-decoration: none;
-}
-
-#tyokalut .card a.btn:hover, 
-#viikon-tyokalu .featured-tool a.btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 7px 20px rgba(138, 43, 226, 0.3);
-    background: linear-gradient(135deg, #8a2be2 0%, var(--accent-color) 100%);
-}
-
-#tyokalut .card a.btn:active, 
-#viikon-tyokalu .featured-tool a.btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(138, 43, 226, 0.2);
-}
-
-#tyokalut .card a.btn::before, 
-#viikon-tyokalu .featured-tool a.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-    transition: all 0.6s ease;
-}
-
-#tyokalut .card a.btn:hover::before, 
-#viikon-tyokalu .featured-tool a.btn:hover::before {
-    left: 100%;
-}
-
-/* Lisää ikoni painikkeisiin */
-#tyokalut .card a.btn::after,
-#viikon-tyokalu .featured-tool a.btn::after {
-    content: '\f061';
-    font-family: 'Font Awesome 5 Free';
-    margin-left: 8px;
-    font-size: 12px;
-    transition: transform 0.3s ease;
-}
-
-#tyokalut .card a.btn:hover::after,
-#viikon-tyokalu .featured-tool a.btn:hover::after {
-    transform: translateX(4px);
-}
-
-#tyokalut .card ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1.5rem;
-}
-
-#tyokalut .card ul li {
+    font-size: 1.1rem;
     margin-bottom: 1rem;
-    padding-left: 1.5rem;
-    position: relative;
-}
-
-#tyokalut .card ul li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-#tyokalut .card ul li a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-#tyokalut .card ul li a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-#tyokalut .card ul li a[href*="arvostelut"] {
-    position: relative;
-}
-
-#tyokalut .card ul li a[href*="arvostelut"]::after {
-    content: 'Arvostelu';
-    position: absolute;
-    top: -8px;
-    right: -70px;
-    background-color: var(--accent-color);
-    color: var(--text-dark);
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-
-/* Top bar, sosiaalisen median painikkeet ja kielivalitsin */
-.top-bar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--dark-surface);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.social-icons {
-    display: flex;
-    gap: 15px;
-    margin-right: 20px;
-}
-
-.social-icons a {
+    line-height: 1.7;
     color: var(--text-light);
-    font-size: 20px;
-    transition: all 0.3s ease;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.05);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
 }
 
-.social-icons a:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--accent-color);
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-    z-index: -1;
-}
-
-.social-icons a:hover {
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.social-icons a:hover:before {
-    transform: translateY(0);
-}
-
-.social-icons a.linkedin:hover:before {
-    background-color: #0077B5;
-}
-
-.social-icons a.tiktok:hover:before {
-    background-color: #000000;
-}
-
-.social-icons a.instagram:hover:before {
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-
-.social-icons a.facebook:hover:before {
-    background-color: #1877F2;
-}
-
-.social-icons a.youtube:hover:before {
-    background-color: #FF0000;
-}
-
-.social-icons a.twitter:hover:before {
-    background-color: #1DA1F2;
-}
-
-.language-selector {
-    position: relative;
-    margin-left: 15px;
-}
-
-.language-selector button {
-    background: none;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-light);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.language-selector button:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-.language-selector .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: var(--dark-surface);
-    min-width: 120px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-}
-
-.language-selector:hover .dropdown-content {
-    display: block;
-    transform: translateY(0);
-}
-
-.language-selector .dropdown-content a {
-    color: var(--text-light);
-    padding: 12px 15px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.language-selector .dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-.language-selector .dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--accent-color);
-    padding-left: 20px;
-}
-
-.language-selector .dropdown-content a.active {
-    font-weight: bold;
+#viikon-tyokalu .featured-tool h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
     color: var(--accent-color);
 }
 
-.language-selector .dropdown-content a.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
+#viikon-tyokalu .featured-tool .btn {
+    align-self: flex-start;
+    margin-top: auto;
 }
 
-.language-selector .dropdown-content a.disabled:hover {
-    background-color: transparent;
-    padding-left: 15px;
-}
-
-/* Mobiilinavigaation tyylit */
-@media (max-width: 768px) {
-    nav .top-bar {
-        display: none;
-    }
-    
-    nav ul.active .top-bar {
-        display: flex;
+/* Media query for mobile devices */
+@media (max-width: 992px) {
+    .hero .container {
         flex-direction: column;
-        align-items: center;
-        margin-top: 2rem;
+        gap: 2rem;
     }
     
-    nav ul.active .social-icons {
-        margin-right: 0;
-        margin-bottom: 1rem;
+    .hero-content, #viikon-tyokalu {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto;
+        height: auto;
     }
     
-    nav ul.active .language-selector {
-        position: static;
-        margin-top: 1rem;
-        margin-left: 0;
-    }
-}
-
-/* Animaatio hampurilaisvalikko-ikonille */
-.hamburger {
-    width: 30px;
-    height: 20px;
-    position: relative;
-    margin: auto;
-    transform: rotate(0deg);
-    transition: .5s ease-in-out;
-    cursor: pointer;
-}
-
-.hamburger span {
-    display: block;
-    position: absolute;
-    height: 3px;
-    width: 100%;
-    background: var(--text-light);
-    border-radius: 9px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: .25s ease-in-out;
-}
-
-.hamburger span:nth-child(1) {
-    top: 0px;
-}
-
-.hamburger span:nth-child(2), .hamburger span:nth-child(3) {
-    top: 10px;
-}
-
-.hamburger span:nth-child(4) {
-    top: 20px;
-}
-
-.hamburger.open span:nth-child(1) {
-    top: 10px;
-    width: 0%;
-    left: 50%;
-}
-
-.hamburger.open span:nth-child(2) {
-    transform: rotate(45deg);
-}
-
-.hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg);
-}
-
-.hamburger.open span:nth-child(4) {
-    top: 10px;
-    width: 0%;
-    left: 50%;
-}
-
-/* Lisätyylit mobiilinavigaatiolle */
-body.nav-open {
-    overflow: hidden;
-}
-
-@media (max-width: 768px) {
-    header .container {
-        position: relative;
-        padding: 15px;
+    .hero {
+        padding: 3rem 0;
     }
     
-    .logo-link {
-        max-width: 70%;
+    .hero p {
+        font-size: 1rem;
     }
     
-    .logo-link h1 {
+    .hero-content-header {
+        padding: 1rem 1.5rem;
+    }
+    
+    .hero-content-header h2 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    
+    .hero-content .btn {
+        align-self: center;
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-nav-buttons {
+        flex-direction: column;
+    }
+    
+    #viikon-tyokalu .featured-tool-header {
+        padding: 1rem 1.5rem;
+    }
+    
+    #viikon-tyokalu .container {
+        padding: 0;
+    }
+    
+    #viikon-tyokalu .featured-tool .btn {
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #viikon-tyokalu .featured-tool {
+        height: auto;
+        min-height: auto;
+    }
+    
+    .hero-content .btn-primary, #viikon-tyokalu .btn-primary {
+        max-width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content-header h2 {
         font-size: 1.5rem;
+        line-height: 1.3;
     }
     
-    .logo-link p {
-        font-size: 0.8rem;
+    #viikon-tyokalu .featured-tool-header h2 {
+        font-size: 1.5rem;
+        line-height: 1.3;
     }
     
-    nav {
-        position: relative;
-        z-index: 999;
+    .hero-content {
+        padding: 1.5rem;
     }
     
-    nav .top-bar {
-        display: none;
+    .hero-content-header {
+        margin: -1.5rem -1.5rem 1rem -1.5rem;
+        padding: 1rem 1.5rem;
     }
     
-    nav ul.active .top-bar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 2rem;
+    #viikon-tyokalu .featured-tool {
+        padding: 1.5rem;
     }
     
-    nav ul.active .social-icons,
-    nav ul.active .language-selector {
-        position: static;
-        margin-top: 1rem;
+    #viikon-tyokalu .featured-tool-header {
+        margin: -1.5rem -1.5rem 1rem -1.5rem;
+        padding: 1rem 1.5rem;
     }
 }
 
-/* Blogi-sivun korttien erityistyylit */
-.blog-post {
-    margin-bottom: 40px;
-}
-
-.blog-post article {
-    background: linear-gradient(145deg, var(--dark-surface), var(--dark-background));
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-dark) 100%);
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.8rem;
+    border-radius: 50px;
+    text-align: center;
+    margin-top: auto;
+    align-self: center;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(74, 158, 255, 0.3);
+    transition: all 0.3s ease;
     position: relative;
-    z-index: 1;
     overflow: hidden;
+    border: none;
+    z-index: 1;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
-.blog-post article::before {
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 158, 255, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(0, 230, 184, 0.1) 100%);
+    background: linear-gradient(135deg, var(--accent-color-dark) 0%, var(--accent-color) 100%);
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
-.blog-post article:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    border-color: rgba(138, 43, 226, 0.2);
-}
-
-.blog-post article:hover::before {
+.btn-primary:hover::before {
     opacity: 1;
 }
 
-/* Arvostelut-sivun korttien erityistyylit */
-.review-content {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
+/* Erityistyyli Lataa tekoälyopas -painikkeelle */
+.hero-content .btn-primary {
+    background: linear-gradient(135deg, #4a9eff 0%, #0062cc 100%);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+    max-width: 320px;
+    animation: subtle-pulse 2s infinite;
 }
 
-/* Oppaat-sivun korttien erityistyylit */
+.hero-content .btn-primary::after {
+    content: '📚';
+    font-size: 1.4rem;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.hero-content .btn-primary:hover::after {
+    transform: scale(1.2);
+}
+
+@keyframes subtle-pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(74, 158, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(74, 158, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(74, 158, 255, 0.3);
+    }
+}
+
+/* Opas-sivujen tyylit */
+.guide-header {
+    background: linear-gradient(135deg, var(--accent-color-dark), var(--accent-color));
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.guide-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.guide-header p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.guide-content {
+    padding: 20px 0 60px;
+    background-color: var(--light-background);
+    color: var(--text-dark);
+}
+
 .guide-section {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    background-color: var(--dark-surface);
+    color: var(--text-light);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.guide-section h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+.guide-section h3 {
+    font-size: 1.5rem;
+    margin: 30px 0 15px;
+    color: var(--accent-color);
+}
+
+.guide-section p, .guide-section ul, .guide-section ol {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.guide-section ul, .guide-section ol {
+    padding-left: 25px;
+    color: var(--text-light);
+}
+
+.guide-section li {
+    margin-bottom: 10px;
 }
 
 .guide-section img {
     max-width: 100%;
-    height: auto;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.guide-section pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+.guide-tips, .guide-example {
+    background-color: var(--dark-background);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 30px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Responsiiviset tyylit korteille */
-@media (max-width: 1200px) {
-    .card, .featured-tool, .blog-post article {
-        padding: 25px;
-    }
-    
-    .card h3, .featured-tool h3 {
-        font-size: calc(1.2rem + 0.3vw);
-    }
-
-    .card p, .featured-tool p {
-        font-size: calc(0.9rem + 0.1vw);
-    }
+.guide-tips h4, .guide-example h4 {
+    margin-top: 0;
+    color: var(--accent-color);
 }
 
-@media (max-width: 992px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    
-    .card, .featured-tool, .blog-post article {
-        padding: 20px;
-    }
+.guide-example {
+    border-left: 4px solid var(--accent-color);
 }
 
-/* Mobiilinavigaation tyylit */
+.guide-steps {
+    margin: 30px 0;
+    background-color: var(--dark-background);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.step {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h4 {
+    margin-top: 0;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.guide-cta {
+    background: linear-gradient(135deg, var(--accent-color-dark), var(--accent-color));
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.guide-cta h3 {
+    margin-top: 0;
+    color: white;
+}
+
+.guide-cta p {
+    color: white;
+}
+
+.guide-cta .btn-primary {
+    margin-top: 20px;
+    background: white;
+    color: var(--accent-color-dark);
+}
+
+.guide-cta .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+}
+
+/* Responsiivisuus opas-sivuille */
 @media (max-width: 768px) {
-    .grid {
-        grid-template-columns: 1fr;
+    .guide-header {
+        padding: 40px 0;
     }
     
-    .card, .featured-tool, .blog-post article {
+    .guide-header h1 {
+        font-size: 2rem;
+    }
+    
+    .guide-section {
         padding: 20px;
     }
     
-    .card h3, .featured-tool h3 {
+    .guide-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .guide-section h3 {
         font-size: 1.3rem;
     }
-
-    .card p, .featured-tool p {
-        font-size: 0.95rem;
-    }
-
-    .card .btn, .featured-tool .btn {
-        padding: 10px 20px;
-        font-size: 13px;
-    }
     
-    .card img, .featured-tool img, .blog-post img, .guide-section img, .review-content img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    nav ul li.active a {
-        background: linear-gradient(135deg, var(--accent-color) 0%, rgba(138, 43, 226, 0.7) 100%);
-        color: white;
-        box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
-    }
-    
-    .mobile-nav-toggle {
-        z-index: 1001; /* Varmistetaan, että X-painike on aina päällimmäisenä */
-    }
-    
-    .hamburger.open {
-        position: fixed; /* Pidetään X-painike näkyvissä, kun valikko on auki */
-        top: 15px;
-        right: 15px;
-    }
-    
-    nav .top-bar {
-        display: none;
-    }
-    
-    nav ul.active .top-bar {
-        display: flex;
+    .step {
         flex-direction: column;
-        align-items: center;
-        margin-top: 2rem;
     }
     
-    nav ul.active .social-icons {
-        margin-right: 0;
-        margin-bottom: 1rem;
+    .step-number {
+        margin-bottom: 10px;
     }
-    
-    nav ul.active .language-selector {
-        position: static;
-        margin-top: 1rem;
-        margin-left: 0;
-    }
-} 
+}
