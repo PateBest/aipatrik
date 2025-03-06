@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agentti - Hallintapaneeli | AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-container {
+            padding: 30px 0;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dashboard-header h2 {
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dashboard-header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .dashboard-header .user-info .username {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .dashboard-header .user-info button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-header .user-info button:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.2);
+            color: #ff5555;
+        }
+        
+        .dashboard-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-tabs button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-tabs button:hover {
+            color: var(--accent-color);
+        }
+        
+        .dashboard-tabs button.active {
+            color: var(--accent-color);
+        }
+        
+        .dashboard-tabs button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .content-list {
+            margin-bottom: 30px;
+        }
+        
+        .content-list h3 {
+            margin-bottom: 20px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .content-item {
+            background-color: var(--dark-surface);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .content-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-item .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .content-item .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .content-item .item-date {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .content-item .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .content-item .item-actions button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .content-item .item-actions button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-item .item-actions button.edit:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-color: rgba(0, 123, 255, 0.2);
+            color: #0d6efd;
+        }
+        
+        .content-item .item-actions button.delete:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.2);
+            color: #ff5555;
+        }
+        
+        .content-item .item-actions button.view:hover {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .new-content-btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .new-content-btn:hover {
+            background-color: var(--accent-color-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+        }
+        
+        /* Lomakkeen tyylit */
+        .content-form {
+            background-color: var(--dark-surface);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .content-form h3 {
+            margin-bottom: 25px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .form-actions button {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-actions .save-btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+        }
+        
+        .form-actions .save-btn:hover {
+            background-color: var(--accent-color-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(var(--accent-color-rgb), 0.3);
+        }
+        
+        .form-actions .cancel-btn {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-actions .cancel-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../index.html"><i class="fas fa-home"></i> Etusivu</a></li>
+            <li><a href="../pages/tyokalut.html"><i class="fas fa-tools"></i> Työkalut</a></li>
+            <li><a href="../pages/oppaat.html"><i class="fas fa-book"></i> Oppaat</a></li>
+            <li><a href="../pages/blogi.html"><i class="fas fa-blog"></i> Blogi</a></li>
+            <li><a href="../pages/arvostelut.html"><i class="fas fa-star"></i> Arvostelut</a></li>
+            <li><a href="../pages/yhteystiedot.html"><i class="fas fa-envelope"></i> Yhteystiedot</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> AI Agentti - Hallintapaneeli</h2>
+                    <div class="user-info">
+                        <span class="username"><i class="fas fa-robot"></i> <span id="usernameDisplay">ai_agentti</span></span>
+                        <button id="logoutButton"><i class="fas fa-sign-out-alt"></i> Kirjaudu ulos</button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="blog"><i class="fas fa-blog"></i> Blogitekstit</button>
+                    <button class="tab-btn" data-tab="reviews"><i class="fas fa-star"></i> Arvostelut</button>
+                    <button class="tab-btn" data-tab="guides"><i class="fas fa-book"></i> Oppaat</button>
+                    <button class="tab-btn" data-tab="tools"><i class="fas fa-tools"></i> Työkalut</button>
+                </div>
+                
+                <!-- Blogitekstit -->
+                <div class="tab-content active" id="blog-content">
+                    <button class="new-content-btn" id="newBlogBtn"><i class="fas fa-plus"></i> Uusi blogiteksti</button>
+                    
+                    <div class="content-form" id="blogForm" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> <span id="blogFormTitle">Uusi blogiteksti</span></h3>
+                        <form id="createBlogForm">
+                            <input type="hidden" id="blogId" value="">
+                            <div class="form-group">
+                                <label for="blogTitle">Otsikko</label>
+                                <input type="text" id="blogTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="blogSlug">URL-tunniste (slug)</label>
+                                <input type="text" id="blogSlug" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="blogExcerpt">Lyhyt kuvaus</label>
+                                <textarea id="blogExcerpt" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="blogContent">Sisältö</label>
+                                <textarea id="blogContent" rows="10" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Tallenna</button>
+                                <button type="button" class="cancel-btn" id="cancelBlogBtn"><i class="fas fa-times"></i> Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="content-list">
+                        <h3><i class="fas fa-list"></i> Blogitekstit</h3>
+                        <div id="blogList">
+                            <!-- Blogitekstit listataan tähän dynaamisesti -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Arvostelut -->
+                <div class="tab-content" id="reviews-content">
+                    <button class="new-content-btn" id="newReviewBtn"><i class="fas fa-plus"></i> Uusi arvostelu</button>
+                    
+                    <div class="content-form" id="reviewForm" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> <span id="reviewFormTitle">Uusi arvostelu</span></h3>
+                        <form id="createReviewForm">
+                            <input type="hidden" id="reviewId" value="">
+                            <div class="form-group">
+                                <label for="reviewTitle">Otsikko</label>
+                                <input type="text" id="reviewTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewSlug">URL-tunniste (slug)</label>
+                                <input type="text" id="reviewSlug" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewRating">Arvosana (1-5)</label>
+                                <input type="number" id="reviewRating" min="1" max="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewExcerpt">Lyhyt kuvaus</label>
+                                <textarea id="reviewExcerpt" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewContent">Sisältö</label>
+                                <textarea id="reviewContent" rows="10" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Tallenna</button>
+                                <button type="button" class="cancel-btn" id="cancelReviewBtn"><i class="fas fa-times"></i> Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="content-list">
+                        <h3><i class="fas fa-list"></i> Arvostelut</h3>
+                        <div id="reviewList">
+                            <!-- Arvostelut listataan tähän dynaamisesti -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Oppaat -->
+                <div class="tab-content" id="guides-content">
+                    <button class="new-content-btn" id="newGuideBtn"><i class="fas fa-plus"></i> Uusi opas</button>
+                    
+                    <div class="content-form" id="guideForm" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> <span id="guideFormTitle">Uusi opas</span></h3>
+                        <form id="createGuideForm">
+                            <input type="hidden" id="guideId" value="">
+                            <div class="form-group">
+                                <label for="guideTitle">Otsikko</label>
+                                <input type="text" id="guideTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guideSlug">URL-tunniste (slug)</label>
+                                <input type="text" id="guideSlug" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guideExcerpt">Lyhyt kuvaus</label>
+                                <textarea id="guideExcerpt" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="guideContent">Sisältö</label>
+                                <textarea id="guideContent" rows="10" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Tallenna</button>
+                                <button type="button" class="cancel-btn" id="cancelGuideBtn"><i class="fas fa-times"></i> Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="content-list">
+                        <h3><i class="fas fa-list"></i> Oppaat</h3>
+                        <div id="guideList">
+                            <!-- Oppaat listataan tähän dynaamisesti -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Työkalut -->
+                <div class="tab-content" id="tools-content">
+                    <button class="new-content-btn" id="newToolBtn"><i class="fas fa-plus"></i> Uusi työkalu</button>
+                    
+                    <div class="content-form" id="toolForm" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> <span id="toolFormTitle">Uusi työkalu</span></h3>
+                        <form id="createToolForm">
+                            <input type="hidden" id="toolId" value="">
+                            <div class="form-group">
+                                <label for="toolTitle">Työkalun nimi</label>
+                                <input type="text" id="toolTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolSlug">URL-tunniste (slug)</label>
+                                <input type="text" id="toolSlug" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolCategory">Kategoria</label>
+                                <select id="toolCategory" required>
+                                    <option value="tekstintuotanto">Tekstintuotanto</option>
+                                    <option value="kuvankasittely">Kuvankäsittely</option>
+                                    <option value="aanenkasittely">Äänenkäsittely</option>
+                                    <option value="videot">Videot</option>
+                                    <option value="ohjelmointi">Ohjelmointi</option>
+                                    <option value="muut">Muut</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolRating">Arvosana (1-5)</label>
+                                <input type="number" id="toolRating" min="1" max="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolUrl">Työkalun URL</label>
+                                <input type="url" id="toolUrl" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolExcerpt">Lyhyt kuvaus</label>
+                                <textarea id="toolExcerpt" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolContent">Tarkempi kuvaus</label>
+                                <textarea id="toolContent" rows="10" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="toolPricing">Hinnoittelu</label>
+                                <select id="toolPricing" required>
+                                    <option value="ilmainen">Ilmainen</option>
+                                    <option value="freemium">Freemium</option>
+                                    <option value="maksullinen">Maksullinen</option>
+                                    <option value="kokeilu">Kokeiluversio saatavilla</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Tallenna</button>
+                                <button type="button" class="cancel-btn" id="cancelToolBtn"><i class="fas fa-times"></i> Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="content-list">
+                        <h3><i class="fas fa-list"></i> Työkalut</h3>
+                        <div id="toolList">
+                            <!-- Työkalut listataan tähän dynaamisesti -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Patrik</h3>
+                    <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Sivukartta</h3>
+                    <ul>
+                        <li><a href="../index.html">Etusivu</a></li>
+                        <li><a href="../pages/tyokalut.html">Työkalut</a></li>
+                        <li><a href="../pages/oppaat.html">Oppaat</a></li>
+                        <li><a href="../pages/blogi.html">Blogi</a></li>
+                        <li><a href="../pages/arvostelut.html">Arvostelut</a></li>
+                        <li><a href="../pages/yhteystiedot.html">Yhteystiedot</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Yhteystiedot</h3>
+                    <p><i class="fas fa-envelope"></i> info@aipatrik.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Suomi</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.</p>
+                <div class="footer-links">
+                    <a href="../pages/tietosuojakaytanto.html">Tietosuojakäytäntö</a>
+                    <a href="../pages/affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+                    <a href="../pages/tietoa-meista.html">Tietoa meistä</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html> 
