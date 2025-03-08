@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perplexity AI: Tekoälyn ja hakukoneiden uusi aikakausi - AI Patrik</title>
+    <meta name="description" content="Tutustu, miten Perplexity AI mullistaa tiedonhaun ja miten voit hyödyntää sitä tehokkaasti omassa työssäsi.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #7928CA, #FF0080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Perplexity AI: Tekoälyn ja hakukoneiden uusi aikakausi</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Julkaistu: 28.3.2025 | Kirjoittanut: Patrik Juuti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #7928CA, #FF0080); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <p>
+                    Hakukoneet ovat olleet internetin selkäranka jo vuosikymmeniä, mutta niiden perusperiaate on pysynyt pitkälti 
+                    samana: syötä hakusanoja, saa lista linkkejä. Perplexity AI on kuitenkin muuttamassa tätä paradigmaa yhdistämällä 
+                    tekoälyn voiman ja perinteisen hakukoneen toiminnallisuuden tavalla, joka saattaa mullistaa tiedonhaun tulevaisuuden.
+                </p>
+                
+                <h2>Hakukoneiden evoluutio: Linkeistä keskusteluun</h2>
+                
+                <p>
+                    Kun Google julkaistiin vuonna 1998, se mullisti tavan, jolla etsimme tietoa verkossa. PageRank-algoritmi 
+                    järjesti hakutulokset uudella tavalla, ja Googlen yksinkertainen käyttöliittymä teki tiedonhausta helpompaa 
+                    kuin koskaan aiemmin. Seuraavien vuosikymmenten aikana hakukoneet kehittyivät, mutta perusperiaate pysyi samana: 
+                    käyttäjä syöttää hakusanoja, ja hakukone tarjoaa listan linkkejä.
+                </p>
+                
+                <p>
+                    Vuonna 2022 perustettu Perplexity AI edustaa seuraavaa askelta hakukoneiden evoluutiossa. Sen sijaan, että 
+                    se tarjoaisi vain linkkejä, Perplexity AI tuottaa suoria, kattavia vastauksia kysymyksiin ja täydentää niitä 
+                    relevanteilla lähdeviittauksilla. Tämä lähestymistapa yhdistää perinteisen hakukoneen toiminnallisuuden ja 
+                    keskustelevan tekoälyn, luoden uudenlaisen tiedonhakukokemuksen.
+                </p>
+                
+                <h2>Miten Perplexity AI toimii?</h2>
+                
+                <p>
+                    Perplexity AI:n toiminta perustuu kahden tehokkaan teknologian yhdistämiseen: suuriin kielimalleihin (LLM) 
+                    ja reaaliaikaiseen verkkohakuun. Kun käyttäjä esittää kysymyksen, Perplexity AI analysoi sen, suorittaa 
+                    verkkohakuja löytääkseen relevanttia ja ajantasaista tietoa, ja käyttää tekoälyä jäsentääkseen ja 
+                    syntetisoidakseen tämän tiedon kattavaksi vastaukseksi.
+                </p>
+                
+                <p>
+                    Tämä lähestymistapa ratkaisee kaksi merkittävää ongelmaa, joita muut tekoälypohjaiset keskustelutyökalut 
+                    kohtaavat:
+                </p>
+                
+                <ol>
+                    <li>
+                        <strong>Ajantasaisuus:</strong> Monet tekoälymallit on koulutettu tiettyyn ajankohtaan asti, joten 
+                        niillä ei ole pääsyä tuoreimpaan tietoon. Perplexity AI:n reaaliaikainen verkkohaku mahdollistaa 
+                        ajantasaisten tietojen saamisen.
+                    </li>
+                    <li>
+                        <strong>Läpinäkyvyys:</strong> Tekoälymallit eivät yleensä paljasta, mistä niiden tieto on peräisin. 
+                        Perplexity AI tarjoaa lähdeviittauksia, jotka mahdollistavat tiedon tarkistamisen ja syventämisen.
+                    </li>
+                </ol>
+                
+                <h2>Perplexity AI:n vaikutus tiedonhakuun</h2>
+                
+                <p>
+                    Perplexity AI:n kaltaiset työkalut ovat muuttamassa tapaa, jolla etsimme ja käsittelemme tietoa verkossa. 
+                    Tässä muutamia merkittäviä vaikutuksia:
+                </p>
+                
+                <h3>1. Tiedonhaun tehokkuus</h3>
+                
+                <p>
+                    Perinteisillä hakukoneilla käyttäjän täytyy usein selata useita verkkosivuja löytääkseen etsimänsä tiedon. 
+                    Tämä voi olla aikaa vievää, erityisesti monimutkaisissa aiheissa. Perplexity AI tiivistää tiedon suoraan 
+                    vastaukseksi, säästäen käyttäjän aikaa ja vaivaa.
+                </p>
+                
+                <blockquote>
+                    "Perplexity AI on muuttanut tapaa, jolla teen tutkimusta. Aiemmin saatoin käyttää tunteja selaten 
+                    eri verkkosivuja löytääkseni tarvitsemani tiedon. Nyt saan kattavan vastauksen sekunneissa, ja 
+                    lähdeviittaukset mahdollistavat tiedon syventämisen tarvittaessa."
+                    <cite>- Maria Korhonen, tutkija</cite>
+                </blockquote>
+                
+                <h3>2. Tiedon demokratisointi</h3>
+                
+                <p>
+                    Perplexity AI:n keskusteleva käyttöliittymä madaltaa kynnystä tiedonhakuun. Käyttäjät voivat esittää 
+                    kysymyksiä luonnollisella kielellä, aivan kuin kysyisivät ihmiseltä. Tämä tekee tiedonhausta 
+                    saavutettavampaa kaikille, riippumatta teknisestä osaamisesta tai hakukoneoptimoinnin ymmärtämisestä.
+                </p>
+                
+                <h3>3. Kriittisen ajattelun merkitys</h3>
+                
+                <p>
+                    Vaikka Perplexity AI tarjoaa lähdeviittauksia, vastuu tiedon oikeellisuuden arvioinnista on edelleen 
+                    käyttäjällä. Tämä korostaa kriittisen ajattelun ja medialukutaidon merkitystä digitaalisessa ajassa. 
+                    Käyttäjien on tärkeää tarkistaa lähteet ja arvioida tiedon luotettavuutta, erityisesti kiistanalaisissa 
+                    tai monimutkaisissa aiheissa.
+                </p>
+                
+                <h3>4. Hakukoneiden tulevaisuus</h3>
+                
+                <p>
+                    Perplexity AI edustaa suuntaa, johon hakukoneet ovat kehittymässä. Tulevaisuudessa voimme odottaa yhä 
+                    enemmän tekoälypohjaisia hakukoneita, jotka ymmärtäävät käyttäjän tarpeita paremmin ja tarjoavat 
+                    räätälöityjä vastauksia pelkkien linkkien sijaan.
+                </p>
+                
+                <h2>Perplexity AI vs. muut tekoälypohjaiset työkalut</h2>
+                
+                <p>
+                    Perplexity AI ei ole ainoa tekoälypohjainen tiedonhakutyökalu markkinoilla. Miten se vertautuu muihin 
+                    suosittuihin vaihtoehtoihin?
+                </p>
+                
+                <h3>1. Perplexity AI vs. ChatGPT</h3>
+                
+                <p>
+                    Toisin kuin ChatGPT, joka perustuu pääasiassa ennalta koulutettuun malliin, Perplexity AI pystyy tarjoamaan 
+                    ajantasaista tietoa reaaliaikaisen verkkohaun ansiosta. Lisäksi Perplexity AI tarjoaa lähdeviittauksia, 
+                    joita ChatGPT ei yleensä tarjoa.
+                </p>
+                
+                <h3>2. Perplexity AI vs. Google Bard/Gemini</h3>
+                
+                <p>
+                    Sekä Perplexity AI että Google Bard/Gemini tarjoavat reaaliaikaista tietoa ja lähdeviittauksia. Perplexity AI 
+                    erottuu kuitenkin kattavammilla lähdeviittauksillaan ja monipuolisemmilla hakuvaihtoehdoillaan.
+                </p>
+                
+                <h3>3. Perplexity AI vs. Bing AI</h3>
+                
+                <p>
+                    Bing AI yhdistää myös hakukoneen ja tekoälyn, mutta Perplexity AI tarjoaa usein kattavampia vastauksia ja 
+                    paremman käyttökokemuksen. Perplexity AI:n käyttöliittymä on suunniteltu erityisesti keskustelevaan tiedonhakuun.
+                </p>
+                
+                <h2>Tulevaisuuden näkymät</h2>
+                
+                <p>
+                    Perplexity AI ja muut vastaavat työkalut ovat vasta alkua tekoälypohjaisten hakukoneiden kehityksessä. 
+                    Tulevaisuudessa voimme odottaa yhä kehittyneempiä ominaisuuksia, kuten:
+                </p>
+                
+                <ul>
+                    <li>
+                        <strong>Multimodaalinen tiedonhaku:</strong> Mahdollisuus etsiä tietoa kuvien, äänen ja videon avulla, 
+                        ei vain tekstillä.
+                    </li>
+                    <li>
+                        <strong>Personoitu tiedonhaku:</strong> Vastaukset, jotka on räätälöity käyttäjän aiempien hakujen, 
+                        kiinnostusten ja tarpeiden mukaan.
+                    </li>
+                    <li>
+                        <strong>Syvällisempi ymmärrys:</strong> Tekoäly, joka ymmärtää paremmin monimutkaisia kysymyksiä ja 
+                        kontekstia, tarjoten entistä tarkempia vastauksia.
+                    </li>
+                    <li>
+                        <strong>Laajempi kielituki:</strong> Parempi tuki eri kielille, mahdollistaen tiedonhaun käyttäjän 
+                        omalla äidinkielellä.
+                    </li>
+                </ul>
+                
+                <p>
+                    Perplexity AI on jo kerännyt merkittävää rahoitusta, mukaan lukien investointeja Jeff Bezosista ja NVIDIA:sta, 
+                    mikä mahdollistaa jatkuvan kehityksen ja innovaation. Yritys on ilmoittanut suunnitelmistaan laajentaa 
+                    ominaisuuksiaan ja parantaa vastausten tarkkuutta entisestään.
+                </p>
+                
+                <h2>Yhteenveto</h2>
+                
+                <p>
+                    Perplexity AI edustaa merkittävää askelta hakukoneiden evoluutiossa. Yhdistämällä tekoälyn voiman ja 
+                    perinteisen hakukoneen toiminnallisuuden, se tarjoaa uudenlaisen tiedonhakukokemuksen, joka on sekä 
+                    tehokas että käyttäjäystävällinen.
+                </p>
+                
+                <p>
+                    Vaikka Perplexity AI ei todennäköisesti korvaa perinteisiä hakukoneita kokonaan lähitulevaisuudessa, 
+                    se edustaa suuntaa, johon tiedonhaku on kehittymässä. Tulevaisuudessa voimme odottaa yhä enemmän 
+                    tekoälypohjaisia työkaluja, jotka tekevät tiedonhausta helpompaa, tehokkaampaa ja saavutettavampaa kaikille.
+                </p>
+                
+                <p>
+                    Perplexity AI ja muut vastaavat työkalut ovat muuttamassa tapaa, jolla etsimme ja käsittelemme tietoa 
+                    verkossa. Ne eivät ole vain teknologisia innovaatioita, vaan ne muuttavat perustavanlaatuisesti 
+                    suhdettamme tietoon ja oppimiseen digitaalisessa ajassa.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Kokeile Perplexity AI:ta itse</h3>
+                <p>Haluatko nähdä, miten Perplexity AI voi tehostaa tiedonhakuasi? Kokeile ilmaista versiota jo tänään!</p>
+                <a href="https://www.perplexity.ai/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #7928CA, #FF0080); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(121, 40, 202, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-search" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry Perplexity AI:hin
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../arvostelut/perplexity-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(121, 40, 202, 0.1), rgba(121, 40, 202, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(121, 40, 202, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #7928CA; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Perplexity AI Arvostelu 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu Perplexity AI:sta - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        </a>
+                        
+                        <a href="../oppaat/perplexity-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(121, 40, 202, 0.1), rgba(121, 40, 202, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(121, 40, 202, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #7928CA; text-align: center;">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Perplexity AI Käyttöopas 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava opas Perplexity AI:n käyttöön - vinkit ja parhaat käytännöt.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tome AI: Tekoälyn vallankumous esitysten luomisessa - AI Patrik</title>
+    <meta name="description" content="Tutustu, miten Tome AI mullistaa esitysten luomisen ja miten voit hyödyntää sitä tehokkaasti omassa työssäsi.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #6C5CE7, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Tome AI: Tekoälyn vallankumous esitysten luomisessa</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Julkaistu: 28.3.2025 | Kirjoittanut: Patrik Juuti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #6C5CE7, #3B82F6); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <p>
+                    Esitysten luominen on perinteisesti ollut aikaa vievä prosessi, joka vaatii sekä teknistä osaamista että 
+                    visuaalista silmää. Tome AI on kuitenkin muuttamassa tätä paradigmaa yhdistämällä tekoälyn voiman ja 
+                    visuaalisen tarinankerronnan tavalla, joka mullistaa esitysten luomisen ja jakamisen.
+                </p>
+                
+                <h2>Mikä on Tome AI?</h2>
+                <p>
+                    Tome AI on tekoälypohjainen esitystyökalu, joka mahdollistaa ammattimaisten, visuaalisesti näyttävien 
+                    esitysten luomisen muutamassa minuutissa. Toisin kuin perinteiset esitystyökalut kuten PowerPoint tai 
+                    Google Slides, Tome hyödyntää generatiivista tekoälyä auttaakseen käyttäjiä luomaan sisältöä, 
+                    visualisoimaan ideoita ja rakentamaan johdonmukaisia tarinoita.
+                </p>
+                <p>
+                    Tomen perustivat vuonna 2020 Keith Peiris ja Henri Liriani, jotka aiemmin työskentelivät Facebookilla 
+                    (nykyinen Meta). Heidän tavoitteenaan oli luoda työkalu, joka tekisi ideoiden visualisoinnista ja 
+                    jakamisesta helpompaa ja tehokkaampaa. Vuonna 2023 Tome integroitiin OpenAI:n GPT-4 -kielimalli, 
+                    mikä nosti työkalun kyvykkyydet uudelle tasolle.
+                </p>
+                
+                <blockquote>
+                    "Tome on suunniteltu auttamaan ihmisiä kertomaan parempia tarinoita. Tekoäly ei korvaa ihmisen 
+                    luovuutta, vaan toimii työkaluna, joka vapauttaa aikaa mekaanisista tehtävistä ja antaa tilaa 
+                    luovalle ajattelulle."
+                    <cite>- Keith Peiris, Tomen toimitusjohtaja ja perustaja</cite>
+                </blockquote>
+                
+                <h2>Tomen keskeiset ominaisuudet</h2>
+                
+                <h3>1. Tekoälypohjainen sisällönluonti</h3>
+                <p>
+                    Tomen ehkä vaikuttavin ominaisuus on sen kyky generoida sisältöä yksinkertaisten tekstikehotusten 
+                    perusteella. Käyttäjä voi syöttää aiheen tai idean, ja Tome luo automaattisesti esityksen rungon, 
+                    sisällön ja visuaaliset elementit. Tämä nopeuttaa esitysten luomista merkittävästi ja tarjoaa 
+                    inspiraatiota, kun kohtaat "tyhjän paperin syndrooman".
+                </p>
+                
+                <h3>2. Dynaamiset sivupohjat</h3>
+                <p>
+                    Toisin kuin perinteiset esitystyökalut, jotka perustuvat staattisiin diapohjiin, Tome tarjoaa 
+                    dynaamisia sivupohjia, jotka mukautuvat sisältöön. Tämä tarkoittaa, että esityksen rakenne ja 
+                    ulkoasu optimoidaan automaattisesti sisällön perusteella, mikä johtaa visuaalisesti miellyttävämpiin 
+                    ja tehokkaampiin esityksiin.
+                </p>
+                
+                <h3>3. Integroitu kuvageneraatio</h3>
+                <p>
+                    Tome on integroitu DALL-E:n ja Stable Diffusion -kuvageneraattoreiden kanssa, mikä mahdollistaa 
+                    korkealaatuisten, aiheeseen sopivien kuvien luomisen suoraan esitykseen. Käyttäjät voivat generoida 
+                    kuvia tekstikehotusten avulla ilman tarvetta poistua alustalta etsimään kuvamateriaalia.
+                </p>
+                
+                <h3>4. Responsiivinen suunnittelu</h3>
+                <p>
+                    Tomen esitykset on suunniteltu toimimaan saumattomasti eri laitteilla ja näyttökoissa. Esitykset 
+                    mukautuvat automaattisesti mobiililaitteisiin, tabletteihin ja työpöytänäyttöihin, mikä tekee 
+                    jakamisesta ja katselusta helppoa riippumatta siitä, mitä laitetta vastaanottaja käyttää.
+                </p>
+                
+                <h3>5. Yhteistyöominaisuudet</h3>
+                <p>
+                    Tome mahdollistaa reaaliaikaisen yhteistyön, jolloin tiimit voivat työskennellä samanaikaisesti 
+                    saman esityksen parissa. Käyttäjät voivat kommentoida, muokata ja jakaa palautetta suoraan alustalla, 
+                    mikä tehostaa tiimityöskentelyä ja iteratiivista kehitystä.
+                </p>
+                
+                <div style="background: linear-gradient(to right, rgba(108, 92, 231, 0.1), rgba(59, 130, 246, 0.1)); border-left: 4px solid #6C5CE7; padding: 20px; margin: 30px 0; border-radius: 0 8px 8px 0;">
+                    <h3 style="margin-top: 0; color: #6C5CE7;">Tomen käyttöliittymä ja käyttökokemus</h3>
+                    <p>
+                        Tomen käyttöliittymä on suunniteltu intuitiiviseksi ja helposti lähestyttäväksi. Keskeisiä elementtejä ovat:
+                    </p>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Sivupalkki:</strong> Sisältää työkalut, sivupohjat ja tekoälyavustajan</li>
+                        <li><strong>Muokkausnäkymä:</strong> Visuaalinen WYSIWYG-editori esityksen muokkaamiseen</li>
+                        <li><strong>Tekoälykehotepaneeli:</strong> Alue, jossa käyttäjät voivat antaa kehotteita tekoälylle</li>
+                        <li><strong>Esitysnäkymä:</strong> Kokoruudun tila esityksen katseluun ja jakamiseen</li>
+                        <li><strong>Yhteistyöpaneeli:</strong> Näyttää muut käyttäjät ja mahdollistaa kommentoinnin</li>
+                    </ul>
+                </div>
+                
+                <h2>Miten Tome eroaa perinteisistä esitystyökaluista?</h2>
+                <p>
+                    Tome edustaa uutta sukupolvea esitystyökaluissa, ja se eroaa perinteisistä vaihtoehdoista 
+                    useilla tavoilla:
+                </p>
+                
+                <h3>Tekoälyavusteinen vs. manuaalinen sisällönluonti</h3>
+                <p>
+                    Perinteisissä esitystyökaluissa käyttäjän on luotava kaikki sisältö manuaalisesti. Tome sen sijaan 
+                    voi generoida sisältöä, ehdottaa ideoita ja jopa luoda kokonaisia esityksiä tekoälyn avulla. 
+                    Tämä nopeuttaa prosessia merkittävästi ja auttaa käyttäjiä, joilla ei ole vahvaa visuaalista 
+                    suunnittelutaustaa.
+                </p>
+                
+                <h3>Tarinankerronta vs. diat</h3>
+                <p>
+                    PowerPoint ja vastaavat työkalut perustuvat erillisiin dioihin, jotka voivat tuntua irrallisilta. 
+                    Tome sen sijaan painottaa tarinankerrontaa ja virtaavaa kokemusta, jossa siirtymät sivujen välillä 
+                    ovat luonnollisempia ja esitys muodostaa yhtenäisen kokonaisuuden.
+                </p>
+                
+                <h3>Responsiivisuus ja jakaminen</h3>
+                <p>
+                    Tomen esitykset on suunniteltu alusta alkaen verkkopohjaisiksi ja responsiivisiksi, mikä tekee 
+                    niiden jakamisesta ja katselusta helppoa millä tahansa laitteella. Perinteiset esitystyökalut 
+                    voivat kärsiä yhteensopivuusongelmista eri laitteiden ja ohjelmistoversioiden välillä.
+                </p>
+                
+                <h3>Integroitu mediatuotanto</h3>
+                <p>
+                    Toisin kuin perinteiset työkalut, joissa käyttäjien on tuotava ulkoista mediaa, Tome tarjoaa 
+                    integroidut työkalut kuvien, kaavioiden ja muun visuaalisen sisällön luomiseen suoraan alustalla.
+                </p>
+                
+                <h2>Tomen käyttökohteet</h2>
+                <p>
+                    Tome soveltuu monenlaisiin käyttötarkoituksiin eri aloilla:
+                </p>
+                
+                <h3>Liiketoimintaesitykset</h3>
+                <p>
+                    Tome on erinomainen työkalu myyntiesitysten, sijoittajapitchien ja liiketoimintasuunnitelmien 
+                    luomiseen. Tekoälyavusteinen sisällönluonti auttaa tiivistämään monimutkaiset liiketoimintakonseptit 
+                    selkeiksi ja vaikuttaviksi esityksiksi.
+                </p>
+                
+                <h3>Koulutus ja opetus</h3>
+                <p>
+                    Opettajat ja kouluttajat voivat hyödyntää Tomea luodakseen interaktiivisia ja visuaalisesti 
+                    kiinnostavia oppimismateriaaleja. Tekoäly voi auttaa muuntamaan opetussuunnitelman sisällön 
+                    helposti ymmärrettäviksi visuaalisiksi esityksiksi.
+                </p>
+                
+                <h3>Tuotesuunnittelu ja prototyypit</h3>
+                <p>
+                    Suunnittelijat voivat käyttää Tomea tuotekonseptien visualisointiin ja prototyyppien esittelyyn. 
+                    Integroitu kuvageneraatio mahdollistaa ideoiden nopean visualisoinnin ilman tarvetta erillisille 
+                    suunnittelutyökaluille.
+                </p>
+                
+                <h3>Markkinointi ja brändiviestintä</h3>
+                <p>
+                    Markkinointitiimit voivat luoda Tomella brändiyhtenäisiä esityksiä kampanjoista, markkinointistrategioista 
+                    ja markkinatutkimuksista. Tekoäly voi auttaa muuntamaan markkinointidatan visuaalisiksi kertomuksiksi.
+                </p>
+                
+                <h2>Vinkkejä tehokkaaseen Tomen käyttöön</h2>
+                
+                <h3>1. Hyödynnä tekoälykehotteita tehokkaasti</h3>
+                <p>
+                    Tomen tekoäly toimii parhaiten, kun kehotteesi ovat selkeitä ja yksityiskohtaisia. Sen sijaan, 
+                    että pyytäisit vain "esitystä tekoälystä", kokeile tarkempaa kehottetta kuten "Luo 10-sivuinen 
+                    esitys tekoälyn vaikutuksesta terveydenhuoltoon, sisältäen tilastoja, tapaustutkimuksia ja 
+                    tulevaisuuden ennusteita".
+                </p>
+                
+                <h3>2. Muokkaa ja personoi tekoälyn tuotoksia</h3>
+                <p>
+                    Vaikka Tomen tekoäly tuottaa laadukasta sisältöä, on tärkeää muokata ja personoida sitä oman 
+                    brändisi ja äänensävysi mukaiseksi. Käytä tekoälyn tuotoksia lähtökohtana, mutta lisää oma 
+                    näkökulmasi ja asiantuntemuksesi.
+                </p>
+                
+                <h3>3. Yhdistä eri mediamuotoja</h3>
+                <p>
+                    Tehokkaimmat Tome-esitykset yhdistävät tekstiä, kuvia, kaavioita ja jopa upotettuja videoita. 
+                    Kokeile erilaisia mediamuotoja luodaksesi monipuolisia ja kiinnostavia esityksiä.
+                </p>
+                
+                <h3>4. Hyödynnä yhteistyöominaisuuksia</h3>
+                <p>
+                    Tomen yhteistyöominaisuudet mahdollistavat tiimityöskentelyn esitysten parissa. Jaa esityksesi 
+                    tiimisi kanssa varhaisessa vaiheessa saadaksesi palautetta ja ideoita, jotka voivat parantaa 
+                    lopputulosta.
+                </p>
+                
+                <h3>5. Opettele näppäinkomennot</h3>
+                <p>
+                    Kuten monissa muissakin työkaluissa, näppäinkomentojen oppiminen voi nopeuttaa työskentelyäsi 
+                    Tomessa merkittävästi. Tutustu Tomen dokumentaatioon löytääksesi hyödyllisimmät näppäinkomennot.
+                </p>
+                
+                <h2>Tomen rajoitukset ja haasteet</h2>
+                <p>
+                    Vaikka Tome on vaikuttava työkalu, sillä on myös rajoituksensa:
+                </p>
+                
+                <h3>Tekoälyn rajoitukset</h3>
+                <p>
+                    Tomen tekoäly on vain niin hyvä kuin sen taustalla olevat mallit. Se voi joskus tuottaa epätarkkaa 
+                    tietoa tai ymmärtää kehotteesi väärin. On tärkeää tarkistaa tekoälyn tuottama sisältö ennen esityksen 
+                    jakamista.
+                </p>
+                
+                <h3>Muokattavuuden rajoitukset</h3>
+                <p>
+                    Vaikka Tome tarjoaa joustavuutta, se ei välttämättä tarjoa yhtä laajaa muokattavuutta kuin 
+                    perinteiset esitystyökalut. Käyttäjät, jotka haluavat täyden kontrollin jokaisesta pikselistä, 
+                    saattavat kokea tämän rajoittavana.
+                </p>
+                
+                <h3>Oppimiskäyrä</h3>
+                <p>
+                    Tomen lähestymistapa esitysten luomiseen eroaa perinteisistä työkaluista, mikä voi aiheuttaa 
+                    oppimiskäyrän käyttäjille, jotka ovat tottuneet PowerPointin tai Google Slidesin kaltaisiin 
+                    työkaluihin.
+                </p>
+                
+                <h2>Tulevaisuuden näkymät</h2>
+                <p>
+                    Tome edustaa uutta suuntausta esitystyökaluissa, jossa tekoäly toimii luovana kumppanina. 
+                    Tulevaisuudessa voimme odottaa:
+                </p>
+                <ul>
+                    <li>Entistä kehittyneempiä tekoälymalleja, jotka ymmärtävät kontekstia ja toimialoja paremmin</li>
+                    <li>Laajempia integraatioita muiden työkalujen ja tietolähteiden kanssa</li>
+                    <li>Kehittyneempiä interaktiivisia elementtejä, jotka tekevät esityksistä entistä osallistavampia</li>
+                    <li>Parannettuja yhteistyöominaisuuksia, jotka tukevat hajautettuja tiimejä</li>
+                </ul>
+                
+                <h2>Yhteenveto</h2>
+                <p>
+                    Tome AI edustaa merkittävää edistysaskelta esitysten luomisessa, yhdistäen tekoälyn voiman 
+                    visuaaliseen tarinankerrontaan. Se tarjoaa tehokkaan vaihtoehdon perinteisille esitystyökaluille, 
+                    erityisesti käyttäjille, jotka arvostavat nopeutta, visuaalista vaikuttavuutta ja integroituja 
+                    tekoälyominaisuuksia.
+                </p>
+                <p>
+                    Vaikka Tomella on rajoituksensa, sen innovatiivinen lähestymistapa esitysten luomiseen tekee 
+                    siitä arvokkaan työkalun monenlaisiin käyttötarkoituksiin eri toimialoilla. Kun tekoälyteknologiat 
+                    jatkavat kehittymistään, voimme odottaa Tomen ja vastaavien työkalujen muuttavan tapaamme 
+                    visualisoida ja jakaa ideoita entistä perusteellisemmin.
+                </p>
+                <p>
+                    Olipa kyseessä sitten myyntiesitys, opetusmateriaalit tai tuotekonsepti, Tome tarjoaa uuden 
+                    ja tehokkaan tavan kertoa tarinasi visuaalisesti vaikuttavalla tavalla.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="guide-cta" style="background: linear-gradient(to right, rgba(108, 92, 231, 0.05), rgba(59, 130, 246, 0.05)); padding: 60px 0; text-align: center; margin: 40px 0;">
+        <div class="container">
+            <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--text-color);">Kokeile Tome AI:ta itse</h3>
+            <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto 30px; color: var(--text-light);">
+                Haluatko luoda vaikuttavia esityksiä nopeasti ja helposti? Kokeile Tome AI:ta ja näe, miten tekoäly voi mullistaa esitysten luomisen.
+            </p>
+            <a href="https://tome.app/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #6C5CE7, #3B82F6); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                <span style="display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-file-powerpoint" style="margin-right: 10px; font-size: 1.1em;"></i>
+                    Siirry Tome AI:hin
+                </span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="guide-section" style="padding: 60px 0;">
+        <div class="container">
+            <h3 style="text-align: center; margin-bottom: 40px; font-size: 1.8rem;">Lue lisää aiheesta</h3>
+            <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <div class="related-cards-grid">
+                    <a href="tekoaly-sisallontuotannossa.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(108, 92, 231, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(108, 92, 231, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #6C5CE7; text-align: center;">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoäly sisällöntuotannossa</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Miten tekoäly muuttaa luovaa työtä ja sisällöntuotantoa eri aloilla.</p>
+                    </a>
+                    
+                    <a href="../oppaat/esitystyokalut-vertailu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(108, 92, 231, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(108, 92, 231, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #6C5CE7; text-align: center;">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Esitystyökalujen vertailu 2025</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Vertailu parhaista esitystyökaluista: Tome, PowerPoint, Google Slides ja muut.</p>
+                    </a>
+                    
+                    <a href="../tyokalut.html#esitykset" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #3B82F6; text-align: center;">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

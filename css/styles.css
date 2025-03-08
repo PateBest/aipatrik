@@ -617,24 +617,27 @@ p {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin: 2rem 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    justify-items: center;
 }
 
-/* Yleiset korttityylit kaikille sivuille */
 .card {
-    background: linear-gradient(145deg, var(--dark-surface), var(--dark-background));
-    border-radius: 16px;
+    width: 100%;
+    max-width: 350px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: var(--dark-surface-lighter);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
     position: relative;
-    z-index: 1;
     overflow: hidden;
-    margin-bottom: 25px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transform: translateY(0);
 }
 
 .card::before {
@@ -644,111 +647,56 @@ p {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(0, 230, 184, 0.1) 100%);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent);
+    opacity: 0.5;
+    z-index: 0;
+    transition: all 0.4s ease;
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    border-color: rgba(138, 43, 226, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(var(--accent-rgb), 0.1);
+    border-color: rgba(var(--accent-rgb), 0.2);
 }
 
 .card:hover::before {
-    opacity: 1;
+    opacity: 0.8;
 }
 
 .card h3 {
+    color: var(--text-color);
     font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: var(--accent-color);
+    margin-bottom: 1rem;
     position: relative;
-    padding-bottom: 15px;
+    z-index: 1;
 }
 
 .card h3::after {
     content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    display: block;
     width: 50px;
     height: 3px;
-    background: linear-gradient(90deg, var(--accent-color), #8a2be2);
-    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    margin-top: 10px;
+    transition: width 0.3s ease;
+}
+
+.card:hover h3::after {
+    width: 80px;
 }
 
 .card p {
-    margin-bottom: 20px;
     color: var(--text-light);
-    line-height: 1.6;
-    max-width: 100%;
-}
-
-/* Modernit painikkeet kaikille korteille */
-.card .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, var(--accent-color) 0%, #8a2be2 100%);
-    color: white;
-    border-radius: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 14px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: none;
-    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+    margin-bottom: 1.5rem;
     position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-    text-decoration: none;
-    animation: pulse 2s infinite;
+    z-index: 1;
+    line-height: 1.6;
 }
 
-.card:hover .btn {
-    animation: none;
-}
-
-.card .btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 7px 20px rgba(138, 43, 226, 0.3);
-    background: linear-gradient(135deg, #8a2be2 0%, var(--accent-color) 100%);
-}
-
-.card .btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(138, 43, 226, 0.2);
-}
-
-.card .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-    transition: all 0.6s ease;
-}
-
-.card .btn:hover::before {
-    left: 100%;
-}
-
-.card .btn::after {
-    content: '\f061';
-    font-family: 'Font Awesome 5 Free';
-    margin-left: 8px;
-    font-size: 12px;
-    transition: transform 0.3s ease;
-}
-
-.card .btn:hover::after {
-    transform: translateX(4px);
+.card .btn {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
 }
 
 .newsletter {
@@ -1133,7 +1081,7 @@ footer a:hover {
     }
 }
 
-/* Opas-sivujen tyylit */
+/* Opas-sivun tyylit */
 .guide-header {
     background: linear-gradient(135deg, var(--accent-color-dark), var(--accent-color));
     color: white;
@@ -1328,5 +1276,651 @@ footer a:hover {
     
     .step-number {
         margin-bottom: 10px;
+    }
+}
+
+/* Työkalut-sivun hakukenttä ja filtterit */
+.tools-search-container {
+    background-color: var(--dark-surface);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+/* Poistetaan sticky-ominaisuudet, koska niitä ei enää tarvita */
+.tools-search-container.sticky {
+    border-radius: 0;
+    padding: 1rem 2rem;
+}
+
+.tools-search-container .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px 0 0 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.3);
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-box button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
+    border: none;
+    border-radius: 0 8px 8px 0;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-box button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-box button:hover {
+    background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.5);
+}
+
+.search-box button:hover::before {
+    opacity: 1;
+}
+
+.search-box button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(var(--accent-rgb), 0.4);
+}
+
+.search-box button i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--dark-surface-lighter);
+    color: var(--text-light);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(0, 230, 184, 0.2);
+}
+
+/* Tooltip for freemium explanation */
+.filter-group .tooltip {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px;
+    color: var(--accent-color);
+    cursor: help;
+}
+
+.filter-group .tooltip .tooltip-text {
+    visibility: hidden;
+    width: 250px;
+    background-color: var(--dark-surface-lighter);
+    color: var(--text-light);
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-group .tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--dark-surface-lighter) transparent transparent transparent;
+}
+
+.filter-group .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Responsiivisuus hakukentälle ja filttereille */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+}
+
+/* Hakutulosten tyylit */
+.search-results-container {
+    margin: 2rem auto;
+    max-width: 1200px;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    position: relative;
+    text-align: center;
+}
+
+.results-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    border-radius: 3px;
+}
+
+.results-header h2 {
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.results-count {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: rgba(var(--accent-rgb), 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 0;
+    justify-items: center;
+}
+
+/* Paranneltu työkalukortti */
+.tool-card {
+    width: 100%;
+    max-width: 350px;
+    padding: 30px;
+    background-color: var(--dark-surface-lighter);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transform: translateY(0);
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent);
+    opacity: 0.5;
+    z-index: 0;
+    transition: all 0.4s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(var(--accent-rgb), 0.1);
+    border-color: rgba(var(--accent-rgb), 0.2);
+}
+
+.tool-card:hover::before {
+    opacity: 0.8;
+}
+
+.tool-card h3 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-card h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    margin-top: 10px;
+    transition: width 0.3s ease;
+}
+
+.tool-card:hover h3::after {
+    width: 80px;
+}
+
+.tool-card p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1.6;
+}
+
+.tool-card .tool-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-card .tool-tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover .tool-tag {
+    background-color: rgba(var(--accent-rgb), 0.15);
+}
+
+.tool-card .card-actions {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.search-highlight {
+    background-color: rgba(0, 230, 184, 0.2);
+    color: var(--accent-color);
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--dark-surface);
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 800px;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.btn-small {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background-color: var(--dark-surface-lighter);
+    border: none;
+    border-radius: 5px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+    background-color: var(--accent-color);
+    color: var(--dark-color);
+}
+
+/* Responsiivisuus */
+@media (max-width: 768px) {
+    .grid, .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        padding: 1rem;
+    }
+    
+    .card, .tool-card {
+        max-width: 100%;
+    }
+}
+
+/* Arvostelut, Oppaat ja Blogi -sivujen kortit */
+.review-card, .guide-card, .blog-card {
+    width: 100%;
+    max-width: 350px;
+    padding: 30px;
+    background-color: var(--dark-surface-lighter);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transform: translateY(0);
+    margin: 0 auto;
+}
+
+.review-card::before, .guide-card::before, .blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent);
+    opacity: 0.5;
+    z-index: 0;
+    transition: all 0.4s ease;
+}
+
+.review-card:hover, .guide-card:hover, .blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(var(--accent-rgb), 0.1);
+    border-color: rgba(var(--accent-rgb), 0.2);
+}
+
+.review-card:hover::before, .guide-card:hover::before, .blog-card:hover::before {
+    opacity: 0.8;
+}
+
+.review-card h3, .guide-card h3, .blog-card h3 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.review-card h3::after, .guide-card h3::after, .blog-card h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    margin-top: 10px;
+    transition: width 0.3s ease;
+}
+
+.review-card:hover h3::after, .guide-card:hover h3::after, .blog-card:hover h3::after {
+    width: 80px;
+}
+
+.review-card p, .guide-card p, .blog-card p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1.6;
+}
+
+.review-card .btn, .guide-card .btn, .blog-card .btn {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Arvostelut, Oppaat ja Blogi -sivujen ruudukot */
+.reviews-grid, .guides-grid, .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    justify-items: center;
+}
+
+/* Responsiivisuus */
+@media (max-width: 768px) {
+    .grid, .results-grid, .reviews-grid, .guides-grid, .blog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        padding: 1rem;
+    }
+    
+    .card, .tool-card, .review-card, .guide-card, .blog-card {
+        max-width: 100%;
+    }
+}
+
+/* Työkalukorttien painikkeet */
+.tool-card .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+.tool-card .btn-primary {
+    background: linear-gradient(135deg, rgba(0, 230, 184, 0.9), rgba(0, 160, 128, 0.9));
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    display: block;
+    width: 100%;
+    box-shadow: 0 6px 15px rgba(0, 230, 184, 0.3);
+    position: relative;
+    overflow: hidden;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    transform: translateY(0);
+}
+
+.tool-card .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.tool-card .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 230, 184, 0.4);
+    background: linear-gradient(135deg, rgba(0, 230, 184, 1), rgba(0, 180, 144, 1));
+}
+
+.tool-card .btn-primary:hover::before {
+    opacity: 1;
+}
+
+.tool-card .btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(0, 230, 184, 0.3);
+}
+
+.tool-card .btn-primary::after {
+    content: '\f061';
+    font-family: 'Font Awesome 5 Free';
+    margin-left: 8px;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.tool-card .btn-primary:hover::after {
+    transform: translateX(4px);
+}
+
+.tool-card .secondary-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.tool-card .btn-secondary {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    line-height: 1.2;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-card .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsiivisuus työkalukorttien painikkeille */
+@media (max-width: 768px) {
+    .tool-card .btn-primary {
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+    
+    .tool-card .btn-secondary {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        min-height: 40px;
+    }
+}
+
+/* Animaatio kokeile-painikkeelle */
+@keyframes primary-pulse {
+    0% {
+        box-shadow: 0 8px 25px rgba(0, 230, 184, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(0, 230, 184, 0.7);
+        transform: translateY(-2px);
+    }
+    100% {
+        box-shadow: 0 8px 25px rgba(0, 230, 184, 0.4);
+        transform: translateY(0);
     }
 }

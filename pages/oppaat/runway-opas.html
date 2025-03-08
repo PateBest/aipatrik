@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runway AI Opas - AI Patrik</title>
+    <meta name="description" content="Kattava opas Runway AI:n käyttöön - Opi hyödyntämään tekoälypohjaista videotuotantotyökalua tehokkaasti erilaisissa projekteissa.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #6f42c1, #9370DB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Runway AI: Kattava opas aloittelijoille</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi hyödyntämään tekoälypohjaista videotuotantotyökalua tehokkaasti erilaisissa projekteissa</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #6f42c1, #9370DB); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="../../index.html">Koti</a> &gt; 
+                <a href="../oppaat.html">Oppaat</a> &gt; 
+                <span>Runway AI Opas</span>
+            </div>
+
+            <div class="guide-section">
+                <h2>Mikä on Runway?</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Runway+AI" alt="Runway AI alusta" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runway AI on tekoälypohjainen videotuotantoalusta, joka mahdollistaa ammattitason videoiden luomisen helposti</p>
+                </div>
+                
+                <p>
+                    Runway on vuonna 2018 perustettu tekoälypohjainen luova alusta, joka on erikoistunut videotuotantoon ja visuaalisiin efekteihin. 
+                    Se on suunniteltu helpottamaan videoiden luomista, muokkaamista ja tehostamista tekoälyn avulla, mikä tekee ammattitason videotuotannosta 
+                    saavutettavaa myös niille, joilla ei ole laajaa teknistä osaamista.
+                </p>
+                
+                <div class="info-box">
+                    <h3>Runwayn tärkeimmät ominaisuudet lyhyesti:</h3>
+                    <ul>
+                        <li><strong>Gen-1:</strong> Muuntaa olemassa olevia videoita uusiksi käyttäen tekoälyä</li>
+                        <li><strong>Gen-2:</strong> Luo videoita tekstikuvauksista</li>
+                        <li><strong>Motion Brush:</strong> Animoi staattisia kuvia maalaamalla</li>
+                        <li><strong>Green Screen:</strong> Poistaa taustoja ilman vihreää taustaa</li>
+                        <li><strong>Inpainting:</strong> Poistaa tai korvaa objekteja videoista</li>
+                        <li><strong>Image to Image:</strong> Muuntaa kuvia toisiksi tekoälyn avulla</li>
+                    </ul>
+                </div>
+                
+                <p>
+                    Runway on saavuttanut suosiota erityisesti luovien ammattilaisten, elokuvantekijöiden, markkinoijien ja sisällöntuottajien keskuudessa. 
+                    Sen tekoälymallit ovat kehittyneet nopeasti, ja nykyisin Runway tarjoaa yhden markkinoiden edistyneimmistä ratkaisuista tekoälypohjaiseen videotuotantoon.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Aloittaminen Runwayn käytössä</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=Aloittaminen+Runwayn+käytössä" alt="Runway aloittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runwayn käytön aloittaminen on suoraviivaista ja helppoa</p>
+                </div>
+                
+                <p>
+                    Runwayn käytön aloittaminen on suoraviivaista. Tässä vaiheittainen opas, joka auttaa sinut alkuun:
+                </p>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Luo tili</h4>
+                            <p>
+                                Vieraile <a href="https://runwayml.com/" target="_blank">Runwayn verkkosivustolla</a> ja rekisteröidy luomalla uusi tili. 
+                                Voit rekisteröityä sähköpostiosoitteellasi tai Google-tilisi kautta.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Valitse sopiva tilaus</h4>
+                            <p>
+                                Runway tarjoaa ilmaisen kokeiluversion, joka sisältää rajoitetun määrän krediittejä. Voit aloittaa ilmaisella versiolla 
+                                ja myöhemmin päivittää maksulliseen tilaukseen, jos tarvitset enemmän ominaisuuksia tai krediittejä.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Tutustu käyttöliittymään</h4>
+                            <p>
+                                Kirjautumisen jälkeen pääset Runwayn kojelaudalle. Täältä voit luoda uusia projekteja, selata malleja ja tutustua 
+                                erilaisiin työkaluihin. Käytä hetki aikaa käyttöliittymään tutustumiseen.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Luo ensimmäinen projektisi</h4>
+                            <p>
+                                Klikkaa "New Project" -painiketta luodaksesi uuden projektin. Voit valita aloittavasi tyhjästä projektista tai 
+                                käyttää jotakin Runwayn tarjoamista malleista.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Lataa mediaa</h4>
+                            <p>
+                                Voit ladata kuvia tai videoita projektiin raahaamalla ja pudottamalla ne käyttöliittymään tai käyttämällä "Upload" -painiketta.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Kokeile eri työkaluja</h4>
+                            <p>
+                                Aloita kokeilemalla eri työkaluja, kuten Gen-1, Gen-2 tai Motion Brush. Jokainen työkalu sisältää omat ohjeensa ja asetuksensa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Runway tarjoaa kattavan dokumentaation ja opetusvideoita verkkosivustollaan. Jos kohtaat ongelmia tai haluat oppia lisää, 
+                        tutustu näihin resursseihin saadaksesi yksityiskohtaisempaa ohjeistusta.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tärkeimmät ominaisuudet</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Tärkeimmät+ominaisuudet" alt="Runway ominaisuudet" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runway tarjoaa monipuolisia työkaluja videotuotantoon</p>
+                </div>
+                
+                <p>
+                    Runway tarjoaa useita tekoälypohjaisia työkaluja videoiden ja visuaalisen sisällön luomiseen ja muokkaamiseen. 
+                    Tässä osiossa käymme läpi Runwayn tärkeimmät ominaisuudet ja niiden käyttötarkoitukset.
+                </p>
+                
+                <h3>Gen-1: Videosta videoksi</h3>
+                <p>
+                    Gen-1 on Runwayn ensimmäinen videogenerointimalli, joka muuntaa olemassa olevia videoita uusiksi käyttäen tekoälyä. 
+                    Tämä työkalu mahdollistaa videoiden tyylin muuttamisen, visuaalisten efektien lisäämisen ja sisällön muokkaamisen 
+                    säilyttäen alkuperäisen videon liikkeen ja rakenteen.
+                </p>
+                
+                <h4>Käyttötapauksia:</h4>
+                <ul>
+                    <li>Videon tyylin muuttaminen (esim. realistisesta animoiduksi)</li>
+                    <li>Sään tai vuodenajan muuttaminen videossa</li>
+                    <li>Visuaalisten efektien lisääminen olemassa oleviin videoihin</li>
+                    <li>Videon muuntaminen toiseen taiteelliseen tyyliin</li>
+                </ul>
+                
+                <h3>Gen-2: Tekstistä videoksi</h3>
+                <p>
+                    Gen-2 on Runwayn kehittyneempi malli, joka mahdollistaa videoiden luomisen pelkästä tekstikuvauksesta. 
+                    Tämä työkalu on erityisen hyödyllinen, kun haluat luoda täysin uutta videosisältöä ilman olemassa olevaa lähdemateriaalia.
+                </p>
+                
+                <h4>Käyttötapauksia:</h4>
+                <ul>
+                    <li>Lyhyiden videoclippien luominen tekstikuvauksista</li>
+                    <li>Konseptien visualisointi</li>
+                    <li>Animaatioiden ja visuaalisten efektien luominen</li>
+                    <li>Markkinointimateriaalien tuottaminen</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Heikko kuvaus:</strong> "Video metsästä"<br>
+                        <strong>Hyvä kuvaus:</strong> "Aurinkoinen metsämaisema, jossa auringonsäteet siivilöityvät puiden lomasta. Kamera liikkuu hitaasti eteenpäin polulla, tuuli heiluttaa kevyesti lehtiä. Värimaailma on lämmin ja kultainen, syksyinen tunnelma."
+                    </p>
+                </div>
+                
+                <h3>Motion Brush: Kuvien animointi</h3>
+                <p>
+                    Motion Brush on innovatiivinen työkalu, joka mahdollistaa staattisten kuvien animoinnin maalaamalla alueita, 
+                    joiden haluat liikkuvan. Tämä työkalu on erityisen hyödyllinen, kun haluat lisätä hienovaraista liikettä kuviin 
+                    tai luoda cinemagraph-tyyppisiä animaatioita.
+                </p>
+                
+                <h4>Käyttötapauksia:</h4>
+                <ul>
+                    <li>Valokuvien elävöittäminen</li>
+                    <li>Cinemagraphien luominen</li>
+                    <li>Hienovaraisen liikkeen lisääminen graafiseen suunnitteluun</li>
+                    <li>Sosiaalisen median sisällön tehostaminen</li>
+                </ul>
+                
+                <h3>Muut hyödylliset ominaisuudet</h3>
+                <p>
+                    Edellä mainittujen pääominaisuuksien lisäksi Runway tarjoaa useita muita hyödyllisiä työkaluja:
+                </p>
+                
+                <ul>
+                    <li><strong>Green Screen:</strong> Poistaa taustoja videoista ilman fyysistä vihreää taustaa</li>
+                    <li><strong>Inpainting:</strong> Poistaa tai korvaa objekteja videoista tekoälyn avulla</li>
+                    <li><strong>Image to Image:</strong> Muuntaa kuvia toisiksi tekoälyn avulla</li>
+                    <li><strong>Super Resolution:</strong> Parantaa kuvien ja videoiden resoluutiota</li>
+                    <li><strong>Frame Interpolation:</strong> Lisää välikehyksiä videoihin, luoden sulavampia liikkeitä</li>
+                    <li><strong>Depth Map:</strong> Luo syvyyskarttoja kuvista ja videoista 3D-efektejä varten</li>
+                </ul>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Hinnoittelu ja paketit</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=Hinnoittelu+ja+paketit" alt="Runway hinnoittelu" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runway tarjoaa erilaisia hinnoitteluvaihtoehtoja eri tarpeisiin</p>
+                </div>
+                
+                <p>
+                    Runway tarjoaa erilaisia hinnoitteluvaihtoehtoja, jotka sopivat erilaisiin tarpeisiin ja budjetteihin. 
+                    Hinnoittelu perustuu kuukausimaksuun ja krediitteihin, joita käytetään eri toimintojen suorittamiseen.
+                </p>
+                
+                <h3>Hinnoittelupaketit</h3>
+                
+                <div class="guide-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Paketti</th>
+                                <th>Hinta</th>
+                                <th>Krediitit</th>
+                                <th>Ominaisuudet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Free</strong></td>
+                                <td>0 €/kk</td>
+                                <td>Rajoitettu määrä</td>
+                                <td>Perusominaisuudet, matalat resoluutiot, ei kaupallista käyttöoikeutta</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Standard</strong></td>
+                                <td>12 €/kk</td>
+                                <td>100 krediittiä/kk</td>
+                                <td>Kaikki ominaisuudet, keskitason resoluutiot, henkilökohtainen käyttöoikeus</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pro</strong></td>
+                                <td>28 €/kk</td>
+                                <td>350 krediittiä/kk</td>
+                                <td>Kaikki ominaisuudet, korkeat resoluutiot, kaupallinen käyttöoikeus</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Unlimited</strong></td>
+                                <td>76 €/kk</td>
+                                <td>Rajattomat krediitit</td>
+                                <td>Kaikki ominaisuudet, korkeimmat resoluutiot, laaja kaupallinen käyttöoikeus, API-pääsy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Huomio</h4>
+                    <p>
+                        Hinnat ovat suuntaa-antavia ja voivat muuttua. Tarkista ajantasaiset hinnat Runwayn verkkosivustolta. 
+                        Kaikki hinnat on ilmoitettu ilman arvonlisäveroa.
+                    </p>
+                </div>
+                
+                <h3>Krediittien käyttö</h3>
+                <p>
+                    Runway käyttää krediittijärjestelmää, jossa eri toiminnot kuluttavat eri määrän krediittejä. 
+                    Esimerkiksi:
+                </p>
+                
+                <ul>
+                    <li>Gen-1 video (5 sekuntia): 5-10 krediittiä</li>
+                    <li>Gen-2 video (5 sekuntia): 8-15 krediittiä</li>
+                    <li>Motion Brush animaatio: 3-6 krediittiä</li>
+                    <li>Green Screen: 2-4 krediittiä/sekunti</li>
+                    <li>Image to Image: 1-2 krediittiä/kuva</li>
+                </ul>
+                
+                <p>
+                    Krediittien kulutus riippuu myös käytetystä resoluutiosta ja muista asetuksista. 
+                    Korkeammat resoluutiot ja pidemmät videot kuluttavat enemmän krediittejä.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Vinkkejä tehokkaaseen käyttöön</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/0d6efd/FFFFFF/png?text=Vinkkejä+tehokkaaseen+käyttöön" alt="Runway vinkkejä" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Näillä vinkeillä saat parhaan hyödyn Runway-työkalusta</p>
+                </div>
+                
+                <p>
+                    Tässä osiossa jaamme käytännön vinkkejä, joiden avulla voit saada parhaan hyödyn Runway-työkalusta 
+                    ja luoda vaikuttavia videoita tehokkaammin.
+                </p>
+                
+                <h3>Käytä tarkkoja tekstikuvauksia</h3>
+                <p>
+                    Gen-2:n kanssa yksityiskohtaiset ja tarkat kuvaukset tuottavat parempia tuloksia. 
+                    Sisällytä kuvaukseen tietoja tyylistä, väreistä, liikkeestä, valaistuksesta ja tunnelmasta.
+                </p>
+                
+                <h3>Iteroi ja kokeile eri asetuksia</h3>
+                <p>
+                    Älä tyydy ensimmäiseen tulokseen. Kokeile erilaisia asetuksia, parametreja ja kuvauksia 
+                    löytääksesi parhaan mahdollisen lopputuloksen. Jokainen iteraatio voi tuoda merkittäviä parannuksia.
+                </p>
+                
+                <h3>Käytä referenssikuvia</h3>
+                <p>
+                    Gen-1:n kanssa käytä laadukkaita referenssikuvia tai -videoita saadaksesi parempia tuloksia. 
+                    Mitä laadukkaampi lähdemateriaali, sitä parempi lopputulos.
+                </p>
+                
+                <h3>Optimoi krediittien käyttö</h3>
+                <p>
+                    Testaa ideoita ensin matalammilla resoluutioilla ja lyhyemmillä videoilla säästääksesi krediittejä. 
+                    Kun olet tyytyväinen tulokseen, generoi lopullinen versio korkeammalla laadulla.
+                </p>
+                
+                <h3>Yhdistele eri työkaluja</h3>
+                <p>
+                    Parhaat tulokset syntyvät usein yhdistelemällä eri työkaluja. Esimerkiksi voit luoda ensin videon Gen-2:lla, 
+                    sitten muokata sitä Gen-1:llä ja lopuksi hienosäätää yksityiskohtia muilla työkaluilla.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Edistynyt vinkki: Prompt Engineering</h4>
+                    <p>
+                        Tehokas "prompt engineering" on avain onnistuneeseen tekoälysisällön luomiseen. Tässä muutamia tekniikoita:
+                    </p>
+                    <ul>
+                        <li><strong>Käytä tarkkoja adjektiiveja:</strong> "punainen" sijaan "rubiininpunainen" tai "verenpunainen"</li>
+                        <li><strong>Määrittele tyyli:</strong> "valokuvamainen", "öljymaalaus", "anime", "hyperrealistinen"</li>
+                        <li><strong>Lisää teknisiä yksityiskohtia:</strong> "kuvattu 85mm linssillä", "bokeh-efekti", "pehmeä valaistus"</li>
+                        <li><strong>Määrittele kamerakulma ja liike:</strong> "ilmakuva", "lähikuva", "kamera liikkuu hitaasti vasemmalta oikealle"</li>
+                        <li><strong>Käytä tunnettuja referenssejä:</strong> "tyyliltään kuin Wes Andersonin elokuvat", "inspiroitunut Studio Ghiblin animaatioista"</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Esimerkkiprojekteja</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Esimerkkiprojekteja" alt="Runway esimerkkiprojekteja" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runway mahdollistaa monipuolisten luovien projektien toteuttamisen</p>
+                </div>
+                
+                <p>
+                    Tässä osiossa esittelemme muutamia esimerkkiprojekteja, jotka on toteutettu Runway-työkalulla. 
+                    Nämä esimerkit antavat ideoita siitä, mitä kaikkea Runwaylla voi tehdä ja miten sitä voi hyödyntää erilaisissa projekteissa.
+                </p>
+                
+                <h3>Markkinointivideo tuotteelle</h3>
+                <p>
+                    Tässä projektissa luotiin lyhyt markkinointivideo uudelle tuotteelle käyttäen Gen-2:ta. 
+                    Tekstikuvauksella luotiin näyttävä video, joka esittelee tuotteen ominaisuuksia tyylikkäällä tavalla.
+                </p>
+                <p><strong>Käytetyt työkalut:</strong> Gen-2 (tekstistä videoksi), Frame Interpolation (liikkeen pehmentämiseen), Super Resolution (laadun parantamiseen)</p>
+                
+                <h3>Tyylinsiirto dokumenttielokuvaan</h3>
+                <p>
+                    Tässä projektissa käytettiin Gen-1:tä muuntamaan tavallinen dokumenttimateriaali animoiduksi. 
+                    Lopputuloksena oli visuaalisesti näyttävä dokumenttielokuva, joka erottui edukseen.
+                </p>
+                <p><strong>Käytetyt työkalut:</strong> Gen-1 (videosta videoksi), Green Screen (taustan poistamiseen), Inpainting (objektien korvaamiseen)</p>
+                
+                <h3>Sosiaalisen median sisältö</h3>
+                <p>
+                    Tässä projektissa luotiin sarja lyhyitä videoita sosiaalisen median kampanjaa varten. 
+                    Motion Brush -työkalulla elävöitettiin staattisia tuotekuvia, mikä lisäsi huomattavasti niiden kiinnostavuutta.
+                </p>
+                <p><strong>Käytetyt työkalut:</strong> Motion Brush (kuvien animointiin), Image to Image (tyylin muokkaamiseen), Depth Map (3D-efektien luomiseen)</p>
+                
+                <div class="guide-example">
+                    <h4>Case Study: Musiikkivideo</h4>
+                    <p>
+                        Erään indie-artistin musiikkivideo toteutettiin kokonaan Runwayn avulla. Projekti alkoi luomalla perusvideoita Gen-2:lla 
+                        käyttäen kappaleen sanoituksia inspiraationa. Näitä videoita muokattiin sitten Gen-1:llä yhtenäisen visuaalisen tyylin saavuttamiseksi.
+                    </p>
+                    
+                    <p>
+                        <strong>Prosessi:</strong>
+                    </p>
+                    
+                    <ol>
+                        <li>Kappaleen sanoitusten analysointi ja visuaalisten teemojen tunnistaminen</li>
+                        <li>Tekstikuvausten luominen jokaiselle kohtaukselle</li>
+                        <li>Perusvideoiden generointi Gen-2:lla</li>
+                        <li>Visuaalisen tyylin yhtenäistäminen Gen-1:llä</li>
+                        <li>Yksityiskohtien parantaminen muilla työkaluilla</li>
+                        <li>Videoiden yhdistäminen ja synkronointi musiikkiin</li>
+                    </ol>
+                    
+                    <p>
+                        Lopputulos oli visuaalisesti näyttävä musiikkivideo, jonka tuotantokustannukset olivat murto-osa perinteisestä tuotannosta. 
+                        Video keräsi yli miljoona katselukertaa ensimmäisen viikon aikana ja toi artistille merkittävästi uusia kuuntelijoita.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Yhteenveto</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=Yhteenveto" alt="Runway yhteenveto" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Runway on monipuolinen työkalu tekoälypohjaiseen videotuotantoon</p>
+                </div>
+                
+                <p>
+                    Runway on monipuolinen ja tehokas tekoälypohjainen videotuotantotyökalu, joka tarjoaa lukemattomia mahdollisuuksia 
+                    luovaan sisällöntuotantoon. Sen avulla voit luoda ammattimaisia videoita ja visuaalisia efektejä ilman laajaa teknistä osaamista.
+                </p>
+                
+                <ul>
+                    <li><strong>Tärkeimmät ominaisuudet:</strong> Gen-1 (videosta videoksi), Gen-2 (tekstistä videoksi), Motion Brush (kuvien animointi) ja lukuisat muut työkalut tarjoavat kattavan valikoiman mahdollisuuksia videotuotantoon.</li>
+                    <li><strong>Käyttökohteet:</strong> Runway soveltuu erinomaisesti markkinointivideoihin, sosiaalisen median sisältöön, musiikkivideoihin, dokumenttielokuviin ja visuaalisiin efekteihin.</li>
+                    <li><strong>Hinnoittelu:</strong> Runway tarjoaa erilaisia hinnoitteluvaihtoehtoja ilmaisesta kokeiluversiosta ammattilaistuotantoon soveltuviin paketteihin.</li>
+                    <li><strong>Vinkit:</strong> Tarkat tekstikuvaukset, iteratiivinen työskentely, referenssikuvien käyttö ja työkalujen yhdistely auttavat saamaan parhaan hyödyn Runwaysta.</li>
+                </ul>
+                
+                <p>
+                    Runway edustaa uutta aikakautta videotuotannossa, jossa tekoäly toimii luovana kumppanina. Se demokratisoi 
+                    videotuotantoa tekemällä ammattitason työkalut saavutettaviksi kaikille. Vaikka tekoäly ei korvaa ihmisen 
+                    luovuutta, se voi merkittävästi laajentaa luovia mahdollisuuksia ja tehostaa tuotantoprosessia.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h2>Aloita Runwayn käyttö tänään</h2>
+                <p>Kokeile Runwayta ja näe, miten se voi tehostaa videotuotantoasi ja auttaa luomaan vaikuttavaa sisältöä!</p>
+                <a href="https://runwayml.com/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #6f42c1, #9370DB); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(111, 66, 193, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-video" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry Runwayhin
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Lue lisää aiheesta</h2>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../arvostelut/runway-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(111, 66, 193, 0.1), rgba(111, 66, 193, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(111, 66, 193, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #6f42c1; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Runway Arvostelu 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu Runway-työkalusta - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        </a>
+                        
+                        <a href="dalle-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(111, 66, 193, 0.1), rgba(111, 66, 193, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(111, 66, 193, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #6f42c1; text-align: center;">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">DALL-E Opas</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tutustu OpenAI:n DALL-E kuvageneraattoriin ja opi luomaan vaikuttavia kuvia tekoälyn avulla.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

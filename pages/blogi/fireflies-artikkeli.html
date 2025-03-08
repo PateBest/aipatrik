@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireflies AI: Tekoälyn vallankumous kokousten dokumentoinnissa - AI Patrik</title>
+    <meta name="description" content="Tutustu, miten Fireflies AI mullistaa kokousten dokumentoinnin ja miten voit hyödyntää sitä tehokkaasti omassa työssäsi.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #FF5F6D, #FFC371); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Fireflies AI: Tekoälyn vallankumous kokousten dokumentoinnissa</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Julkaistu: 25.3.2025 | Kirjoittanut: Patrik Juuti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #FF5F6D, #FFC371); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <p>
+                    Kokoukset ovat olennainen osa työelämää, mutta niiden dokumentointi on perinteisesti ollut aikaa vievää ja tehotonta. 
+                    Muistiinpanojen tekeminen, tehtävien tunnistaminen ja tiedon jakaminen ovat vaatineet manuaalista työtä, joka vie aikaa 
+                    tuottavammalta työltä. Fireflies AI on mullistamassa tämän prosessin tarjoamalla tekoälypohjaisen ratkaisun, joka 
+                    automatisoi kokousten tallentamisen, transkription ja analysoinnin.
+                </p>
+                
+                <h2>Mikä on Fireflies AI?</h2>
+                
+                <p>
+                    Fireflies AI on vuonna 2019 perustettu tekoälypohjainen kokousavustaja, joka on suunniteltu automatisoimaan kokousten 
+                    tallentamisen, transkription ja analysoinnin. Se toimii virtuaalisena kokousavustajana, joka liittyy kokouksiin, 
+                    tallentaa keskustelut ja muuntaa ne tekstiksi, jota voidaan myöhemmin hakea, analysoida ja jakaa.
+                </p>
+                
+                <p>
+                    Fireflies AI:n perustivat Krish Ramineni ja Sam Udotong, jotka halusivat luoda työkalun, joka ratkaisisi heidän 
+                    omat haasteensa kokousten dokumentoinnissa. He huomasivat, että kokouksissa käydyt keskustelut ja tehdyt päätökset 
+                    usein unohtuvat tai jäävät dokumentoimatta, mikä johtaa tiedon katoamiseen ja tehottomuuteen.
+                </p>
+                
+                <blockquote>
+                    "Halusimme luoda työkalun, joka vapauttaisi ihmiset muistiinpanojen tekemisestä ja antaisi heidän keskittyä 
+                    itse kokoukseen ja vuorovaikutukseen. Tekoäly voi hoitaa dokumentoinnin, jolloin ihmiset voivat olla läsnä 
+                    ja osallistua aktiivisesti."
+                    <cite>- Krish Ramineni, Fireflies AI:n perustaja</cite>
+                </blockquote>
+                
+                <h2>Miten Fireflies AI toimii?</h2>
+                
+                <p>
+                    Fireflies AI:n toiminta perustuu kehittyneisiin tekoälymalleihin, jotka on koulutettu tunnistamaan puhetta, 
+                    erottamaan eri puhujat ja analysoimaan keskustelun sisältöä. Prosessi on yksinkertainen:
+                </p>
+                
+                <ol>
+                    <li>
+                        <strong>Liittyminen kokoukseen:</strong> Fireflies AI liittyy kokoukseen joko automaattisesti kalenteriyhteyden 
+                        kautta tai manuaalisesti kutsuttuna (yleensä osoitteella bot@fireflies.ai).
+                    </li>
+                    <li>
+                        <strong>Tallentaminen:</strong> Kokous tallennetaan kokonaisuudessaan, mukaan lukien ääni ja mahdollisesti 
+                        ruudunjako (riippuen kokoustyökalusta).
+                    </li>
+                    <li>
+                        <strong>Transkriptio:</strong> Tekoäly muuntaa puheen tekstiksi, tunnistaen eri puhujat ja jäsentäen 
+                        keskustelun helposti luettavaan muotoon.
+                    </li>
+                    <li>
+                        <strong>Analysointi:</strong> Tekoäly analysoi transkriptiota tunnistaakseen tärkeimmät aiheet, päätökset 
+                        ja toimenpiteet.
+                    </li>
+                    <li>
+                        <strong>Tiivistäminen:</strong> Kokouksesta luodaan automaattisesti tiivistelmä, joka sisältää tärkeimmät 
+                        kohdat ja päätökset.
+                    </li>
+                    <li>
+                        <strong>Jakaminen:</strong> Transkriptio, tiivistelmä ja muut analyysit ovat saatavilla Fireflies-alustalla, 
+                        ja ne voidaan jakaa tiimin jäsenten kesken tai viedä muihin työkaluihin integraatioiden kautta.
+                    </li>
+                </ol>
+                
+                <h2>Fireflies AI:n tärkeimmät ominaisuudet</h2>
+                
+                <p>
+                    Fireflies AI tarjoaa useita ominaisuuksia, jotka tekevät siitä tehokkaan työkalun kokousten dokumentointiin ja analysointiin:
+                </p>
+                
+                <h3>1. Automaattinen transkriptio</h3>
+                
+                <p>
+                    Fireflies AI:n ydinominaisuus on sen kyky transkriptoida kokoukset automaattisesti. Transkriptio on yleensä erittäin 
+                    tarkka, ja se tunnistaa eri puhujat automaattisesti. Tämä säästää aikaa ja vaivaa verrattuna manuaaliseen muistiinpanojen tekemiseen.
+                </p>
+                
+                <h3>2. Kokousten tiivistäminen</h3>
+                
+                <p>
+                    Kokouksen jälkeen Fireflies luo automaattisesti tiivistelmän, joka sisältää tärkeimmät aiheet, päätökset ja 
+                    toimenpiteet. Tämä on erityisen hyödyllinen ominaisuus, jos et pystynyt osallistumaan kokoukseen tai haluat 
+                    nopeasti palauttaa mieleen kokouksen tärkeimmät kohdat.
+                </p>
+                
+                <h3>3. Hakutoiminnot</h3>
+                
+                <p>
+                    Fireflies AI:n hakutoiminnot mahdollistavat tiedon etsimisen kaikista tallennetuista kokouksista. Voit hakea 
+                    avainsanoilla, puhujilla tai ajankohdilla, mikä tekee tiedon löytämisestä helppoa jopa kuukausien takaisista kokouksista.
+                </p>
+                
+                <h3>4. Integraatiot</h3>
+                
+                <p>
+                    Fireflies integroituu saumattomasti useiden suosittujen työkalujen kanssa, mukaan lukien Zoom, Google Meet, 
+                    Microsoft Teams, Webex, Slack, Notion, Asana, Trello ja monet muut. Tämä mahdollistaa kokoustietojen jakamisen 
+                    ja hyödyntämisen koko työnkulussa.
+                </p>
+                
+                <h3>5. Tehtävien ja päätösten tunnistaminen</h3>
+                
+                <p>
+                    Fireflies tunnistaa automaattisesti kokouksessa sovitut tehtävät ja päätökset. Nämä voidaan helposti viedä 
+                    tehtävienhallintajärjestelmiin kuten Asana tai Trello, mikä auttaa varmistamaan, että sovitut toimenpiteet toteutetaan.
+                </p>
+                
+                <h2>Miten Fireflies AI muuttaa työelämää</h2>
+                
+                <p>
+                    Fireflies AI ja vastaavat tekoälypohjaiset kokousavustajat ovat muuttamassa tapaa, jolla kokouksia pidetään ja 
+                    dokumentoidaan. Tässä joitakin merkittäviä vaikutuksia:
+                </p>
+                
+                <h3>1. Ajan säästäminen</h3>
+                
+                <p>
+                    Automaattinen transkriptio ja tiivistäminen säästävät aikaa, joka muuten kuluisi muistiinpanojen tekemiseen ja 
+                    kokousten yhteenvetojen laatimiseen. Tämä aika voidaan käyttää tuottavampaan työhön.
+                </p>
+                
+                <h3>2. Tiedon säilyttäminen ja jakaminen</h3>
+                
+                <p>
+                    Kaikki kokouksissa käydyt keskustelut ja tehdyt päätökset dokumentoidaan ja säilytetään, mikä vähentää tiedon 
+                    katoamista ja parantaa tiedon jakamista tiimin jäsenten kesken.
+                </p>
+                
+                <h3>3. Kokousten tehokkuuden parantaminen</h3>
+                
+                <p>
+                    Kun osallistujat tietävät, että kokous tallennetaan ja transkriptoidaan, he voivat keskittyä itse keskusteluun 
+                    ja vuorovaikutukseen sen sijaan, että he yrittäisivät tehdä muistiinpanoja. Tämä parantaa kokousten tehokkuutta 
+                    ja laatua.
+                </p>
+                
+                <h3>4. Etätyöskentelyn tukeminen</h3>
+                
+                <p>
+                    Etätyöskentelyssä kokousten dokumentointi on erityisen tärkeää, koska tiimin jäsenet eivät välttämättä ole samassa 
+                    tilassa tai aikavyöhykkeellä. Fireflies AI auttaa ylittämään nämä haasteet tarjoamalla kattavan dokumentaation 
+                    kaikista kokouksista.
+                </p>
+                
+                <h2>Eettiset näkökohdat ja haasteet</h2>
+                
+                <p>
+                    Vaikka Fireflies AI tarjoaa monia hyötyjä, sen käyttöön liittyy myös eettisiä näkökohtia ja haasteita, jotka on 
+                    otettava huomioon:
+                </p>
+                
+                <h3>1. Yksityisyys ja suostumus</h3>
+                
+                <p>
+                    Kokousten tallentaminen ja transkriptointi herättää kysymyksiä yksityisyydestä ja suostumuksesta. On tärkeää 
+                    varmistaa, että kaikki osallistujat ovat tietoisia tallennuksesta ja hyväksyvät sen. Monissa maissa ja organisaatioissa 
+                    on sääntöjä ja lakeja, jotka koskevat keskustelujen tallentamista.
+                </p>
+                
+                <h3>2. Tietoturva</h3>
+                
+                <p>
+                    Kokouksissa käsitellään usein luottamuksellista tietoa, joten on tärkeää varmistaa, että Fireflies AI ja muut 
+                    vastaavat työkalut noudattavat korkeita tietoturvastandardeja. Tämä sisältää tiedon salauksen, turvallisen 
+                    tallennuksen ja pääsynhallinnan.
+                </p>
+                
+                <h3>3. Tekoälyn rajoitukset</h3>
+                
+                <p>
+                    Vaikka Fireflies AI:n transkriptio on yleensä tarkka, se ei ole täydellinen. Tekoälyllä voi olla vaikeuksia 
+                    tunnistaa tiettyjä aksentteja, erikoistermejä tai päällekkäin puhumista. On tärkeää tarkistaa transkriptiot ja 
+                    tiivistelmät kriittisesti, erityisesti tärkeissä kokouksissa.
+                </p>
+                
+                <h2>Tulevaisuuden näkymät</h2>
+                
+                <p>
+                    Fireflies AI ja muut tekoälypohjaiset kokousavustajat ovat vasta kehityksensä alkuvaiheessa. Tulevaisuudessa 
+                    voimme odottaa näkevämme entistä kehittyneempiä ominaisuuksia ja sovelluksia:
+                </p>
+                
+                <h3>1. Kehittyneempi analytiikka</h3>
+                
+                <p>
+                    Tulevaisuudessa tekoäly voi analysoida kokouksia entistä syvällisemmin, tunnistaen esimerkiksi osallistujien 
+                    tunnetiloja, sitoutumisen tasoa ja vuorovaikutuksen laatua. Tämä voi auttaa parantamaan kokousten tehokkuutta 
+                    ja tunnistamaan kehitysmahdollisuuksia.
+                </p>
+                
+                <h3>2. Reaaliaikainen avustus</h3>
+                
+                <p>
+                    Tulevaisuudessa tekoälypohjainen kokousavustaja voi tarjota reaaliaikaista apua kokouksen aikana, esimerkiksi 
+                    ehdottamalla relevanttia tietoa, muistuttamalla käsittelemättömistä aiheista tai jopa ehdottamalla ratkaisuja 
+                    keskustelussa esiin nouseviin ongelmiin.
+                </p>
+                
+                <h3>3. Integroitu päätöksenteon tuki</h3>
+                
+                <p>
+                    Tekoäly voi tulevaisuudessa auttaa päätöksenteossa analysoimalla aiempia kokouksia ja tunnistamalla trendejä, 
+                    kaavoja ja parhaita käytäntöjä. Tämä voi auttaa tiimejä tekemään parempia päätöksiä ja välttämään aiemmin tehtyjä virheitä.
+                </p>
+                
+                <h2>Yhteenveto</h2>
+                
+                <p>
+                    Fireflies AI edustaa merkittävää edistysaskelta kokousten dokumentoinnissa ja analysoinnissa. Se automatisoi aikaa 
+                    vievät tehtävät, kuten muistiinpanojen tekemisen ja tehtävien tunnistamisen, mikä vapauttaa aikaa tuottavampaan työhön. 
+                    Se myös parantaa tiedon jakamista ja saavutettavuutta, mikä on erityisen tärkeää etätyöskentelyssä ja kansainvälisissä tiimeissä.
+                </p>
+                
+                <p>
+                    Vaikka tekoäly ei korvaa ihmisen läsnäoloa ja vuorovaikutusta kokouksissa, Fireflies AI toimii tehokkaana apuvälineenä, 
+                    joka auttaa maksimoimaan kokousten hyödyn ja minimoimaan niihin liittyvän hallinnollisen työn. Sen jatkuva kehitys ja 
+                    uudet ominaisuudet tekevät siitä entistä hyödyllisemmän työkalun tulevaisuudessa.
+                </p>
+                
+                <p>
+                    Olitpa sitten projektipäällikkö, tiimin jäsen, johtaja tai yrittäjä, Fireflies AI tarjoaa työkalut, joiden avulla 
+                    voit tehostaa kokoustesi dokumentointia ja tiedon jakamista. Kokeile sitä ja näe, miten se voi muuttaa tapaa, 
+                    jolla pidät ja dokumentoit kokouksia.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Kokeile Fireflies AI:ta itse</h3>
+                <p>Haluatko nähdä, miten Fireflies AI voi tehostaa kokoustesi dokumentointia? Kokeile ilmaista versiota jo tänään!</p>
+                <a href="https://fireflies.ai/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #FF5F6D, #FFC371); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(255, 95, 109, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-comments" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry Fireflies AI:hin
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../arvostelut/fireflies-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(255, 95, 109, 0.1), rgba(255, 95, 109, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(255, 95, 109, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #FF5F6D; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Fireflies AI Arvostelu 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu Fireflies AI:sta - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        </a>
+                        
+                        <a href="../oppaat/fireflies-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(255, 95, 109, 0.1), rgba(255, 95, 109, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(255, 95, 109, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #FF5F6D; text-align: center;">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Fireflies AI Käyttöopas 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava opas Fireflies AI:n käyttöön - vinkit ja parhaat käytännöt.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

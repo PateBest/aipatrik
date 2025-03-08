@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElevenLabs: Tekoälyn vallankumous äänisynteesissa - AI Patrik</title>
+    <meta name="description" content="Tutustu, miten ElevenLabs mullistaa äänisynteesiteknologian ja miten voit hyödyntää sitä omissa projekteissasi.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #5436DA, #7B6AF9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">ElevenLabs: Tekoälyn vallankumous äänisynteesissa</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Julkaistu: 20.3.2025 | Kirjoittanut: Patrik Juuti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #5436DA, #7B6AF9); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <p>
+                    Äänisynteesi on perinteisesti tuottanut robottimaiselta kuulostavia ääniä, jotka ovat helposti erotettavissa ihmisäänestä. 
+                    Mutta entä jos tekoäly voisi tuottaa puhetta, joka on lähes mahdotonta erottaa ihmisen puheesta? ElevenLabs on mullistamassa 
+                    äänisynteesiä tarjoamalla juuri tällaista teknologiaa.
+                </p>
+                
+                <h2>Mitä on ElevenLabs?</h2>
+                
+                <p>
+                    ElevenLabs on vuonna 2022 perustettu tekoälyyritys, joka on erikoistunut huippuluokan puhesynteesiin. 
+                    Yrityksen perustivat Piotr Dabkowski ja Mati Staniszewski, jotka halusivat luoda teknologian, joka voisi 
+                    tuottaa aidosti luonnollisen kuuloista puhetta useilla kielillä ja äänillä.
+                </p>
+                
+                <p>
+                    ElevenLabsin teknologia perustuu kehittyneisiin koneoppimismalleihin, jotka on koulutettu tuhansilla tunteilla 
+                    ihmispuhetta. Tämä mahdollistaa puheen tuottamisen, joka sisältää luonnollisia taukoja, intonaatioita ja 
+                    äänenpainoja – elementtejä, jotka ovat perinteisesti puuttuneet tekoälypohjaisesta puhesynteesistä.
+                </p>
+                
+                <blockquote>
+                    "Halusimme luoda teknologian, joka ei vain muuta tekstiä puheeksi, vaan tekee siitä aidosti inhimillistä. 
+                    Tavoitteemme on demokratisoida äänisisällön tuotanto ja tehdä siitä saavutettavaa kaikille."
+                    <cite>- Piotr Dabkowski, ElevenLabsin perustaja</cite>
+                </blockquote>
+                
+                <h2>ElevenLabsin vallankumoukselliset ominaisuudet</h2>
+                
+                <p>
+                    ElevenLabsin menestyksen takana on useita innovatiivisia ominaisuuksia, jotka erottavat sen muista äänisynteesityökaluista:
+                </p>
+                
+                <h3>1. Huippuluokan puhesynteesi</h3>
+                
+                <p>
+                    ElevenLabsin ydinominaisuus on sen kyky tuottaa erittäin luonnollista puhetta. Toisin kuin perinteiset 
+                    puhesyntetisaattorit, ElevenLabs tuottaa puhetta, joka sisältää inhimillisiä vivahteita, taukoja ja intonaatioita, 
+                    mikä tekee siitä lähes mahdotonta erottaa ihmisen puheesta.
+                </p>
+                
+                <h3>2. Äänen kloonaus</h3>
+                
+                <p>
+                    Yksi ElevenLabsin merkittävimmistä ominaisuuksista on sen kyky kloonata ääniä. Tämä tarkoittaa, että voit 
+                    luoda digitaalisen kopion omasta tai jonkun muun äänestä (tietenkin asianmukaisella luvalla) ja käyttää 
+                    sitä tekstin muuntamiseen puheeksi.
+                </p>
+                
+                <p>
+                    Tämä ominaisuus avaa lukemattomia mahdollisuuksia sisällöntuottajille, markkinoijille, pelinkehittäjille 
+                    ja monille muille. Kuvittele voivasi luoda podcastin, äänikirjan tai videon kerronnan omalla äänelläsi 
+                    ilman tarvetta äänittää jokaista sanaa erikseen.
+                </p>
+                
+                <h3>3. Monikielinen tuki</h3>
+                
+                <p>
+                    ElevenLabs tukee useita kieliä, mukaan lukien suomea. Tämä tekee siitä erityisen hyödyllisen kansainvälisessä 
+                    ympäristössä toimiville yrityksille ja sisällöntuottajille, jotka haluavat lokalisoida sisältöään eri markkinoille.
+                </p>
+                
+                <p>
+                    Mikä vaikuttavinta, ElevenLabs pystyy tuottamaan luonnollista puhetta eri kielillä säilyttäen alkuperäisen 
+                    äänen ominaisuudet. Tämä tarkoittaa, että voit dubata videosi tai äänisisältösi useille kielille ilman 
+                    tarvetta palkata eri ääninäyttelijöitä jokaiselle kielelle.
+                </p>
+                
+                <h2>Miten ElevenLabs muuttaa eri aloja</h2>
+                
+                <p>
+                    ElevenLabsin teknologia on jo vaikuttamassa moniin aloihin ja muuttamassa tapaa, jolla äänisisältöä tuotetaan:
+                </p>
+                
+                <h3>1. Kustannusala ja äänikirjat</h3>
+                
+                <p>
+                    Äänikirjojen tuotanto on perinteisesti ollut kallista ja aikaa vievää, vaatien ammattilaislukijoita ja 
+                    studioaikaa. ElevenLabs mahdollistaa äänikirjojen tuottamisen murto-osalla perinteisistä kustannuksista 
+                    ja ajasta, mikä avaa uusia mahdollisuuksia pienemmille kustantamoille ja itsenäisille kirjailijoille.
+                </p>
+                
+                <p>
+                    Lisäksi ElevenLabsin avulla voidaan luoda yksilöllisiä ääniä eri hahmoille, mikä rikastaa kuuntelukokemusta 
+                    ja tekee siitä verrattavissa ammattilaisten lukemiin äänikirjoihin.
+                </p>
+                
+                <h3>2. Mediatuotanto ja lokalisointi</h3>
+                
+                <p>
+                    Videoiden ja podcastien lokalisointi eri kielille on perinteisesti vaatinut uusia äänityksiä jokaiselle 
+                    kielelle. ElevenLabsin avulla voidaan dubata sisältöä useille kielille säilyttäen alkuperäisen puhujan 
+                    äänen ominaisuudet, mikä tekee prosessista huomattavasti tehokkaampaa ja edullisempaa.
+                </p>
+                
+                <p>
+                    Tämä on erityisen hyödyllistä globaaleille yrityksille ja sisällöntuottajille, jotka haluavat tavoittaa 
+                    yleisöjä eri puolilla maailmaa.
+                </p>
+                
+                <h3>3. Peliteollisuus</h3>
+                
+                <p>
+                    Peliteollisuudessa dialogin äänitys on yksi kalleimmista ja aikaa vievimmistä tuotannon vaiheista. 
+                    ElevenLabsin teknologia mahdollistaa dynaamisen dialogin luomisen, joka voi mukautua pelaajan valintoihin 
+                    reaaliajassa, avaten uusia mahdollisuuksia interaktiiviselle tarinankerronnalle.
+                </p>
+                
+                <p>
+                    Lisäksi pelien lokalisointi eri kielille voidaan toteuttaa tehokkaammin, mikä mahdollistaa laajemman 
+                    kielivalikoiman tarjoamisen pienemmillekin peliprojekteille.
+                </p>
+                
+                <h3>4. Saavutettavuus</h3>
+                
+                <p>
+                    ElevenLabsin teknologia parantaa digitaalisen sisällön saavutettavuutta muuntamalla tekstisisältöä 
+                    luonnolliseksi puheeksi. Tämä hyödyttää erityisesti näkövammaisia ja lukemisen vaikeuksista kärsiviä 
+                    henkilöitä, tarjoten heille paremman käyttökokemuksen.
+                </p>
+                
+                <p>
+                    Luonnollisempi puhesynteesi tekee sisällön kuuntelemisesta miellyttävämpää ja vähemmän väsyttävää, 
+                    mikä on merkittävä parannus perinteisiin ruudunlukijoihin verrattuna.
+                </p>
+                
+                <h2>Eettiset näkökohdat ja tulevaisuuden haasteet</h2>
+                
+                <p>
+                    Kuten kaikki kehittyneet tekoälyteknologiat, myös ElevenLabs tuo mukanaan eettisiä kysymyksiä ja haasteita:
+                </p>
+                
+                <h3>1. Äänen kloonauksen etiikka</h3>
+                
+                <p>
+                    Kyky kloonata kenen tahansa ääni herättää kysymyksiä yksityisyydestä, suostumuksesta ja mahdollisesta 
+                    väärinkäytöstä. ElevenLabs on tietoinen näistä huolista ja on ottanut käyttöön tiukat käyttöehdot ja 
+                    tekniset suojatoimet väärinkäytön estämiseksi.
+                </p>
+                
+                <p>
+                    Yritys edellyttää, että käyttäjillä on asianmukaiset oikeudet kaikkiin ääninäytteisiin, joita he käyttävät 
+                    kloonaukseen, ja kieltää teknologian käytön harhaanjohtavaan tai petolliseen tarkoitukseen.
+                </p>
+                
+                <h3>2. Deepfake-huolet</h3>
+                
+                <p>
+                    Äänen deepfake-teknologia herättää huolia mahdollisesta väärinkäytöstä, kuten huijauksista tai 
+                    disinformaation levittämisestä. ElevenLabs kehittää teknologiaa, joka voi tunnistaa sen omalla 
+                    alustalla luodun synteettisen puheen, mikä auttaa torjumaan tällaisia uhkia.
+                </p>
+                
+                <h3>3. Tulevaisuuden kehityssuunnat</h3>
+                
+                <p>
+                    ElevenLabs jatkaa teknologiansa kehittämistä, keskittyen erityisesti tunteiden ja kontekstin parempaan 
+                    ymmärtämiseen puhesynteesissa. Tulevaisuudessa voimme odottaa entistä luonnollisempaa ja ilmaisuvoimaisempaa 
+                    puhetta, joka voi mukautua erilaisiin tilanteisiin ja tunnelmiin.
+                </p>
+                
+                <p>
+                    Lisäksi yritys työskentelee laajentaakseen kielitukea ja parantaakseen harvinaisempien kielten laatua, 
+                    mikä tekee teknologiasta entistä saavutettavampaa globaalisti.
+                </p>
+                
+                <h2>Yhteenveto</h2>
+                
+                <p>
+                    ElevenLabs edustaa merkittävää edistysaskelta äänisynteesiteknologiassa. Sen kyky tuottaa luonnollisen 
+                    kuuloista puhetta useilla kielillä ja äänillä avaa uusia mahdollisuuksia sisällöntuotantoon, lokalisointiin, 
+                    saavutettavuuteen ja moniin muihin sovelluksiin.
+                </p>
+                
+                <p>
+                    Vaikka teknologia tuo mukanaan eettisiä haasteita, ElevenLabs on sitoutunut vastuulliseen kehitykseen ja 
+                    käyttöön. Tulevaisuudessa voimme odottaa entistä kehittyneempiä ominaisuuksia ja laajempaa kielitukea, 
+                    mikä tekee teknologiasta entistä hyödyllisemmän työkalun eri aloilla.
+                </p>
+                
+                <p>
+                    Olitpa sitten sisällöntuottaja, markkinoija, pelinkehittäjä tai vain kiinnostunut tekoälyteknologiasta, 
+                    ElevenLabs tarjoaa jännittäviä mahdollisuuksia, joita kannattaa tutkia.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Kokeile ElevenLabsia itse</h3>
+                <p>Haluatko nähdä, miten ElevenLabs voi tehostaa työskentelyäsi? Kokeile ilmaista versiota jo tänään!</p>
+                <a href="https://elevenlabs.io/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #5436DA, #7B6AF9); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(84, 54, 218, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-microphone-alt" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry ElevenLabs AI:hin
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../arvostelut/elevenlabs-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(84, 54, 218, 0.1), rgba(84, 54, 218, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(84, 54, 218, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #5436DA; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">ElevenLabs Arvostelu 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu ElevenLabsista - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        </a>
+                        
+                        <a href="../oppaat/elevenlabs-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(84, 54, 218, 0.1), rgba(84, 54, 218, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(84, 54, 218, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #5436DA; text-align: center;">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">ElevenLabs Käyttöopas 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava opas ElevenLabsin käyttöön - vinkit ja parhaat käytännöt.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agentti - Työkalujen hallinta</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--dark-background);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--dark-surface);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.3);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-preview {
+            background: linear-gradient(135deg, #6b46c1, #4c1d95);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-preview:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
+        }
+        
+        .preview-container {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+        
+        .preview-container h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .tool-card-preview {
+            width: 300px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: var(--dark-surface-lighter);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-card-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), transparent);
+            opacity: 0.5;
+            z-index: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card-preview h3 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tool-card-preview h3::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+            margin-top: 10px;
+        }
+        
+        .tool-card-preview p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tool-card-preview .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tool-card-preview .tool-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .tool-card-preview .card-actions {
+            margin-top: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tool-card-preview .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .tool-card-preview .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            display: block;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-card-preview .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.4);
+            background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color));
+        }
+        
+        .tool-card-preview .secondary-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+        
+        .tool-card-preview .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .tool-card-preview .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+        
+        .success-message {
+            display: none;
+            background-color: rgba(0, 230, 184, 0.1);
+            border: 1px solid rgba(0, 230, 184, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .success-message i {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-message {
+            display: none;
+            background-color: rgba(255, 99, 71, 0.1);
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: tomato;
+        }
+        
+        .error-message i {
+            color: tomato;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .code-container {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .code-container h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .code-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-box pre {
+            color: var(--text-light);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+        }
+        
+        .back-to-site {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-site:hover {
+            color: var(--accent-color);
+        }
+        
+        .back-to-site i {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <a href="../index.html" class="back-to-site"><i class="fas fa-arrow-left"></i> Takaisin sivustolle</a>
+        
+        <div class="admin-header">
+            <h1>AI Agentti - Työkalujen hallinta</h1>
+            <p>Lisää uusia AI-työkaluja sivustolle helposti tämän lomakkeen avulla.</p>
+        </div>
+        
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <p>Työkalu lisätty onnistuneesti! Voit nyt lisätä uuden työkalun tai palata sivustolle.</p>
+        </div>
+        
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Virhe työkalun lisäämisessä. Tarkista syöttämäsi tiedot ja yritä uudelleen.</p>
+        </div>
+        
+        <form id="tool-form">
+            <div class="form-group">
+                <label for="tool-name">Työkalun nimi *</label>
+                <input type="text" id="tool-name" name="tool-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tool-description">Kuvaus *</label>
+                <textarea id="tool-description" name="tool-description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="tool-url">URL *</label>
+                <input type="url" id="tool-url" name="tool-url" placeholder="https://..." required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tool-category">Kategoria *</label>
+                <select id="tool-category" name="tool-category" required>
+                    <option value="">Valitse kategoria</option>
+                    <option value="keskustelurobotit">Keskustelurobotit</option>
+                    <option value="kuvanluonti">Kuvanluonti</option>
+                    <option value="videogenerointi">Videogenerointi</option>
+                    <option value="aani">Ääni ja puhe</option>
+                    <option value="tuottavuus">Tuottavuus</option>
+                    <option value="tiedonhaku">Tiedonhaku</option>
+                    <option value="luovat">Luovat työkalut</option>
+                    <option value="yleiset">Yleiset AI-mallit</option>
+                    <option value="agentit">AI Agentit</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="tool-pricing">Hinnoittelu *</label>
+                <select id="tool-pricing" name="tool-pricing" required>
+                    <option value="">Valitse hinnoittelu</option>
+                    <option value="ilmainen">Ilmainen</option>
+                    <option value="freemium">Freemium</option>
+                    <option value="maksullinen">Maksullinen</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Käyttötarkoitus *</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="purpose-yritys" name="purpose" value="yritys">
+                        <label for="purpose-yritys">Yrityskäyttö</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="purpose-henkilokohtainen" name="purpose" value="henkilokohtainen">
+                        <label for="purpose-henkilokohtainen">Henkilökohtainen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="purpose-luova" name="purpose" value="luova">
+                        <label for="purpose-luova">Luova työ</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="purpose-tutkimus" name="purpose" value="tutkimus">
+                        <label for="purpose-tutkimus">Tutkimus ja opiskelu</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="review-url">Arvostelun URL (valinnainen)</label>
+                <input type="url" id="review-url" name="review-url" placeholder="https://aipatrik.fi/pages/arvostelut/...">
+            </div>
+            
+            <div class="form-group">
+                <label for="guide-url">Oppaan URL (valinnainen)</label>
+                <input type="url" id="guide-url" name="guide-url" placeholder="https://aipatrik.fi/pages/oppaat/...">
+            </div>
+            
+            <div class="form-group">
+                <label for="article-url">Artikkelin URL (valinnainen)</label>
+                <input type="url" id="article-url" name="article-url" placeholder="https://aipatrik.fi/pages/blogi/...">
+            </div>
+            
+            <div class="btn-container">
+                <button type="button" id="preview-btn" class="btn-preview">Esikatsele</button>
+                <button type="submit" class="btn-submit">Lisää työkalu</button>
+            </div>
+        </form>
+        
+        <div class="preview-container">
+            <h2>Esikatselu</h2>
+            
+            <div class="tool-card-preview">
+                <h3 id="preview-name">Työkalun nimi</h3>
+                <p id="preview-description">Työkalun kuvaus tulee tähän. Tämä on esimerkki siitä, miltä työkalu näyttää sivustolla.</p>
+                
+                <div class="tool-tags">
+                    <span class="tool-tag" id="preview-category">Kategoria</span>
+                    <span class="tool-tag" id="preview-pricing">Hinnoittelu</span>
+                </div>
+                
+                <div class="card-actions">
+                    <div class="buttons-container">
+                        <a href="#" class="btn-primary" id="preview-url">Kokeile työkalua</a>
+                        
+                        <div class="secondary-buttons">
+                            <a href="#" class="btn-secondary" id="preview-review">Lue arvostelu</a>
+                            <a href="#" class="btn-secondary" id="preview-guide">Opas käyttöön</a>
+                            <a href="#" class="btn-secondary" id="preview-article">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-container">
+            <h3>HTML-koodi</h3>
+            <div class="code-box">
+                <button class="copy-btn" id="copy-code-btn">Kopioi</button>
+                <pre id="generated-code"></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolForm = document.getElementById('tool-form');
+            const previewBtn = document.getElementById('preview-btn');
+            const previewContainer = document.querySelector('.preview-container');
+            const codeContainer = document.querySelector('.code-container');
+            const copyCodeBtn = document.getElementById('copy-code-btn');
+            const successMessage = document.querySelector('.success-message');
+            const errorMessage = document.querySelector('.error-message');
+            
+            // Esikatselu-painikkeen toiminnallisuus
+            previewBtn.addEventListener('click', function() {
+                updatePreview();
+                previewContainer.style.display = 'block';
+                codeContainer.style.display = 'block';
+                
+                // Vieritetään esikatseluun
+                previewContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Lomakkeen lähetys
+            toolForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Tarkistetaan, että vähintään yksi käyttötarkoitus on valittu
+                const purposeCheckboxes = document.querySelectorAll('input[name="purpose"]:checked');
+                if (purposeCheckboxes.length === 0) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.querySelector('p').textContent = 'Valitse vähintään yksi käyttötarkoitus.';
+                    
+                    // Piilotetaan virheviesti 5 sekunnin kuluttua
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                    }, 5000);
+                    
+                    return;
+                }
+                
+                // Tässä vaiheessa normaalisti lähetettäisiin tiedot palvelimelle
+                // Tässä esimerkissä vain näytetään onnistumisviesti
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Vieritetään onnistumisviestiin
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+                
+                // Tyhjennetään lomake
+                toolForm.reset();
+                
+                // Piilotetaan esikatselu ja koodi
+                previewContainer.style.display = 'none';
+                codeContainer.style.display = 'none';
+                
+                // Piilotetaan onnistumisviesti 5 sekunnin kuluttua
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            });
+            
+            // Kopioi-painikkeen toiminnallisuus
+            copyCodeBtn.addEventListener('click', function() {
+                const codeText = document.getElementById('generated-code').textContent;
+                navigator.clipboard.writeText(codeText).then(() => {
+                    copyCodeBtn.textContent = 'Kopioitu!';
+                    setTimeout(() => {
+                        copyCodeBtn.textContent = 'Kopioi';
+                    }, 2000);
+                });
+            });
+            
+            // Päivittää esikatselun ja generoi HTML-koodin
+            function updatePreview() {
+                const toolName = document.getElementById('tool-name').value || 'Työkalun nimi';
+                const toolDescription = document.getElementById('tool-description').value || 'Työkalun kuvaus tulee tähän. Tämä on esimerkki siitä, miltä työkalu näyttää sivustolla.';
+                const toolUrl = document.getElementById('tool-url').value || '#';
+                const toolCategory = document.getElementById('tool-category');
+                const toolPricing = document.getElementById('tool-pricing');
+                const reviewUrl = document.getElementById('review-url').value || '#';
+                const guideUrl = document.getElementById('guide-url').value || '#';
+                const articleUrl = document.getElementById('article-url').value || '#';
+                
+                // Päivitetään esikatselu
+                document.getElementById('preview-name').textContent = toolName;
+                document.getElementById('preview-description').textContent = toolDescription;
+                document.getElementById('preview-url').href = toolUrl;
+                document.getElementById('preview-url').textContent = `Kokeile ${toolName}`;
+                
+                // Päivitetään kategoria
+                const categoryText = toolCategory.options[toolCategory.selectedIndex]?.text || 'Kategoria';
+                document.getElementById('preview-category').textContent = categoryText;
+                
+                // Päivitetään hinnoittelu
+                const pricingText = toolPricing.options[toolPricing.selectedIndex]?.text || 'Hinnoittelu';
+                document.getElementById('preview-pricing').textContent = pricingText;
+                
+                // Päivitetään linkit
+                document.getElementById('preview-review').href = reviewUrl;
+                document.getElementById('preview-guide').href = guideUrl;
+                document.getElementById('preview-article').href = articleUrl;
+                
+                // Kerätään valitut käyttötarkoitukset
+                const selectedPurposes = [];
+                document.querySelectorAll('input[name="purpose"]:checked').forEach(checkbox => {
+                    selectedPurposes.push(checkbox.value);
+                });
+                
+                // Generoidaan HTML-koodi
+                const categoryValue = toolCategory.value || '';
+                const pricingValue = toolPricing.value || '';
+                const purposeValue = selectedPurposes.join(',');
+                
+                const htmlCode = `<div class="tool-card" data-category="${categoryValue}" data-pricing="${pricingValue}" data-purpose="${purposeValue}">
+    <h3>${toolName}</h3>
+    <p>${toolDescription}</p>
+    <div class="card-actions">
+        <div class="buttons-container">
+            <a href="${toolUrl}" class="btn-primary" target="_blank">Kokeile ${toolName}</a>
+            
+            <div class="secondary-buttons">
+                <a href="${reviewUrl}" class="btn-secondary">Lue arvostelu</a>
+                <a href="${guideUrl}" class="btn-secondary">Opas käyttöön</a>
+                <a href="${articleUrl}" class="btn-secondary">Artikkeli työkalusta</a>
+            </div>
+        </div>
+    </div>
+</div>`;
+                
+                document.getElementById('generated-code').textContent = htmlCode;
+            }
+        });
+    </script>
+</body>
+</html> 
