@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-    <!-- Supabase-konfiguraatio (lisätty GitHub Actionsin toimesta) -->
-    <script>
-    window.INLINE_CONFIG = {
-      SUPABASE_URL: "https://ograsjqhyblnfqqflwvo.supabase.co",
-      SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4"
-    };
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yhteydenottolomakkeen Testisivu - AI Patrik</title>
@@ -25,10 +18,6 @@
     <script src="../js/config.js"></script>
     
     <!-- Testiskripti -->
-    <!-- Erillinen Supabase-konfiguraatio -->
-    <!-- Suora konfiguraatio -->
-    <script src="../direct-config/config.js"></script>
-    <script src="../js/supabase-config.js"></script>
     <script src="../js/test-config.js"></script>
     
     <style>
@@ -413,31 +402,16 @@
         </div>
         
         <div class="action-buttons">
-            <button class="action-button" onclick="window.open('../direct-config/index.html', '_blank')">
-            <button class="action-button" onclick="window.open('../direct-config/secrets-status.html', '_blank')">
-                <i class="fas fa-key"></i> Tarkista GitHub Secrets
-            </button>
-                <i class="fas fa-cog"></i> Avaa suora konfiguraatiosivu
-            </button>
             <button class="action-button" onclick="window.location.reload()">
                 <i class="fas fa-sync-alt"></i> Päivitä sivu
             </button>
             <button class="action-button" onclick="window.open('../config.runtime.js', '_blank')">
-            <button class="action-button" onclick="window.open('../direct-config/secrets-status.html', '_blank')">
-                <i class="fas fa-key"></i> Tarkista GitHub Secrets
-            </button>
                 <i class="fas fa-file-code"></i> Avaa config.runtime.js
             </button>
             <button class="action-button" onclick="window.open('../js/config.runtime.js', '_blank')">
-            <button class="action-button" onclick="window.open('../direct-config/secrets-status.html', '_blank')">
-                <i class="fas fa-key"></i> Tarkista GitHub Secrets
-            </button>
                 <i class="fas fa-file-code"></i> Avaa js/config.runtime.js
             </button>
             <button class="action-button" onclick="window.open('../pages/config.runtime.js', '_blank')">
-            <button class="action-button" onclick="window.open('../direct-config/secrets-status.html', '_blank')">
-                <i class="fas fa-key"></i> Tarkista GitHub Secrets
-            </button>
                 <i class="fas fa-file-code"></i> Avaa pages/config.runtime.js
             </button>
         </div>
@@ -522,23 +496,6 @@
                 
                 configInfo.innerHTML = statusHtml;
             }, 1000); // Annetaan konfiguraation latautua
-        });
-    </script>
-    <!-- Inline-konfiguraatio sivun lopussa -->
-    <script>
-        // Varmistetaan, että konfiguraatio on saatavilla
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Inline-konfiguraatio sivun lopussa ladattu");
-            window.INLINE_CONFIG_BOTTOM = {
-                SUPABASE_URL: "https://ograsjqhyblnfqqflwvo.supabase.co",
-                SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4"
-            };
-            // Asetetaan myös muut konfiguraatiomuuttujat
-            window.CONFIG = window.CONFIG || window.INLINE_CONFIG_BOTTOM;
-            window.INLINE_CONFIG = window.INLINE_CONFIG || window.INLINE_CONFIG_BOTTOM;
-            window.SUPABASE_CONFIG = window.SUPABASE_CONFIG || window.INLINE_CONFIG_BOTTOM;
-            window.DIRECT_CONFIG = window.DIRECT_CONFIG || window.INLINE_CONFIG_BOTTOM;
-            console.log("Konfiguraatio asetettu:", window.CONFIG);
         });
     </script>
 </body>
