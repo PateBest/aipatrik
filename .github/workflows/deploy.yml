@@ -79,8 +79,8 @@ jobs:
 
       - name: Replace Supabase config
         run: |
-          # Replace placeholder in yhteystiedot.html with proper JavaScript object
-          cat > temp_config.js << EOF
+          # Luodaan JavaScript-tiedosto, joka sisältää Supabase-konfiguraation
+          cat > temp_config.js << 'EOFMARKER'
           window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
           window.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
           window.INLINE_CONFIG = {
@@ -88,13 +88,14 @@ jobs:
             SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'
           };
           console.log("Inline Supabase configuration loaded");
-          EOF
+          EOFMARKER
           
-          # Use the generated file to replace the placeholder
-          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|'"$(cat temp_config.js)"'|' pages/yhteystiedot.html
+          # Käytetään awk-komentoa korvaamaan placeholder
+          awk '{gsub(/\/\/ SUPABASE_CONFIG_PLACEHOLDER/, "'"$(cat temp_config.js)"'")}1' pages/yhteystiedot.html > temp.html
+          mv temp.html pages/yhteystiedot.html
           rm temp_config.js
 
-          # Create .nojekyll file to prevent GitHub Pages from using Jekyll
+          # Luodaan .nojekyll-tiedosto estämään GitHub Pagesin Jekyll-käsittely
           touch .nojekyll
           echo "Created .nojekyll file"
 
