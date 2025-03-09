@@ -7,7 +7,174 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/mobile-nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase JavaScript-kirjasto -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Inline-konfiguraatio GitHub Secretsejä varten (tämä korvataan GitHub Actionsin toimesta) -->
+    <!-- SUPABASE_CONFIG_PLACEHOLDER -->
+    
+    <!-- Konfiguraatiotiedosto -->
+    <script src="../js/config.js"></script>
+    
     <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Yhteydenottolomakkeen tyylit */
         .contact-form {
             margin: 2rem 0;
             background-color: var(--dark-surface);
@@ -352,179 +519,9 @@
         .popup-notification .close-btn:hover {
             color: white;
         }
-        
-        /* Sosiaalisen median painikkeet ja kielenvaihto */
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 10px 0;
-            background-color: var(--dark-background);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .top-bar .container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            width: 100%;
-            padding-right: 20px;
-            max-width: 100%;
-            margin-right: 0;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-right: 20px;
-        }
-        
-        .social-icons a {
-            color: var(--text-light);
-            font-size: 20px;
-            transition: all 0.3s ease;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-            transform: scale(1.1);
-        }
-        
-        .social-icons a:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--accent-color);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: -1;
-            opacity: 0.8;
-            border-radius: 50%;
-        }
-        
-        .social-icons a:hover {
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .social-icons a:hover:before {
-            transform: translateY(0);
-        }
-        
-        .social-icons a.linkedin:hover:before {
-            background-color: #0077B5;
-        }
-        
-        .social-icons a.tiktok:hover:before {
-            background-color: #000000;
-        }
-        
-        .social-icons a.instagram:hover:before {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        }
-        
-        .social-icons a.facebook:hover:before {
-            background-color: #1877F2;
-        }
-        
-        .social-icons a.youtube:hover:before {
-            background-color: #FF0000;
-        }
-        
-        .social-icons a.twitter:hover:before {
-            background-color: #1DA1F2;
-        }
-        
-        .language-selector {
-            position: relative;
-            margin-left: 15px;
-        }
-        
-        .language-selector button {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .language-selector button:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .language-selector .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: var(--dark-surface);
-            min-width: 120px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .language-selector:hover .dropdown-content {
-            display: block;
-            transform: translateY(0);
-        }
-        
-        .language-selector .dropdown-content a {
-            color: var(--text-light);
-            padding: 12px 15px;
-            text-decoration: none;
-            display: block;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        
-        .language-selector .dropdown-content a:last-child {
-            border-bottom: none;
-        }
-        
-        .language-selector .dropdown-content a:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--accent-color);
-            padding-left: 20px;
-        }
     </style>
-    <!-- Lisätään Supabase JavaScript-kirjasto -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Lisätään konfiguraatiotiedosto -->
-    <script src="../js/config.js"></script>
 </head>
 <body>
-    <!-- Ponnahdusilmoitus -->
-    <div id="popup-notification" class="popup-notification">
-        <i class="fas fa-check-circle"></i>
-        <div class="popup-notification-content">
-            <h4 id="popup-title">Onnistui!</h4>
-            <p id="popup-message">Viestisi on lähetetty onnistuneesti.</p>
-        </div>
-        <button class="close-btn" onclick="closePopup()"><i class="fas fa-times"></i></button>
-    </div>
-
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
     <div class="top-bar">
         <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
@@ -547,6 +544,7 @@
         </div>
     </div>
 
+    <!-- Header-osio -->
     <header>
         <div class="container">
             <a href="../index.html" class="logo-link">
@@ -564,6 +562,7 @@
         </div>
     </header>
     
+    <!-- Navigaatio -->
     <nav>
         <ul>
             <li><a href="../index.html">Koti</a></li>
@@ -575,6 +574,17 @@
         </ul>
     </nav>
     
+    <!-- Ponnahdusilmoitus -->
+    <div id="popup-notification" class="popup-notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="popup-notification-content">
+            <h4 id="popup-title">Onnistui!</h4>
+            <p id="popup-message">Viestisi on lähetetty onnistuneesti.</p>
+        </div>
+        <button class="close-btn" onclick="closePopup()"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <!-- Yhteystiedot-osio -->
     <section id="yhteystiedot">
         <div class="container">
             <div class="section-header" style="text-align: center; margin-bottom: 40px;">
@@ -633,6 +643,7 @@
         </div>
     </section>
     
+    <!-- Uutiskirje-osio -->
     <section class="newsletter">
         <div class="container">
             <h2>Tilaa uutiskirjeemme</h2>
@@ -647,6 +658,7 @@
         </div>
     </section>
     
+    <!-- Footer-osio -->
     <footer>
         <div class="container">
             <p>
@@ -660,6 +672,7 @@
         </div>
     </footer>
 
+    <!-- JavaScript-tiedostot -->
     <script src="../js/main.js"></script>
     <script src="../js/contact-form.js"></script>
 </body>
