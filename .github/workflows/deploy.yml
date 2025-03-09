@@ -90,6 +90,42 @@ jobs:
             echo "Erillisen Supabase-konfiguraatiotiedoston lataus lisätty test-contact-form.html-sivulle"
           fi
           
+          # TÄYSIN UUSI TAPA: Luodaan direct-config.js tiedosto, joka sisältää konfiguraation suoraan
+          mkdir -p ./direct-config
+          echo "// Suora konfiguraatio - $(date)" > ./direct-config/config.js
+          echo "console.log('Suora konfiguraatio ladattu');" >> ./direct-config/config.js
+          echo "window.DIRECT_CONFIG = {" >> ./direct-config/config.js
+          echo "  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}'," >> ./direct-config/config.js
+          echo "  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'" >> ./direct-config/config.js
+          echo "};" >> ./direct-config/config.js
+          echo "// Asetetaan kaikki mahdolliset konfiguraatiomuuttujat" >> ./direct-config/config.js
+          echo "window.CONFIG = window.DIRECT_CONFIG;" >> ./direct-config/config.js
+          echo "window.INLINE_CONFIG = window.DIRECT_CONFIG;" >> ./direct-config/config.js
+          echo "window.SUPABASE_CONFIG = window.DIRECT_CONFIG;" >> ./direct-config/config.js
+          
+          # Luodaan yksinkertainen HTML-tiedosto, joka lataa konfiguraation
+          echo "<!DOCTYPE html>" > ./direct-config/index.html
+          echo "<html><head>" >> ./direct-config/index.html
+          echo "<title>Supabase Config</title>" >> ./direct-config/index.html
+          echo "<script src=\"config.js\"></script>" >> ./direct-config/index.html
+          echo "</head><body>" >> ./direct-config/index.html
+          echo "<h1>Supabase Config</h1>" >> ./direct-config/index.html
+          echo "<p>Tämä sivu sisältää Supabase-konfiguraation.</p>" >> ./direct-config/index.html
+          echo "<script>" >> ./direct-config/index.html
+          echo "document.write('<pre>' + JSON.stringify(window.DIRECT_CONFIG, null, 2) + '</pre>');" >> ./direct-config/index.html
+          echo "</script>" >> ./direct-config/index.html
+          echo "</body></html>" >> ./direct-config/index.html
+          
+          # Lisätään direct-config.js tiedoston lataus testisivulle
+          if [ -f "./pages/test-contact-form.html" ]; then
+            sed -i '/<script src="..\/js\/supabase-config.js"><\/script>/i \    <!-- Suora konfiguraatio -->\n    <script src="../direct-config/config.js"></script>' ./pages/test-contact-form.html
+            echo "Suoran konfiguraatiotiedoston lataus lisätty test-contact-form.html-sivulle"
+            
+            # Lisätään myös linkki suoraan konfiguraatiosivulle
+            sed -i '/<div class="action-buttons">/a \            <button class="action-button" onclick="window.open('\''../direct-config/index.html'\'', '\''_blank'\'')">\n                <i class="fas fa-cog"></i> Avaa suora konfiguraatiosivu\n            </button>' ./pages/test-contact-form.html
+            echo "Linkki suoraan konfiguraatiosivulle lisätty test-contact-form.html-sivulle"
+          fi
+          
       - name: Verify config files
         run: |
           echo "Verifying config.runtime.js exists in multiple locations"
@@ -121,6 +157,23 @@ jobs:
             echo "Supabase config file creation failed"
           fi
           
+          # Tarkistetaan suora konfiguraatiotiedosto
+          if [ -f "./direct-config/config.js" ]; then
+            echo "Direct config file created successfully"
+            ls -la ./direct-config/config.js
+            cat ./direct-config/config.js
+          else
+            echo "Direct config file creation failed"
+          fi
+          
+          # Tarkistetaan suora konfiguraatiosivu
+          if [ -f "./direct-config/index.html" ]; then
+            echo "Direct config page created successfully"
+            ls -la ./direct-config/index.html
+          else
+            echo "Direct config page creation failed"
+          fi
+          
           # Tarkistetaan, että inline-konfiguraatio on lisätty
           if [ -f "./pages/yhteystiedot.html" ]; then
             if grep -q "window.INLINE_CONFIG" ./pages/yhteystiedot.html; then
@@ -147,6 +200,13 @@ jobs:
               echo "Supabase config script tag added to test-contact-form.html"
             else
               echo "Failed to add supabase config script tag to test-contact-form.html"
+            fi
+            
+            # Tarkistetaan, että suoran konfiguraatiotiedoston lataus on lisätty
+            if grep -q "direct-config/config.js" ./pages/test-contact-form.html; then
+              echo "Direct config script tag added to test-contact-form.html"
+            else
+              echo "Failed to add direct config script tag to test-contact-form.html"
             fi
           fi
 
