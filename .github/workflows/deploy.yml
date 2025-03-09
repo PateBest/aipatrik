@@ -44,12 +44,50 @@ jobs:
             echo "yhteystiedot.html-tiedostoa ei löytynyt"
           fi
           
-          # Korvataan placeholder myös testisivulla
+          # Korvataan placeholder myös testisivulla - UUSI TAPA
           if [ -f "./pages/test-contact-form.html" ]; then
-            sed -i "s|<!-- SUPABASE_CONFIG_PLACEHOLDER -->|$INLINE_CONFIG|" ./pages/test-contact-form.html
-            echo "Inline-konfiguraatio lisätty test-contact-form.html-sivulle"
+            # Luodaan väliaikainen tiedosto
+            cp ./pages/test-contact-form.html ./pages/test-contact-form.html.temp
+            
+            # Lisätään konfiguraatio suoraan head-osioon
+            awk '
+            /<head>/ {
+              print $0;
+              print "    <!-- Supabase-konfiguraatio (lisätty GitHub Actionsin toimesta) -->";
+              print "    <script>";
+              print "    window.INLINE_CONFIG = {";
+              print "      SUPABASE_URL: \"${{ secrets.SUPABASE_URL }}\",";
+              print "      SUPABASE_ANON_KEY: \"${{ secrets.SUPABASE_ANON_KEY }}\"";
+              print "    };";
+              print "    </script>";
+              next;
+            }
+            { print $0 }
+            ' ./pages/test-contact-form.html.temp > ./pages/test-contact-form.html
+            
+            # Poistetaan väliaikainen tiedosto
+            rm ./pages/test-contact-form.html.temp
+            
+            echo "Inline-konfiguraatio lisätty test-contact-form.html-sivulle (uusi tapa)"
           else
             echo "test-contact-form.html-tiedostoa ei löytynyt"
+          fi
+          
+          # Luodaan erillinen supabase-config.js tiedosto testisivua varten
+          echo "// Supabase-konfiguraatio testisivua varten - $(date)" > ./js/supabase-config.js
+          echo "console.log('Supabase-konfiguraatio ladattu erillisestä tiedostosta');" >> ./js/supabase-config.js
+          echo "window.SUPABASE_CONFIG = {" >> ./js/supabase-config.js
+          echo "  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}'," >> ./js/supabase-config.js
+          echo "  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'" >> ./js/supabase-config.js
+          echo "};" >> ./js/supabase-config.js
+          echo "// Asetetaan myös window.CONFIG ja window.INLINE_CONFIG varmuuden vuoksi" >> ./js/supabase-config.js
+          echo "window.CONFIG = window.CONFIG || window.SUPABASE_CONFIG;" >> ./js/supabase-config.js
+          echo "window.INLINE_CONFIG = window.INLINE_CONFIG || window.SUPABASE_CONFIG;" >> ./js/supabase-config.js
+          
+          # Lisätään supabase-config.js tiedoston lataus testisivulle
+          if [ -f "./pages/test-contact-form.html" ]; then
+            sed -i '/<script src="..\/js\/test-config.js"><\/script>/i \    <!-- Erillinen Supabase-konfiguraatio -->\n    <script src="../js/supabase-config.js"></script>' ./pages/test-contact-form.html
+            echo "Erillisen Supabase-konfiguraatiotiedoston lataus lisätty test-contact-form.html-sivulle"
           fi
           
       - name: Verify config files
@@ -75,6 +113,14 @@ jobs:
             echo "Pages directory config file creation failed"
           fi
           
+          # Tarkistetaan erillinen supabase-config.js tiedosto
+          if [ -f "./js/supabase-config.js" ]; then
+            echo "Supabase config file created successfully"
+            ls -la ./js/supabase-config.js
+          else
+            echo "Supabase config file creation failed"
+          fi
+          
           # Tarkistetaan, että inline-konfiguraatio on lisätty
           if [ -f "./pages/yhteystiedot.html" ]; then
             if grep -q "window.INLINE_CONFIG" ./pages/yhteystiedot.html; then
@@ -88,8 +134,19 @@ jobs:
           if [ -f "./pages/test-contact-form.html" ]; then
             if grep -q "window.INLINE_CONFIG" ./pages/test-contact-form.html; then
               echo "Inline configuration added to test-contact-form.html"
+              
+              # Näytetään lisätietoja
+              echo "Showing first few lines of test-contact-form.html:"
+              head -n 20 ./pages/test-contact-form.html
             else
               echo "Failed to add inline configuration to test-contact-form.html"
+            fi
+            
+            # Tarkistetaan, että erillisen konfiguraatiotiedoston lataus on lisätty
+            if grep -q "supabase-config.js" ./pages/test-contact-form.html; then
+              echo "Supabase config script tag added to test-contact-form.html"
+            else
+              echo "Failed to add supabase config script tag to test-contact-form.html"
             fi
           fi
 
