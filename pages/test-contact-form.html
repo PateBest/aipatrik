@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
+    <!-- Supabase-konfiguraatio (lisätty GitHub Actionsin toimesta) -->
+    <script>
+    window.INLINE_CONFIG = {
+      SUPABASE_URL: "https://ograsjqhyblnfqqflwvo.supabase.co",
+      SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4"
+    };
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yhteydenottolomakkeen Testisivu - AI Patrik</title>
@@ -12,12 +19,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <!-- Inline-konfiguraatio GitHub Secretsejä varten (tämä korvataan GitHub Actionsin toimesta) -->
-    <script>window.INLINE_CONFIG = { SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co', SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4' };</script>
+    <!-- SUPABASE_CONFIG_PLACEHOLDER -->
     
     <!-- Konfiguraatiotiedosto -->
     <script src="../js/config.js"></script>
     
     <!-- Testiskripti -->
+    <!-- Erillinen Supabase-konfiguraatio -->
+    <script src="../js/supabase-config.js"></script>
     <script src="../js/test-config.js"></script>
     
     <style>
