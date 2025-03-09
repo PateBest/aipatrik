@@ -1,5 +1,6 @@
-name: Replace Secrets
-on: 
+name: Deploy to GitHub Pages
+
+on:
   push:
     branches: [ main ]
   workflow_dispatch:
@@ -19,31 +20,82 @@ jobs:
         with:
           persist-credentials: true
 
+      - name: Check for GitHub Secrets
+        run: |
+          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
+            echo "Error: SUPABASE_URL secret is missing."
+            exit 1
+          fi
+          if [ -z "${{ secrets.SUPABASE_ANON_KEY }}" ]; then
+            echo "Error: SUPABASE_ANON_KEY secret is missing."
+            exit 1
+          fi
+
+      - name: Create config.runtime.js
+        run: |
+          # Create js directory if it doesn't exist
+          mkdir -p js
+          
+          # Create config.runtime.js with Supabase configuration
+          cat > js/config.runtime.js << EOF
+          // This file is generated during deployment - do not edit manually
+          window.SUPABASE_URL = "${{ secrets.SUPABASE_URL }}";
+          window.SUPABASE_ANON_KEY = "${{ secrets.SUPABASE_ANON_KEY }}";
+          
+          // Make configuration available through CONFIG object for compatibility
+          if (typeof window.CONFIG === 'undefined') {
+            window.CONFIG = {};
+          }
+          window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
+          window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+          EOF
+          
+          echo "Created config.runtime.js with Supabase configuration"
+          
+          # Create a copy in the pages directory for better accessibility
+          mkdir -p pages/js
+          cp js/config.runtime.js pages/js/config.runtime.js
+          echo "Created copy of config.runtime.js in pages/js directory"
+
       - name: Replace Supabase config
         run: |
-          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/yhteystiedot.html
-          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/test-contact-form.html
-          
-          # Luodaan .nojekyll-tiedosto, jotta GitHub Pages ei käytä Jekylliä
+          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/yhteystiedot.html \
+          && sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/test-contact-form.html
+
+          # Create .nojekyll file to prevent GitHub Pages from using Jekyll
           touch .nojekyll
-          echo "Luotu .nojekyll-tiedosto"
+          echo "Created .nojekyll file"
 
       - name: Verify changes
         run: |
-          echo "Verifying changes to yhteystiedot.html"
+          # Verify config.runtime.js exists and contains Supabase configuration
+          if [ -f "./js/config.runtime.js" ]; then
+            if grep -q "window.SUPABASE_URL" ./js/config.runtime.js; then
+              echo "Supabase config successfully added to config.runtime.js"
+            else
+              echo "Failed to add Supabase config to config.runtime.js"
+              exit 1
+            fi
+          else
+            echo "config.runtime.js not found"
+            exit 1
+          fi
+          
+          # Verify yhteystiedot.html
           if grep -q "window.SUPABASE_URL" ./pages/yhteystiedot.html; then
             echo "Supabase config successfully added to yhteystiedot.html"
           else
             echo "Failed to add Supabase config to yhteystiedot.html"
             exit 1
           fi
-          
-          echo "Verifying changes to test-contact-form.html"
+
+          # Verify test-contact-form.html if it exists
           if [ -f "./pages/test-contact-form.html" ]; then
             if grep -q "window.SUPABASE_URL" ./pages/test-contact-form.html; then
               echo "Supabase config successfully added to test-contact-form.html"
             else
               echo "Failed to add Supabase config to test-contact-form.html"
+              exit 1
             fi
           else
             echo "test-contact-form.html not found, skipping verification"
