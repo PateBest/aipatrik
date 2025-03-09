@@ -524,5 +524,22 @@
             }, 1000); // Annetaan konfiguraation latautua
         });
     </script>
+    <!-- Inline-konfiguraatio sivun lopussa -->
+    <script>
+        // Varmistetaan, että konfiguraatio on saatavilla
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Inline-konfiguraatio sivun lopussa ladattu");
+            window.INLINE_CONFIG_BOTTOM = {
+                SUPABASE_URL: "https://ograsjqhyblnfqqflwvo.supabase.co",
+                SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4"
+            };
+            // Asetetaan myös muut konfiguraatiomuuttujat
+            window.CONFIG = window.CONFIG || window.INLINE_CONFIG_BOTTOM;
+            window.INLINE_CONFIG = window.INLINE_CONFIG || window.INLINE_CONFIG_BOTTOM;
+            window.SUPABASE_CONFIG = window.SUPABASE_CONFIG || window.INLINE_CONFIG_BOTTOM;
+            window.DIRECT_CONFIG = window.DIRECT_CONFIG || window.INLINE_CONFIG_BOTTOM;
+            console.log("Konfiguraatio asetettu:", window.CONFIG);
+        });
+    </script>
 </body>
 </html> 
