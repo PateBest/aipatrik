@@ -11,10 +11,47 @@
         .contact-form {
             margin: 2rem 0;
             background-color: var(--dark-surface);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px var(--shadow-color);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), #0d6efd);
+        }
+        
+        .contact-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .contact-form h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
         }
         
         .contact-form label {
@@ -22,24 +59,48 @@
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s ease;
         }
         
         .contact-form input,
         .contact-form textarea {
             width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1.5rem;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             background-color: var(--dark-surface-lighter);
             color: var(--text-light);
+            transition: all 0.3s ease;
+            font-size: 1rem;
         }
         
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(0, 230, 184, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 230, 184, 0.2);
+            background-color: rgba(0, 230, 184, 0.05);
+        }
+        
+        .form-group:focus-within i {
+            color: var(--accent-color);
+        }
+        
+        .form-group:focus-within label {
+            color: var(--accent-color);
         }
         
         .contact-form textarea {
@@ -51,28 +112,65 @@
         .contact-form input.error-field,
         .contact-form textarea.error-field {
             border-color: #ff5555;
-            box-shadow: 0 0 0 2px rgba(255, 85, 85, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 85, 85, 0.2);
         }
         
         .contact-info {
             margin: 2rem 0;
             background-color: var(--dark-surface);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px var(--shadow-color);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #0d6efd, var(--accent-color));
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .contact-info h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #0d6efd;
+            border-radius: 3px;
         }
         
         .email-link {
             color: var(--accent-color);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
         }
         
         .email-link:hover {
-            color: #00c9a0;
-            text-decoration: underline;
+            color: #fff;
+            background-color: var(--accent-color);
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 230, 184, 0.3);
         }
         
         .success-message {
@@ -84,6 +182,7 @@
             border-radius: 8px;
             margin-bottom: 1.5rem;
             text-align: center;
+            animation: fadeIn 0.5s ease;
         }
         
         .error-message {
@@ -95,6 +194,7 @@
             border-radius: 8px;
             margin-bottom: 1.5rem;
             text-align: center;
+            animation: fadeIn 0.5s ease;
         }
         
         .loading {
@@ -111,6 +211,155 @@
         
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Submit-painike */
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 230, 184, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: auto;
+            min-width: 180px;
+            max-width: 100%;
+        }
+        
+        .submit-btn i {
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 230, 184, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Responsiiviset tyylit submit-painikkeelle */
+        @media (max-width: 768px) {
+            .submit-btn {
+                width: 100%;
+                padding: 12px 16px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .submit-btn {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .submit-btn i {
+                margin-right: 6px;
+            }
+        }
+        
+        /* Ponnahdusilmoitus */
+        .popup-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background-color: var(--dark-surface);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 350px;
+        }
+        
+        .popup-notification.success {
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .popup-notification.error {
+            border-left: 5px solid #ff5555;
+        }
+        
+        .popup-notification.show {
+            transform: translateX(0);
+        }
+        
+        .popup-notification i {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .popup-notification.success i {
+            color: var(--accent-color);
+        }
+        
+        .popup-notification.error i {
+            color: #ff5555;
+        }
+        
+        .popup-notification-content {
+            flex: 1;
+        }
+        
+        .popup-notification h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        
+        .popup-notification p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .popup-notification .close-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .popup-notification .close-btn:hover {
+            color: white;
         }
         
         /* Sosiaalisen median painikkeet ja kielenvaihto */
@@ -275,6 +524,16 @@
     <script src="../js/config.js"></script>
 </head>
 <body>
+    <!-- Ponnahdusilmoitus -->
+    <div id="popup-notification" class="popup-notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="popup-notification-content">
+            <h4 id="popup-title">Onnistui!</h4>
+            <p id="popup-message">Viestisi on lähetetty onnistuneesti.</p>
+        </div>
+        <button class="close-btn" onclick="closePopup()"><i class="fas fa-times"></i></button>
+    </div>
+
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
     <div class="top-bar">
         <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
@@ -337,41 +596,45 @@
             <div class="contact-info">
                 <h3>Sähköposti</h3>
                 <p>
-                    Voit lähettää meille sähköpostia osoitteeseen: <a href="mailto:aipatrik@outlook.com" class="email-link">aipatrik@outlook.com</a>
+                    Voit lähettää meille sähköpostia osoitteeseen: <a href="mailto:aipatrik@outlook.com" class="email-link"><i class="fas fa-envelope"></i> aipatrik@outlook.com</a>
                 </p>
             </div>
             
             <div class="contact-form">
                 <h3>Yhteydenottolomake</h3>
                 <div id="success-message" class="success-message">
-                    Kiitos viestistäsi! Olemme yhteydessä mahdollisimman pian.
+                    <i class="fas fa-check-circle"></i> Kiitos viestistäsi! Olemme yhteydessä mahdollisimman pian.
                 </div>
                 <div id="error-message" class="error-message">
-                    Viestin lähetyksessä tapahtui virhe. Ole hyvä ja yritä uudelleen.
+                    <i class="fas fa-exclamation-circle"></i> Viestin lähetyksessä tapahtui virhe. Ole hyvä ja yritä uudelleen.
                 </div>
                 <form id="contact-form">
-                    <div>
+                    <div class="form-group">
                         <label for="name">Nimi</label>
-                        <input type="text" id="name" name="name" required>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" name="name" placeholder="Kirjoita nimesi" required>
                     </div>
                     
-                    <div>
+                    <div class="form-group">
                         <label for="email">Sähköposti</label>
-                        <input type="email" id="email" name="email" required>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Kirjoita sähköpostiosoitteesi" required>
                     </div>
                     
-                    <div>
+                    <div class="form-group">
                         <label for="subject">Aihe</label>
-                        <input type="text" id="subject" name="subject" required>
+                        <i class="fas fa-tag"></i>
+                        <input type="text" id="subject" name="subject" placeholder="Viestin aihe" required>
                     </div>
                     
-                    <div>
+                    <div class="form-group">
                         <label for="message">Viesti</label>
-                        <textarea id="message" name="message" required></textarea>
+                        <i class="fas fa-comment-alt" style="top: 42px;"></i>
+                        <textarea id="message" name="message" placeholder="Kirjoita viestisi tähän..." required></textarea>
                     </div>
                     
-                    <button type="submit" class="btn btn-lg" id="submit-button">
-                        Lähetä viesti
+                    <button type="submit" class="submit-btn" id="submit-button">
+                        <i class="fas fa-paper-plane"></i> <span>Lähetä viesti</span>
                         <span id="loading" class="loading" style="display: none;"></span>
                     </button>
                 </form>
