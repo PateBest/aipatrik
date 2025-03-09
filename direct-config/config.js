@@ -1,4 +1,4 @@
-// Suora konfiguraatio - Sun Mar  9 22:48:44 UTC 2025
+// Suora konfiguraatio - Sun Mar  9 22:52:56 UTC 2025
 console.log('Suora konfiguraatio ladattu');
 window.DIRECT_CONFIG = {
   SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
