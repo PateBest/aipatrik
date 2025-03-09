@@ -81,9 +81,6 @@ jobs:
         run: |
           # Replace placeholder in yhteystiedot.html with proper JavaScript object
           sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}"; window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; window.INLINE_CONFIG = { SUPABASE_URL: "${{ secrets.SUPABASE_URL }}", SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}" }; console.log("Inline Supabase configuration loaded");|' pages/yhteystiedot.html
-          
-          # Replace placeholder in test-contact-form.html with proper JavaScript object
-          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}"; window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; window.INLINE_CONFIG = { SUPABASE_URL: "${{ secrets.SUPABASE_URL }}", SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}" }; console.log("Inline Supabase configuration loaded");|' pages/test-contact-form.html
 
           # Create .nojekyll file to prevent GitHub Pages from using Jekyll
           touch .nojekyll
@@ -200,18 +197,6 @@ jobs:
           else
             echo "Failed to add Supabase config to yhteystiedot.html"
             exit 1
-          fi
-
-          # Verify test-contact-form.html if it exists
-          if [ -f "./pages/test-contact-form.html" ]; then
-            if grep -q "window.SUPABASE_URL" ./pages/test-contact-form.html; then
-              echo "Supabase config successfully added to test-contact-form.html"
-            else
-              echo "Failed to add Supabase config to test-contact-form.html"
-              exit 1
-            fi
-          else
-            echo "test-contact-form.html not found, skipping verification"
           fi
           
           # Verify root config.runtime.js
