@@ -19,9 +19,9 @@ jobs:
           echo "  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}'," >> ./config.runtime.js
           echo "  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'" >> ./config.runtime.js
           echo "};" >> ./config.runtime.js
-          mkdir -p build
-          cp ./config.runtime.js ./build/config.runtime.js
-
+          # Varmistetaan, että config.runtime.js on juurihakemistossa
+          cp ./config.runtime.js ./config.runtime.js.bak
+          
       - name: Verify config file
         run: |
           echo "Verifying config.runtime.js exists"
