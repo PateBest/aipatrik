@@ -6,10 +6,38 @@
 // Tämä koodi käsittelee yhteydenottolomakkeen toiminnallisuuden
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Contact form script loaded');
+    
+    // Yritetään ladata konfiguraatio suoraan HTML-sivulta
+    // Tämä on ensisijainen tapa, koska GitHub Actions korvaa placeholderin
+    if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+        console.log('Supabase configuration not found in window object, trying to load from other sources');
+        
+        // Tarkistetaan INLINE_CONFIG
+        if (window.INLINE_CONFIG && window.INLINE_CONFIG.SUPABASE_URL && window.INLINE_CONFIG.SUPABASE_ANON_KEY) {
+            console.log('Loading Supabase configuration from INLINE_CONFIG');
+            window.SUPABASE_URL = window.INLINE_CONFIG.SUPABASE_URL;
+            window.SUPABASE_ANON_KEY = window.INLINE_CONFIG.SUPABASE_ANON_KEY;
+        }
+        // Tarkistetaan CONFIG
+        else if (window.CONFIG && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY) {
+            console.log('Loading Supabase configuration from CONFIG');
+            window.SUPABASE_URL = window.CONFIG.SUPABASE_URL;
+            window.SUPABASE_ANON_KEY = window.CONFIG.SUPABASE_ANON_KEY;
+        }
+    }
+    
     // Haetaan Supabase-asetukset konfiguraatiosta
-    // Yritetään käyttää myös inline-konfiguraatiota, jos se on saatavilla
-    const SUPABASE_URL = window.CONFIG?.SUPABASE_URL || window.INLINE_CONFIG?.SUPABASE_URL || '';
-    const SUPABASE_ANON_KEY = window.CONFIG?.SUPABASE_ANON_KEY || window.INLINE_CONFIG?.SUPABASE_ANON_KEY || '';
+    // Yritetään käyttää kaikkia mahdollisia konfiguraatiolähteitä
+    const SUPABASE_URL = window.SUPABASE_URL || 
+                         window.CONFIG?.SUPABASE_URL || 
+                         window.INLINE_CONFIG?.SUPABASE_URL || 
+                         '';
+                         
+    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 
+                              window.CONFIG?.SUPABASE_ANON_KEY || 
+                              window.INLINE_CONFIG?.SUPABASE_ANON_KEY || 
+                              '';
     
     console.log('Käytetään Supabase-asetuksia:', 
         SUPABASE_URL ? 'URL on määritelty' : 'URL puuttuu', 
@@ -33,8 +61,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } else {
         console.warn('Supabase-asetukset puuttuvat tai ovat oletusarvoja. Lomake ei toimi tuotantoympäristössä.');
+        console.log('window.SUPABASE_URL:', window.SUPABASE_URL);
+        console.log('window.SUPABASE_ANON_KEY:', window.SUPABASE_ANON_KEY);
         console.log('window.CONFIG:', window.CONFIG);
         console.log('window.INLINE_CONFIG:', window.INLINE_CONFIG);
+        
+        // Yritetään ladata konfiguraatio vielä kerran config.runtime.js-tiedostosta
+        const script = document.createElement('script');
+        script.src = '../js/config.runtime.js';
+        script.onload = function() {
+            console.log('Loaded config.runtime.js dynamically');
+            
+            // Tarkistetaan, onko konfiguraatio nyt saatavilla
+            if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+                console.log('Supabase configuration loaded successfully from config.runtime.js');
+                location.reload(); // Ladataan sivu uudelleen, jotta konfiguraatio tulee käyttöön
+            }
+        };
+        script.onerror = function() {
+            console.error('Failed to load config.runtime.js dynamically');
+            
+            // Yritetään vielä muita polkuja
+            const alternativePaths = [
+                '../config.runtime.js',
+                './config.runtime.js',
+                '/config.runtime.js',
+                '/aipatrik/config.runtime.js',
+                '/aipatrik/js/config.runtime.js'
+            ];
+            
+            let pathIndex = 0;
+            
+            function tryNextPath() {
+                if (pathIndex >= alternativePaths.length) {
+                    console.error('All paths failed, giving up');
+                    return;
+                }
+                
+                const path = alternativePaths[pathIndex++];
+                console.log('Trying to load from', path);
+                
+                const script = document.createElement('script');
+                script.src = path;
+                script.onload = function() {
+                    console.log('Loaded from', path);
+                    
+                    // Tarkistetaan, onko konfiguraatio nyt saatavilla
+                    if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+                        console.log('Supabase configuration loaded successfully from', path);
+                        location.reload(); // Ladataan sivu uudelleen, jotta konfiguraatio tulee käyttöön
+                    } else {
+                        tryNextPath();
+                    }
+                };
+                script.onerror = function() {
+                    console.error('Failed to load from', path);
+                    tryNextPath();
+                };
+                
+                document.head.appendChild(script);
+            }
+            
+            tryNextPath();
+        };
+        
+        document.head.appendChild(script);
     }
     
     // Haetaan lomake-elementti

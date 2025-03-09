@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Configuration Status</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #e0e0e0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #1e1e1e; padding: 20px; border-radius: 8px; }
+        h1 { color: #00e6b8; }
+        .status-box { background-color: #2a2a2a; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .success { color: #00e6b8; }
+        .error { color: #ff5555; }
+        pre { background-color: #2a2a2a; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .back-link { color: #00e6b8; text-decoration: none; display: inline-block; margin-top: 20px; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Supabase Configuration Status</h1>
+        
+        <div class="status-box">
+            <h2>Configuration Check</h2>
+            <p>This page checks if Supabase configuration is properly loaded.</p>
+            <p>If you see "Configuration is missing" below, it means the GitHub Secrets are not properly set up or the configuration is not being loaded correctly.</p>
+        </div>
+        
+        <div class="status-box">
+            <h2>Window Object Check</h2>
+            <div id="window-status">Checking...</div>
+        </div>
+        
+        <div class="status-box">
+            <h2>CONFIG Object Check</h2>
+            <div id="config-status">Checking...</div>
+        </div>
+        
+        <div class="status-box">
+            <h2>INLINE_CONFIG Object Check</h2>
+            <div id="inline-config-status">Checking...</div>
+        </div>
+        
+        <a href="../pages/yhteystiedot.html" class="back-link">← Back to Contact Form</a>
+    </div>
+    
+    <script>
+        // Load config.runtime.js dynamically
+        const script = document.createElement('script');
+        script.src = '../js/config.runtime.js';
+        document.head.appendChild(script);
+        
+        // Check configuration after a short delay
+        setTimeout(() => {
+            // Check window object
+            const windowStatus = document.getElementById('window-status');
+            if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+                windowStatus.innerHTML = '<span class="success">✓ Window object contains Supabase configuration</span>';
+            } else {
+                windowStatus.innerHTML = '<span class="error">✗ Window object is missing Supabase configuration</span>';
+            }
+            
+            // Check CONFIG object
+            const configStatus = document.getElementById('config-status');
+            if (window.CONFIG && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY) {
+                configStatus.innerHTML = '<span class="success">✓ CONFIG object contains Supabase configuration</span>';
+            } else {
+                configStatus.innerHTML = '<span class="error">✗ CONFIG object is missing Supabase configuration</span>';
+            }
+            
+            // Check INLINE_CONFIG object
+            const inlineConfigStatus = document.getElementById('inline-config-status');
+            if (window.INLINE_CONFIG && window.INLINE_CONFIG.SUPABASE_URL && window.INLINE_CONFIG.SUPABASE_ANON_KEY) {
+                inlineConfigStatus.innerHTML = '<span class="success">✓ INLINE_CONFIG object contains Supabase configuration</span>';
+            } else {
+                inlineConfigStatus.innerHTML = '<span class="error">✗ INLINE_CONFIG object is missing Supabase configuration</span>';
+            }
+        }, 500);
+    </script>
+</body>
+</html>
