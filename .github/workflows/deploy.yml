@@ -32,8 +32,8 @@ jobs:
           fi
           
           echo "GitHub Secrets found and validated."
-          echo "SUPABASE_URL length: ${#SUPABASE_URL}"
-          echo "SUPABASE_ANON_KEY length: ${#SUPABASE_ANON_KEY}"
+          # Emme voi tulostaa secretien pituutta suoraan, koska ne eivät ole saatavilla shell-ympäristössä
+          echo "Secrets are available and will be used in the next steps."
 
       - name: Create config.runtime.js
         run: |
@@ -117,8 +117,9 @@ jobs:
                   <h1>Supabase Configuration Status</h1>
                   
                   <div class="status-box">
-                      <h2>Direct Configuration Check</h2>
-                      <div id="direct-status">Checking...</div>
+                      <h2>Configuration Check</h2>
+                      <p>This page checks if Supabase configuration is properly loaded.</p>
+                      <p>If you see "Configuration is missing" below, it means the GitHub Secrets are not properly set up or the configuration is not being loaded correctly.</p>
                   </div>
                   
                   <div class="status-box">
@@ -140,17 +141,14 @@ jobs:
               </div>
               
               <script>
-                  // Direct configuration
-                  const directUrl = "${{ secrets.SUPABASE_URL }}";
-                  const directKey = "${{ secrets.SUPABASE_ANON_KEY }}";
+                  // Load config.runtime.js dynamically
+                  const script = document.createElement('script');
+                  script.src = '../js/config.runtime.js';
+                  document.head.appendChild(script);
                   
-                  document.getElementById('direct-status').innerHTML = 
-                      directUrl && directKey ? 
-                      '<span class="success">✓ Direct configuration is available</span>' : 
-                      '<span class="error">✗ Direct configuration is missing</span>';
-                  
-                  // Check window object
+                  // Check configuration after a short delay
                   setTimeout(() => {
+                      // Check window object
                       const windowStatus = document.getElementById('window-status');
                       if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
                           windowStatus.innerHTML = '<span class="success">✓ Window object contains Supabase configuration</span>';
