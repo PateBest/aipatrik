@@ -12,60 +12,71 @@ window.CONFIG = {
 async function loadConfig() {
     try {
         // Käytetään suhteellista polkua nykyiseen sivuun nähden
-        const configPath = window.location.pathname.includes('/aipatrik/') ? '/aipatrik/config.runtime.js' : '/config.runtime.js';
-        console.log('Yritetään ladata konfiguraatio polusta:', configPath);
+        // Määritellään mahdolliset polut config.runtime.js-tiedostolle
+        const possiblePaths = [
+            './config.runtime.js',                // Suhteellinen polku nykyiseen sivuun
+            '../config.runtime.js',               // Yksi taso ylöspäin
+            '/config.runtime.js',                 // Juurihakemisto
+            '/aipatrik/config.runtime.js',        // GitHub Pages -alihakemisto
+            'config.runtime.js'                   // Pelkkä tiedostonimi
+        ];
         
-        const response = await fetch(configPath);
+        console.log('Yritetään ladata konfiguraatiota useista mahdollisista poluista');
         
-        if (!response.ok) {
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                console.log('Kehitysympäristö: Käytetään kehitysympäristön konfiguraatiota');
-            } else {
-                console.warn('Tuotantoympäristö: Runtime-konfiguraatiota ei löytynyt polusta ' + configPath + '. Lomake ei välttämättä toimi oikein.');
-                // Yritetään vielä toista polkua
-                const altConfigPath = configPath.startsWith('/aipatrik/') ? '/config.runtime.js' : '/aipatrik/config.runtime.js';
-                console.log('Yritetään vaihtoehtoista polkua:', altConfigPath);
-                try {
-                    const altResponse = await fetch(altConfigPath);
-                    if (altResponse.ok) {
-                        const altData = await altResponse.text();
-                        if (altData) {
-                            eval(altData);
-                            console.log('Runtime-konfiguraatio ladattu onnistuneesti vaihtoehtoisesta polusta');
-                            return;
-                        }
-                    } else {
-                        console.warn('Vaihtoehtoinen konfiguraation lataus epäonnistui.');
-                    }
-                } catch (altError) {
-                    console.error('Virhe vaihtoehtoisen konfiguraation lataamisessa:', altError);
-                }
-            }
-            return;
-        }
-        
-        const data = await response.text();
-        
-        if (data) {
-            // Suoritetaan ladattu konfiguraatio
+        // Yritetään ladata konfiguraatio kaikista mahdollisista poluista
+        for (const path of possiblePaths) {
             try {
-                eval(data);
-                console.log('Runtime-konfiguraatio ladattu onnistuneesti');
+                console.log('Yritetään ladata konfiguraatiota polusta:', path);
+                const response = await fetch(path);
                 
-                // Tarkistetaan, että konfiguraatio sisältää tarvittavat arvot
-                if (!window.CONFIG.SUPABASE_URL || !window.CONFIG.SUPABASE_ANON_KEY) {
-                    console.warn('Runtime-konfiguraatio ei sisällä kaikkia tarvittavia arvoja');
+                if (response.ok) {
+                    const data = await response.text();
+                    if (data) {
+                        // Suoritetaan ladattu konfiguraatio
+                        try {
+                            eval(data);
+                            console.log('Runtime-konfiguraatio ladattu onnistuneesti polusta:', path);
+                            
+                            // Tarkistetaan, että konfiguraatio sisältää tarvittavat arvot
+                            if (!window.CONFIG.SUPABASE_URL || !window.CONFIG.SUPABASE_ANON_KEY) {
+                                console.warn('Runtime-konfiguraatio ei sisällä kaikkia tarvittavia arvoja');
+                            } else {
+                                console.log('Konfiguraatio sisältää kaikki tarvittavat arvot');
+                                return true; // Konfiguraatio ladattu onnistuneesti
+                            }
+                        } catch (e) {
+                            console.error('Virhe runtime-konfiguraation suorittamisessa:', e);
+                        }
+                    }
                 }
-            } catch (e) {
-                console.error('Virhe runtime-konfiguraation suorittamisessa:', e);
+            } catch (pathError) {
+                console.log('Virhe polun', path, 'lataamisessa:', pathError);
             }
         }
+        
+        // Jos tänne asti päästään, konfiguraatiota ei löytynyt mistään polusta
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Kehitysympäristö: Käytetään kehitysympäristön konfiguraatiota');
+        } else {
+            console.warn('Tuotantoympäristö: Runtime-konfiguraatiota ei löytynyt mistään polusta. Lomake ei välttämättä toimi oikein.');
+            
+            // Yritetään vielä ladata konfiguraatio suoraan HTML-sivuun upotettuna
+            if (window.INLINE_CONFIG && window.INLINE_CONFIG.SUPABASE_URL && window.INLINE_CONFIG.SUPABASE_ANON_KEY) {
+                window.CONFIG = window.INLINE_CONFIG;
+                console.log('Käytetään HTML-sivuun upotettua konfiguraatiota');
+                return true;
+            }
+        }
+        
+        return false;
     } catch (error) {
-        console.error('Virhe runtime-konfiguraation lataamisessa:', error);
+        console.error('Virhe konfiguraation lataamisessa:', error);
         
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
             console.warn('Tuotantoympäristö: Konfiguraation lataus epäonnistui. Lomake ei välttämättä toimi oikein.');
         }
+        
+        return false;
     }
 }
 

@@ -7,8 +7,13 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // Haetaan Supabase-asetukset konfiguraatiosta
-    const SUPABASE_URL = window.CONFIG?.SUPABASE_URL || '';
-    const SUPABASE_ANON_KEY = window.CONFIG?.SUPABASE_ANON_KEY || '';
+    // Yritetään käyttää myös inline-konfiguraatiota, jos se on saatavilla
+    const SUPABASE_URL = window.CONFIG?.SUPABASE_URL || window.INLINE_CONFIG?.SUPABASE_URL || '';
+    const SUPABASE_ANON_KEY = window.CONFIG?.SUPABASE_ANON_KEY || window.INLINE_CONFIG?.SUPABASE_ANON_KEY || '';
+    
+    console.log('Käytetään Supabase-asetuksia:', 
+        SUPABASE_URL ? 'URL on määritelty' : 'URL puuttuu', 
+        SUPABASE_ANON_KEY ? 'ANON_KEY on määritelty' : 'ANON_KEY puuttuu');
     
     // Tarkistetaan, onko Supabase-asetukset määritelty
     const isSupabaseConfigured = 
@@ -28,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } else {
         console.warn('Supabase-asetukset puuttuvat tai ovat oletusarvoja. Lomake ei toimi tuotantoympäristössä.');
+        console.log('window.CONFIG:', window.CONFIG);
+        console.log('window.INLINE_CONFIG:', window.INLINE_CONFIG);
     }
     
     // Haetaan lomake-elementti
