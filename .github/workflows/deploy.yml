@@ -30,6 +30,10 @@ jobs:
             echo "Error: SUPABASE_ANON_KEY secret is missing."
             exit 1
           fi
+          
+          echo "GitHub Secrets found and validated."
+          echo "SUPABASE_URL length: ${#SUPABASE_URL}"
+          echo "SUPABASE_ANON_KEY length: ${#SUPABASE_ANON_KEY}"
 
       - name: Create config.runtime.js
         run: |
@@ -48,23 +52,134 @@ jobs:
           }
           window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
           window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+          
+          // Make configuration available through INLINE_CONFIG object for compatibility
+          window.INLINE_CONFIG = {
+            SUPABASE_URL: "${{ secrets.SUPABASE_URL }}",
+            SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
+          };
+          
+          console.log("Supabase configuration loaded from config.runtime.js");
           EOF
           
           echo "Created config.runtime.js with Supabase configuration"
           
-          # Create a copy in the pages directory for better accessibility
+          # Create copies in multiple locations for better accessibility
           mkdir -p pages/js
           cp js/config.runtime.js pages/js/config.runtime.js
           echo "Created copy of config.runtime.js in pages/js directory"
+          
+          # Copy to root directory
+          cp js/config.runtime.js ./config.runtime.js
+          echo "Created copy of config.runtime.js in root directory"
+          
+          # Copy to pages directory
+          cp js/config.runtime.js ./pages/config.runtime.js
+          echo "Created copy of config.runtime.js in pages directory"
 
       - name: Replace Supabase config
         run: |
-          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/yhteystiedot.html \
-          && sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}";window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}";|' pages/test-contact-form.html
+          # Replace placeholder in yhteystiedot.html with proper JavaScript object
+          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}"; window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; window.INLINE_CONFIG = { SUPABASE_URL: "${{ secrets.SUPABASE_URL }}", SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}" }; console.log("Inline Supabase configuration loaded");|' pages/yhteystiedot.html
+          
+          # Replace placeholder in test-contact-form.html with proper JavaScript object
+          sed -i 's|// SUPABASE_CONFIG_PLACEHOLDER|window.SUPABASE_URL="${{ secrets.SUPABASE_URL }}"; window.SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; window.INLINE_CONFIG = { SUPABASE_URL: "${{ secrets.SUPABASE_URL }}", SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}" }; console.log("Inline Supabase configuration loaded");|' pages/test-contact-form.html
 
           # Create .nojekyll file to prevent GitHub Pages from using Jekyll
           touch .nojekyll
           echo "Created .nojekyll file"
+
+      - name: Create direct configuration page
+        run: |
+          # Create a direct configuration page for easy debugging
+          mkdir -p debug
+          cat > debug/config-status.html << EOF
+          <!DOCTYPE html>
+          <html lang="fi">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Supabase Configuration Status</title>
+              <style>
+                  body { font-family: Arial, sans-serif; background-color: #121212; color: #e0e0e0; padding: 20px; }
+                  .container { max-width: 800px; margin: 0 auto; background-color: #1e1e1e; padding: 20px; border-radius: 8px; }
+                  h1 { color: #00e6b8; }
+                  .status-box { background-color: #2a2a2a; padding: 15px; border-radius: 5px; margin: 15px 0; }
+                  .success { color: #00e6b8; }
+                  .error { color: #ff5555; }
+                  pre { background-color: #2a2a2a; padding: 10px; border-radius: 5px; overflow-x: auto; }
+                  .back-link { color: #00e6b8; text-decoration: none; display: inline-block; margin-top: 20px; }
+                  .back-link:hover { text-decoration: underline; }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>Supabase Configuration Status</h1>
+                  
+                  <div class="status-box">
+                      <h2>Direct Configuration Check</h2>
+                      <div id="direct-status">Checking...</div>
+                  </div>
+                  
+                  <div class="status-box">
+                      <h2>Window Object Check</h2>
+                      <div id="window-status">Checking...</div>
+                  </div>
+                  
+                  <div class="status-box">
+                      <h2>CONFIG Object Check</h2>
+                      <div id="config-status">Checking...</div>
+                  </div>
+                  
+                  <div class="status-box">
+                      <h2>INLINE_CONFIG Object Check</h2>
+                      <div id="inline-config-status">Checking...</div>
+                  </div>
+                  
+                  <a href="../pages/yhteystiedot.html" class="back-link">← Back to Contact Form</a>
+              </div>
+              
+              <script>
+                  // Direct configuration
+                  const directUrl = "${{ secrets.SUPABASE_URL }}";
+                  const directKey = "${{ secrets.SUPABASE_ANON_KEY }}";
+                  
+                  document.getElementById('direct-status').innerHTML = 
+                      directUrl && directKey ? 
+                      '<span class="success">✓ Direct configuration is available</span>' : 
+                      '<span class="error">✗ Direct configuration is missing</span>';
+                  
+                  // Check window object
+                  setTimeout(() => {
+                      const windowStatus = document.getElementById('window-status');
+                      if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+                          windowStatus.innerHTML = '<span class="success">✓ Window object contains Supabase configuration</span>';
+                      } else {
+                          windowStatus.innerHTML = '<span class="error">✗ Window object is missing Supabase configuration</span>';
+                      }
+                      
+                      // Check CONFIG object
+                      const configStatus = document.getElementById('config-status');
+                      if (window.CONFIG && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY) {
+                          configStatus.innerHTML = '<span class="success">✓ CONFIG object contains Supabase configuration</span>';
+                      } else {
+                          configStatus.innerHTML = '<span class="error">✗ CONFIG object is missing Supabase configuration</span>';
+                      }
+                      
+                      // Check INLINE_CONFIG object
+                      const inlineConfigStatus = document.getElementById('inline-config-status');
+                      if (window.INLINE_CONFIG && window.INLINE_CONFIG.SUPABASE_URL && window.INLINE_CONFIG.SUPABASE_ANON_KEY) {
+                          inlineConfigStatus.innerHTML = '<span class="success">✓ INLINE_CONFIG object contains Supabase configuration</span>';
+                      } else {
+                          inlineConfigStatus.innerHTML = '<span class="error">✗ INLINE_CONFIG object is missing Supabase configuration</span>';
+                      }
+                  }, 500);
+              </script>
+          </body>
+          </html>
+          EOF
+          
+          echo "Created debug/config-status.html for configuration debugging"
 
       - name: Verify changes
         run: |
@@ -99,6 +214,22 @@ jobs:
             fi
           else
             echo "test-contact-form.html not found, skipping verification"
+          fi
+          
+          # Verify root config.runtime.js
+          if [ -f "./config.runtime.js" ]; then
+            echo "Root config.runtime.js exists"
+          else
+            echo "Root config.runtime.js not found"
+            exit 1
+          fi
+          
+          # Verify pages/config.runtime.js
+          if [ -f "./pages/config.runtime.js" ]; then
+            echo "Pages config.runtime.js exists"
+          else
+            echo "Pages config.runtime.js not found"
+            exit 1
           fi
 
       - name: Deploy to GitHub Pages
