@@ -15,14 +15,8 @@
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
-        }
-        
-        .contact-form:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
         
         .contact-form::before {
@@ -169,8 +163,6 @@
             color: #fff;
             background-color: var(--accent-color);
             text-decoration: none;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 230, 184, 0.3);
         }
         
         .success-message {
@@ -246,12 +238,11 @@
         }
         
         .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 230, 184, 0.4);
+            box-shadow: 0 6px 15px rgba(0, 230, 184, 0.3);
         }
         
         .submit-btn:active {
-            transform: translateY(-1px);
+            opacity: 0.9;
         }
         
         .submit-btn::before {
