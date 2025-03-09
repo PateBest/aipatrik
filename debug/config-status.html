@@ -15,6 +15,25 @@
         .back-link { color: #00e6b8; text-decoration: none; display: inline-block; margin-top: 20px; }
         .back-link:hover { text-decoration: underline; }
     </style>
+    
+    <!-- Supabase JavaScript-kirjasto -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Suora konfiguraatio -->
+    <script>
+    window.SUPABASE_URL = 'https://ograsjqhyblnfqqflwvo.supabase.co';
+    window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4';
+    window.INLINE_CONFIG = {
+        SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
+        SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4'
+    };
+    if (typeof window.CONFIG === 'undefined') {
+        window.CONFIG = {};
+    }
+    window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
+    window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+    console.log('Direct configuration loaded in debug page');
+    </script>
 </head>
 <body>
     <div class="container">
@@ -41,15 +60,15 @@
             <div id="inline-config-status">Checking...</div>
         </div>
         
+        <div class="status-box">
+            <h2>Supabase Connection Test</h2>
+            <div id="connection-test">Checking...</div>
+        </div>
+        
         <a href="../pages/yhteystiedot.html" class="back-link">← Back to Contact Form</a>
     </div>
     
     <script>
-        // Load config.runtime.js dynamically
-        const script = document.createElement('script');
-        script.src = '../js/config.runtime.js';
-        document.head.appendChild(script);
-        
         // Check configuration after a short delay
         setTimeout(() => {
             // Check window object
@@ -74,6 +93,32 @@
                 inlineConfigStatus.innerHTML = '<span class="success">✓ INLINE_CONFIG object contains Supabase configuration</span>';
             } else {
                 inlineConfigStatus.innerHTML = '<span class="error">✗ INLINE_CONFIG object is missing Supabase configuration</span>';
+            }
+            
+            // Test Supabase connection
+            const connectionTest = document.getElementById('connection-test');
+            try {
+                if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+                    const client = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+                    connectionTest.innerHTML = '<span class="success">✓ Supabase client created successfully</span>';
+                    
+                    // Try to make a simple query
+                    client.from('contact_messages').select('count', { count: 'exact', head: true })
+                        .then(response => {
+                            if (response.error) {
+                                connectionTest.innerHTML = '<span class="error">✗ Error connecting to Supabase: ' + response.error.message + '</span>';
+                            } else {
+                                connectionTest.innerHTML = '<span class="success">✓ Successfully connected to Supabase database</span>';
+                            }
+                        })
+                        .catch(error => {
+                            connectionTest.innerHTML = '<span class="error">✗ Error connecting to Supabase: ' + error.message + '</span>';
+                        });
+                } else {
+                    connectionTest.innerHTML = '<span class="error">✗ Cannot test connection: Supabase configuration is missing</span>';
+                }
+            } catch (error) {
+                connectionTest.innerHTML = '<span class="error">✗ Error creating Supabase client: ' + error.message + '</span>';
             }
         }, 500);
     </script>
