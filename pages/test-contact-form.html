@@ -17,6 +17,9 @@
     <!-- Konfiguraatiotiedosto -->
     <script src="../js/config.js"></script>
     
+    <!-- Testiskripti -->
+    <script src="../js/test-config.js"></script>
+    
     <style>
         body {
             padding: 20px;
@@ -350,6 +353,30 @@
         .popup-notification .close-btn:hover {
             color: white;
         }
+        
+        /* Toimintopainikkeet */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background-color: rgba(0, 230, 184, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .action-button:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -372,6 +399,21 @@
         <div class="config-status">
             <div class="status-title">Konfiguraation tila:</div>
             <div id="config-info">Ladataan konfiguraatiotietoja...</div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button" onclick="window.location.reload()">
+                <i class="fas fa-sync-alt"></i> Päivitä sivu
+            </button>
+            <button class="action-button" onclick="window.open('../config.runtime.js', '_blank')">
+                <i class="fas fa-file-code"></i> Avaa config.runtime.js
+            </button>
+            <button class="action-button" onclick="window.open('../js/config.runtime.js', '_blank')">
+                <i class="fas fa-file-code"></i> Avaa js/config.runtime.js
+            </button>
+            <button class="action-button" onclick="window.open('../pages/config.runtime.js', '_blank')">
+                <i class="fas fa-file-code"></i> Avaa pages/config.runtime.js
+            </button>
         </div>
         
         <div class="contact-form">
