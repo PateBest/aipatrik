@@ -5,12 +5,20 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
       - name: Create runtime config
         run: |
@@ -25,13 +33,13 @@ jobs:
           cp ./config.runtime.js ./js/config.runtime.js
           cp ./config.runtime.js ./pages/config.runtime.js
           
-          # Luodaan myös inline-versio, joka voidaan upottaa HTML-sivuihin
-          echo "// Luodaan inline-konfiguraatio yhteystiedot.html-sivulle"
+          # Luodaan inline-konfiguraatio yhteystiedot.html-sivulle
+          echo "Luodaan inline-konfiguraatio yhteystiedot.html-sivulle"
           INLINE_CONFIG="<script>window.INLINE_CONFIG = { SUPABASE_URL: '${{ secrets.SUPABASE_URL }}', SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}' };</script>"
           
-          # Lisätään inline-konfiguraatio yhteystiedot.html-sivulle
+          # Korvataan placeholder yhteystiedot.html-sivulla
           if [ -f "./pages/yhteystiedot.html" ]; then
-            sed -i "s|</head>|$INLINE_CONFIG\n</head>|" ./pages/yhteystiedot.html
+            sed -i "s|<!-- SUPABASE_CONFIG_PLACEHOLDER -->|$INLINE_CONFIG|" ./pages/yhteystiedot.html
             echo "Inline-konfiguraatio lisätty yhteystiedot.html-sivulle"
           else
             echo "yhteystiedot.html-tiedostoa ei löytynyt"
@@ -74,4 +82,5 @@ jobs:
         with:
           branch: gh-pages
           folder: .
-          clean: false 
+          clean: false
+          token: ${{ secrets.GITHUB_TOKEN }} 
