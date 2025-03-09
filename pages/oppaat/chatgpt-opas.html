@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Käyttöopas 2025 - AI Patrik</title>
+    <meta name="description" content="Kattava opas ChatGPT:n käyttöön - Opi hyödyntämään tekoälypohjaista keskustelurobottia tehokkaasti erilaisissa tehtävissä.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00a67e, #00c4a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">ChatGPT Käyttöopas 2025</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi hyödyntämään tekoälypohjaista keskustelurobottia tehokkaasti erilaisissa tehtävissä</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #00a67e, #00c4a7); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <h2>Johdanto ChatGPT:hen</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=ChatGPT+Johdanto" alt="ChatGPT johdanto" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">ChatGPT on OpenAI:n kehittämä tekoälypohjainen keskustelurobotti</p>
+                </div>
+                
+                <p>
+                    ChatGPT on OpenAI:n kehittämä tekoälypohjainen keskustelurobotti, joka on mullistanut tavan, jolla 
+                    vuorovaikutamme tekoälyn kanssa. Se perustuu GPT (Generative Pre-trained Transformer) -kielimalliin, 
+                    joka on koulutettu valtavalla määrällä tekstidataa ymmärtämään ja tuottamaan ihmismäistä tekstiä.
+                </p>
+                <p>
+                    Tässä oppaassa käymme läpi, miten voit aloittaa ChatGPT:n käytön, miten muotoilla kysymyksiä saadaksesi 
+                    parhaat mahdolliset vastaukset, ja miten hyödyntää työkalua erilaisissa käyttötapauksissa. Opas sopii 
+                    niin aloittelijoille kuin kokeneemmillekin käyttäjille, jotka haluavat tehostaa ChatGPT:n käyttöä.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Aloittaminen ChatGPT:n kanssa</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=Aloittaminen+ChatGPT:n+kanssa" alt="ChatGPT aloittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">ChatGPT:n käyttöönotto on helppoa ja nopeaa</p>
+                </div>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Luo tili OpenAI:hin</h4>
+                            <p>
+                                Mene osoitteeseen <a href="https://chat.openai.com/" target="_blank">chat.openai.com</a> ja luo tili 
+                                sähköpostiosoitteellasi tai Google/Microsoft/Apple-tilisi kautta. Tilin luominen on ilmaista.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Valitse versio</h4>
+                            <p>
+                                Voit käyttää ilmaista versiota (GPT-3.5) tai päivittää ChatGPT Plus -tilaukseen (20 $/kk), 
+                                joka tarjoaa pääsyn GPT-4-malliin, nopeammat vastausajat ja prioriteettipääsyn uusiin ominaisuuksiin.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Aloita keskustelu</h4>
+                            <p>
+                                Kirjoita kysymys tai pyyntö tekstikenttään ja paina Enter tai lähetä-painiketta. ChatGPT vastaa 
+                                kysymykseesi ja voit jatkaa keskustelua samassa ketjussa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Voit aloittaa uuden keskustelun milloin tahansa painamalla "New Chat" -painiketta vasemmassa yläkulmassa. 
+                        Aiemmat keskustelut tallentuvat historiaan, josta voit palata niihin myöhemmin.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tehokkaiden kysymysten muotoilu</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Tehokkaiden+kysymysten+muotoilu" alt="Tehokkaiden kysymysten muotoilu" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Hyvin muotoillut kysymykset tuottavat parempia vastauksia ChatGPT:ltä</p>
+                </div>
+                
+                <p>
+                    ChatGPT:n vastausten laatu riippuu pitkälti siitä, miten muotoilet kysymyksesi. Tässä muutamia vinkkejä 
+                    tehokkaiden kysymysten muotoiluun:
+                </p>
+                
+                <h3>Ole tarkka ja yksityiskohtainen</h3>
+                <p>
+                    Mitä tarkempi olet kysymyksessäsi, sitä paremmin ChatGPT voi vastata tarpeisiisi. Sisällytä kysymykseesi 
+                    kaikki oleellinen konteksti ja yksityiskohdat.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Heikko kysymys:</strong> "Kerro minulle Suomen historiasta."<br>
+                        <strong>Parempi kysymys:</strong> "Kerro minulle Suomen itsenäistymisen vaiheista vuosina 1917-1918, keskittyen erityisesti poliittisiin tapahtumiin."
+                    </p>
+                </div>
+                
+                <h3>Määritä haluttu vastausmuoto</h3>
+                <p>
+                    Kerro ChatGPT:lle, missä muodossa haluat vastauksen. Tämä auttaa saamaan juuri sellaisen vastauksen kuin tarvitset.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Heikko pyyntö:</strong> "Kerro minulle terveellisestä ruokavaliosta."<br>
+                        <strong>Parempi pyyntö:</strong> "Laadi minulle viikon ruokasuunnitelma, joka sisältää terveellisiä aterioita. Esitä se taulukkomuodossa, jossa on päivät, ateriat ja ainesosat."
+                    </p>
+                </div>
+                
+                <h3>Käytä rooleja ja skenaarioita</h3>
+                <p>
+                    Voit pyytää ChatGPT:tä vastaamaan tietystä näkökulmasta tai roolista, mikä voi auttaa saamaan räätälöidympiä vastauksia.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Heikko pyyntö:</strong> "Kerro minulle, miten kirjoittaa hyvä työhakemus."<br>
+                        <strong>Parempi pyyntö:</strong> "Toimit rekrytointiasiantuntijana. Kerro minulle, miten kirjoittaa vaikuttava työhakemus ohjelmistokehittäjän tehtävään, kun minulla on 3 vuoden kokemus alalta."
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>ChatGPT:n käyttötapaukset</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=ChatGPT+käyttötapaukset" alt="ChatGPT käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">ChatGPT soveltuu monenlaisiin käyttötarkoituksiin</p>
+                </div>
+                
+                <h3>Tekstin luominen ja muokkaaminen</h3>
+                <p>
+                    ChatGPT on erinomainen työkalu erilaisten tekstien luomiseen ja muokkaamiseen, kuten:
+                </p>
+                <ul>
+                    <li>Sähköpostit ja viestit</li>
+                    <li>Blogitekstit ja artikkelit</li>
+                    <li>Ansioluettelot ja työhakemukset</li>
+                    <li>Markkinointitekstit</li>
+                    <li>Tiivistelmät ja yhteenvedot</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Pyyntö:</strong> "Kirjoita kohtelias sähköposti asiakkaalle, jossa ilmoitan, että projektin aikataulu viivästyy viikolla teknisten ongelmien vuoksi."
+                    </p>
+                </div>
+                
+                <h3>Ohjelmointi ja koodin kirjoittaminen</h3>
+                <p>
+                    ChatGPT voi auttaa ohjelmoinnissa monin tavoin:
+                </p>
+                <ul>
+                    <li>Koodin kirjoittaminen eri ohjelmointikielillä</li>
+                    <li>Koodin debuggaus ja virheiden korjaaminen</li>
+                    <li>Algoritmien selittäminen</li>
+                    <li>Ohjelmointikonseptien opettaminen</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Pyyntö:</strong> "Kirjoita Python-funktio, joka tarkistaa, onko annettu merkkijono palindromi. Selitä myös, miten koodi toimii."
+                    </p>
+                </div>
+                
+                <h3>Tiedon hakeminen ja oppiminen</h3>
+                <p>
+                    ChatGPT voi toimia tietolähteenä monenlaisissa aiheissa:
+                </p>
+                <ul>
+                    <li>Historiallisten tapahtumien selittäminen</li>
+                    <li>Tieteellisten konseptien avaaminen</li>
+                    <li>Määritelmien ja selitysten tarjoaminen</li>
+                    <li>Opiskelumateriaalien luominen</li>
+                </ul>
+                
+                <div class="guide-tips">
+                    <h4>Huomio</h4>
+                    <p>
+                        Muista, että ChatGPT:n tietämys on rajallinen sen koulutusajankohtaan asti (huhtikuu 2023 uusimmissa versioissa). 
+                        Tarkista aina kriittiset tiedot luotettavista lähteistä.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Edistyneet tekniikat</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Edistyneet+tekniikat" alt="ChatGPT edistyneet tekniikat" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Edistyneillä tekniikoilla saat enemmän irti ChatGPT:stä</p>
+                </div>
+                
+                <h3>Ketjutetut kysymykset</h3>
+                <p>
+                    ChatGPT muistaa keskustelun kontekstin, joten voit esittää jatkokysymyksiä aiempien vastausten perusteella. 
+                    Tämä mahdollistaa syvällisemmän keskustelun aiheesta.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Ensimmäinen kysymys:</strong> "Mitkä ovat tekoälyn suurimmat eettiset haasteet?"<br>
+                        <strong>Jatkokysymys:</strong> "Miten näitä haasteita voitaisiin ratkaista lainsäädännön avulla?"
+                    </p>
+                </div>
+                
+                <h3>Iteratiivinen kehittäminen</h3>
+                <p>
+                    Jos et ole tyytyväinen ChatGPT:n vastaukseen, voit pyytää sitä parantamaan tai muokkaamaan vastausta 
+                    tiettyjen kriteerien mukaan.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Alkuperäinen pyyntö:</strong> "Kirjoita blogiteksti tekoälyn vaikutuksista työelämään."<br>
+                        <strong>Jatkopyyntö:</strong> "Tämä on hyvä alku, mutta voisitko lisätä enemmän konkreettisia esimerkkejä ja tehdä tekstistä vähemmän teknisen, jotta se olisi helpommin ymmärrettävä?"
+                    </p>
+                </div>
+                
+                <h3>Järjestelmäviestit (System Messages)</h3>
+                <p>
+                    ChatGPT Plus -käyttäjät voivat käyttää järjestelmäviestejä määrittääkseen, miten ChatGPT:n tulisi käyttäytyä 
+                    koko keskustelun ajan. Tämä on erityisen hyödyllistä, kun haluat ChatGPT:n toimivan tietyssä roolissa.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Järjestelmäviesti:</strong> "Olet kokenut markkinointiasiantuntija, joka erikoistuu digitaaliseen markkinointiin. Vastaa kysymyksiin tästä näkökulmasta ja anna käytännönläheisiä neuvoja."
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Vinkkejä ja parhaita käytäntöjä</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/0d6efd/FFFFFF/png?text=Vinkkejä+ja+parhaita+käytäntöjä" alt="ChatGPT vinkkejä" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Näillä vinkeillä saat parhaan hyödyn ChatGPT:stä</p>
+                </div>
+                
+                <h3>Tarkista faktat</h3>
+                <p>
+                    ChatGPT voi joskus tuottaa virheellistä tietoa tai "hallusinaatioita". Tarkista aina kriittiset faktat 
+                    luotettavista lähteistä, erityisesti jos käytät tietoa tärkeisiin päätöksiin.
+                </p>
+                
+                <h3>Jaa keskustelut osiin</h3>
+                <p>
+                    Jos työstät monimutkaista projektia, jaa se pienempiin osiin ja käsittele yksi osa kerrallaan. 
+                    Tämä auttaa ChatGPT:tä keskittymään paremmin kuhunkin osaan.
+                </p>
+                
+                <h3>Hyödynnä eri malleja</h3>
+                <p>
+                    Jos sinulla on ChatGPT Plus -tilaus, kokeile eri malleja (GPT-3.5, GPT-4) eri tehtäviin. 
+                    GPT-4 on yleensä parempi monimutkaisissa tehtävissä, mutta GPT-3.5 voi olla nopeampi yksinkertaisemmissa tehtävissä.
+                </p>
+                
+                <h3>Tallenna hyödylliset keskustelut</h3>
+                <p>
+                    ChatGPT tallentaa keskustelut historiaan, mutta voit myös kopioida erityisen hyödylliset vastaukset 
+                    omiin tiedostoihisi myöhempää käyttöä varten.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Aloita ChatGPT:n käyttö tänään</h3>
+                <p>Kokeile ChatGPT:tä ja näe, miten se voi tehostaa työskentelyäsi ja auttaa erilaisissa tehtävissä!</p>
+                <a href="https://chat.openai.com/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-robot" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry ChatGPT:hen
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../arvostelut/chatgpt-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">ChatGPT Arvostelu 2025</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu ChatGPT:stä - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        </a>
+                        
+                        <a href="../blogi/tekoaly-arki.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoäly arjessa</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Artikkeli tekoälyn hyödyntämisestä jokapäiväisessä elämässä ja työskentelyssä.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

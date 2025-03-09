@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midjourney Käyttöopas 2025 - AI Patrik</title>
+    <meta name="description" content="Kattava opas Midjourneyn käyttöön - Opi luomaan vaikuttavia kuvia tekoälyn avulla ja hyödyntämään työkalua tehokkaasti.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #7b2ff7, #1e54f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Midjourney Käyttöopas 2025</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi luomaan vaikuttavia kuvia tekoälyn avulla ja hyödyntämään työkalua tehokkaasti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #7b2ff7, #1e54f7); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <h2>Johdanto Midjourneyn käyttöön</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/7b2ff7/FFFFFF/png?text=Midjourney+Johdanto" alt="Midjourney Johdanto" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourney on tekoälypohjainen kuvageneraattori, joka luo vaikuttavia kuvia tekstikuvausten perusteella</p>
+                </div>
+                
+                <p>
+                    Midjourney on tekoälypohjainen kuvageneraattori, joka on mullistanut tavan, jolla luomme visuaalista sisältöä. 
+                    Se mahdollistaa korkealaatuisten ja taiteellisesti vaikuttavien kuvien luomisen pelkän tekstikuvauksen perusteella. 
+                    Tämä opas auttaa sinua aloittamaan Midjourneyn käytön ja oppimaan, miten voit luoda vaikuttavia kuvia tehokkaasti.
+                </p>
+                <p>
+                    Midjourney toimii pääasiassa Discord-alustalla, mutta yrityksellä on myös web-käyttöliittymä. Tässä oppaassa 
+                    käymme läpi molemmat käyttöliittymät, mutta keskitymme enemmän Discord-versioon, joka tarjoaa kaikki Midjourneyn 
+                    ominaisuudet.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Aloittaminen Midjourneyn kanssa</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/1e54f7/FFFFFF/png?text=Aloittaminen+Midjourneyn+kanssa" alt="Aloittaminen Midjourneyn kanssa" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourneyn käytön aloittaminen on helppoa Discord-palvelimen kautta</p>
+                </div>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Luo tili ja liity Midjourney Discord-palvelimelle</h4>
+                            <p>
+                                Mene osoitteeseen <a href="https://www.midjourney.com/" target="_blank">www.midjourney.com</a> ja 
+                                klikkaa "Join the Beta". Tämä ohjaa sinut Discordiin, jossa sinun tulee luoda tili, jos sinulla ei 
+                                vielä ole sellaista. Liity Midjourneyn Discord-palvelimelle seuraamalla ohjeita.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Valitse tilaus</h4>
+                            <p>
+                                Midjourney tarjoaa erilaisia tilausvaihtoehtoja. Aloittelijoille Basic-tilaus (10 $/kk) on hyvä 
+                                lähtökohta. Se tarjoaa 3,3 tuntia GPU-aikaa kuukaudessa, mikä riittää noin 200-300 kuvan luomiseen. 
+                                Voit päivittää tilaustasi myöhemmin, jos tarvitset enemmän kapasiteettia.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Siirry newbies-kanavalle</h4>
+                            <p>
+                                Liityttyäsi Midjourney Discord-palvelimelle, siirry johonkin "newbies"-alkuisista kanavista 
+                                (esim. #newbies-1, #newbies-2 jne.). Nämä kanavat on tarkoitettu aloittelijoille, ja niissä 
+                                voit turvallisesti harjoitella Midjourneyn käyttöä.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Luo ensimmäinen kuvasi</h4>
+                            <p>
+                                Kirjoita kanavalle komento "/imagine" ja sen jälkeen kuvaus haluamastasi kuvasta, esimerkiksi 
+                                "/imagine a beautiful sunset over a mountain lake". Paina Enter, ja Midjourney alkaa luoda kuvaa 
+                                kuvauksesi perusteella.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Midjourney luo ensin neljä erilaista versiota kuvauksestasi. Voit valita niistä yhden ja luoda siitä 
+                        erilaisia variaatioita tai upscale-versioita (suurempia ja tarkempia versioita) klikkaamalla kuvan 
+                        alla olevia painikkeita.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tehokkaiden promptien kirjoittaminen</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=Tehokkaat+promptit" alt="Tehokkaiden promptien kirjoittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Hyvä prompt on avain onnistuneeseen Midjourney-kuvaan</p>
+                </div>
+                
+                <p>
+                    Midjourneyn käytössä promptien (tekstikuvausten) kirjoittaminen on avainasemassa. Hyvä prompt tuottaa 
+                    parempia ja tarkempia kuvia. Tässä muutamia vinkkejä tehokkaiden promptien kirjoittamiseen:
+                </p>
+                
+                <h4>Ole tarkka ja yksityiskohtainen</h4>
+                <p>
+                    Mitä tarkempi ja yksityiskohtaisempi promptisi on, sitä paremmin Midjourney ymmärtää, mitä haluat. 
+                    Sisällytä yksityiskohtia kuten värit, muodot, valaistus, tunnelma ja perspektiivi.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Heikko prompt:</strong> "a mountain"<br>
+                        <strong>Parempi prompt:</strong> "a majestic snow-capped mountain peak at sunset, golden light, dramatic clouds, ultra-detailed, 8k photography"
+                    </p>
+                </div>
+                
+                <h4>Käytä tyyliparametreja</h4>
+                <p>
+                    Midjourney voi jäljitellä erilaisia taiteellisia tyylejä. Voit määrittää haluamasi tyylin lisäämällä 
+                    sen promptiin, esimerkiksi "oil painting", "watercolor", "digital art", "photography" jne.
+                </p>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Prompt:</strong> "a futuristic city with flying cars and tall skyscrapers, cyberpunk style, neon lights, digital art, highly detailed"
+                    </p>
+                </div>
+                
+                <h4>Käytä parametreja</h4>
+                <p>
+                    Midjourney tarjoaa erilaisia parametreja, joilla voit hienosäätää kuvan luomista. Näitä ovat esimerkiksi:
+                </p>
+                <ul>
+                    <li><strong>--ar</strong> (aspect ratio): Määrittää kuvan kuvasuhteen, esim. --ar 16:9 (vaakasuuntainen) tai --ar 9:16 (pystysuuntainen)</li>
+                    <li><strong>--v</strong> (version): Määrittää käytettävän Midjourney-version, esim. --v 6 (uusin versio)</li>
+                    <li><strong>--q</strong> (quality): Määrittää kuvan laadun, korkeampi arvo tuottaa tarkempia kuvia mutta vie enemmän aikaa, esim. --q 2</li>
+                    <li><strong>--s</strong> (stylize): Määrittää, kuinka paljon Midjourney lisää omaa tyyliään kuvaan, esim. --s 50</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Prompt parametreilla:</strong> "/imagine a beautiful forest landscape with a small cabin, morning mist, sunrays through trees --ar 16:9 --v 6 --q 2 --s 100"
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Midjourneyn käyttötapaukset</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Midjourneyn+käyttötapaukset" alt="Midjourneyn käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourneytä voidaan hyödyntää monenlaisissa luovissa projekteissa</p>
+                </div>
+                
+                <h4>Konseptitaide ja visualisointi</h4>
+                <p>
+                    Midjourney on erinomainen työkalu konseptitaiteen luomiseen ja ideoiden visualisointiin. Voit käyttää 
+                    sitä esimerkiksi:
+                </p>
+                <ul>
+                    <li>Hahmosuunnitteluun</li>
+                    <li>Ympäristöjen visualisointiin</li>
+                    <li>Tuotekonseptien luomiseen</li>
+                    <li>Arkkitehtuuriseen visualisointiin</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Prompt hahmosuunnitteluun:</strong> "/imagine a cyberpunk detective character, female, 30s, short blue hair, neon-lit rainy street, detailed character design, concept art, full body shot --ar 2:3 --v 6"
+                    </p>
+                </div>
+                
+                <h4>Markkinointi ja sosiaalinen media</h4>
+                <p>
+                    Midjourney on hyödyllinen työkalu markkinointimateriaalien ja sosiaalisen median sisällön luomiseen:
+                </p>
+                <ul>
+                    <li>Tuotekuvat</li>
+                    <li>Mainoskuvat</li>
+                    <li>Sosiaalisen median julkaisut</li>
+                    <li>Bannerit ja julisteet</li>
+                </ul>
+                
+                <div class="guide-example">
+                    <h4>Esimerkki</h4>
+                    <p>
+                        <strong>Prompt tuotekuvaan:</strong> "/imagine a sleek modern smartphone on a minimalist white desk, soft lighting, product photography style, 8k, ultra-detailed --ar 4:5 --v 6 --q 2"
+                    </p>
+                </div>
+                
+                <h4>Taiteellinen ilmaisu</h4>
+                <p>
+                    Midjourney on myös erinomainen työkalu taiteelliseen ilmaisuun:
+                </p>
+                <ul>
+                    <li>Digitaalinen taide</li>
+                    <li>Kuvitukset</li>
+                    <li>Abstrakti taide</li>
+                    <li>Fantasiakuvat</li>
+                </ul>
+                
+                <div class="guide-tips">
+                    <h4>Huomio</h4>
+                    <p>
+                        Muista, että Midjourneyn luomien kuvien käyttöön liittyy tekijänoikeudellisia kysymyksiä. Tarkista 
+                        Midjourneyn käyttöehdot ja tekijänoikeuskäytännöt ennen kuvien kaupallista käyttöä.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Edistyneet tekniikat</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Edistyneet+tekniikat" alt="Midjourneyn edistyneet tekniikat" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Edistyneillä tekniikoilla saat Midjourneystä enemmän irti</p>
+                </div>
+                
+                <h4>Kuvan referenssin käyttäminen</h4>
+                <p>
+                    Voit käyttää olemassa olevaa kuvaa referenssinä Midjourneyn kanssa. Tämä on hyödyllistä, kun haluat 
+                    luoda kuvan, joka muistuttaa tiettyä tyyliä tai sisältää tiettyjä elementtejä.
+                </p>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Lataa kuva Discordiin</h4>
+                            <p>
+                                Lataa haluamasi referenssikuva Discordiin kirjoittamalla viesti ja liittämällä kuva siihen.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Käytä kuvaa promptissa</h4>
+                            <p>
+                                Kirjoita "/imagine" ja lisää URL-linkki kuvaan, jonka jälkeen kirjoita promptisi, esimerkiksi 
+                                "/imagine https://discord.com/channels/... a similar landscape but with a castle on the hill"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Blend-toiminto</h4>
+                <p>
+                    Blend-toiminnolla voit yhdistää kaksi tai useampia kuvia ja luoda niistä uuden kuvan, joka sisältää 
+                    elementtejä kaikista kuvista.
+                </p>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Käytä /blend-komentoa</h4>
+                            <p>
+                                Kirjoita "/blend" ja lataa 2-5 kuvaa, jotka haluat yhdistää.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Säädä parametreja</h4>
+                            <p>
+                                Voit lisätä parametreja kuten --ar ja --v samalla tavalla kuin /imagine-komennossa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Describe-toiminto</h4>
+                <p>
+                    Describe-toiminnolla voit analysoida olemassa olevaa kuvaa ja saada Midjourneyn luoman promptin, 
+                    joka kuvaa kuvaa. Tämä on hyödyllistä, kun haluat oppia, miten tietty kuva on luotu.
+                </p>
+                
+                <div class="guide-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Käytä /describe-komentoa</h4>
+                            <p>
+                                Kirjoita "/describe" ja lataa kuva, jonka haluat analysoida.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Käytä luotua promptia</h4>
+                            <p>
+                                Midjourney luo neljä erilaista promptia, jotka kuvaavat kuvaa. Voit käyttää näitä prompteja 
+                                /imagine-komennon kanssa luodaksesi samankaltaisia kuvia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Vinkkejä ja parhaita käytäntöjä</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/dc3545/FFFFFF/png?text=Vinkkejä+ja+parhaita+käytäntöjä" alt="Vinkkejä ja parhaita käytäntöjä Midjourneyn käyttöön" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Näillä vinkeillä saat parhaat tulokset Midjourneystä</p>
+                </div>
+                
+                <h4>Tallenna työsi</h4>
+                <p>
+                    Midjourney ei tallenna kuvia pysyvästi, joten on tärkeää ladata ja tallentaa kuvat, jotka haluat säilyttää. 
+                    Voit ladata kuvan klikkaamalla sitä ja valitsemalla "Open in browser", jonka jälkeen voit tallentaa kuvan 
+                    tietokoneellesi.
+                </p>
+                
+                <h4>Käytä yhteisöä hyödyksesi</h4>
+                <p>
+                    Midjourneyn Discord-palvelimella on aktiivinen yhteisö, joka jakaa vinkkejä, prompteja ja luomuksiaan. 
+                    Seuraa muiden käyttäjien töitä ja opi heidän käyttämistään prompteista.
+                </p>
+                
+                <h4>Kokeile erilaisia parametreja</h4>
+                <p>
+                    Kokeile erilaisia parametreja ja asetuksia löytääksesi parhaat tulokset. Erityisesti --stylize ja --quality 
+                    parametrit voivat vaikuttaa merkittävästi kuvan lopputulokseen.
+                </p>
+                
+                <h4>Käytä web-käyttöliittymää</h4>
+                <p>
+                    Jos et pidä Discord-käyttöliittymästä, voit käyttää Midjourneyn web-käyttöliittymää osoitteessa 
+                    <a href="https://www.midjourney.com/app/" target="_blank">www.midjourney.com/app/</a>. Web-käyttöliittymä 
+                    tarjoaa helpon tavan selata aiempia luomuksiasi ja luoda uusia kuvia.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h2>Aloita Midjourneyn käyttö tänään</h2>
+                <p>Kokeile Midjourneytä ja näe, miten voit luoda vaikuttavia kuvia tekoälyn avulla!</p>
+                <a href="https://www.midjourney.com/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #7b2ff7, #1e54f7); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(123, 47, 247, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-images" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Siirry Midjourneyn sivulle
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Lue lisää aiheesta</h2>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="dalle-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(123, 47, 247, 0.1), rgba(30, 84, 247, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(123, 47, 247, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #7b2ff7; text-align: center;">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">DALL-E Käyttöopas</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tutustu toiseen suosittuun tekoälykuvageneraattoriin ja vertaile ominaisuuksia.</p>
+                        </a>
+                        
+                        <a href="../arvostelut/midjourney-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(123, 47, 247, 0.1), rgba(30, 84, 247, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(123, 47, 247, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #7b2ff7; text-align: center;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Midjourney Arvostelu</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Lue kattava arvostelu Midjourneyn ominaisuuksista, vahvuuksista ja heikkouksista.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja eri käyttötarkoituksiin.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

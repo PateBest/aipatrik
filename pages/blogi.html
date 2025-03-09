@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogi - AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Hakukentän ja filtterien tyylit */
+        .blog-search-container {
+            margin: 2rem auto;
+            padding: 0;
+            max-width: 900px;
+            position: relative;
+            background: transparent;
+        }
+        
+        .search-box {
+            display: flex;
+            position: relative;
+            margin: 0 auto 1.5rem;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 50px;
+            background: linear-gradient(145deg, rgba(30, 30, 40, 0.8), rgba(20, 20, 30, 0.8));
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .search-box:focus-within {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 
+                        0 0 0 3px rgba(0, 230, 184, 0.2), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: var(--text-light);
+            outline: none;
+            width: 100%;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus::placeholder {
+            opacity: 0.7;
+            transform: translateX(5px);
+        }
+        
+        .search-box button {
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            border: none;
+            color: white;
+            padding: 0;
+            width: 100px;
+            height: 50px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-right: 5px;
+            gap: 8px;
+        }
+        
+        .search-box button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-box button:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 20px;
+            background: rgba(30, 30, 40, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .filter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 230, 184, 0.05), rgba(13, 110, 253, 0.05));
+            border-radius: 15px;
+            z-index: -1;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            flex: 1;
+            position: relative;
+        }
+        
+        .filter-group label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .filter-group select {
+            background-color: rgba(40, 40, 50, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+            background-size: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-group select:hover {
+            border-color: rgba(0, 230, 184, 0.3);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 230, 184, 0.2);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--dark-surface);
+            color: var(--text-light);
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            line-height: 1.5;
+            pointer-events: none;
+        }
+        
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark-surface) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        /* Artikkelikorttien tagit */
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .article-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .article-tag.category {
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+        }
+        
+        .article-tag.date {
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+        }
+        
+        .article-tag.author {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        
+        .card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Mobiiliresponsiivisuus */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 15px;
+            }
+            
+            .filter-group {
+                width: 100%;
+                min-width: unset;
+            }
+            
+            .search-box {
+                border-radius: 25px;
+            }
+            
+            .search-box input {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+            
+            .search-box button {
+                width: 90px;
+                height: 45px;
+                font-size: 14px;
+            }
+            
+            .card .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-box {
+                margin-bottom: 1rem;
+            }
+            
+            .search-box input {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .search-box button {
+                width: 80px;
+                height: 40px;
+                font-size: 13px;
+            }
+            
+            .filter-group label {
+                font-size: 13px;
+            }
+            
+            .filter-group select {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            
+            .card .btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Paranneltu Lue artikkeli -painike */
+        .card .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-align: center;
+            margin-top: 15px;
+            width: 100%;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .card .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d6efd, var(--accent-color));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .card .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card .btn:hover:before {
+            opacity: 1;
+        }
+        
+        .card .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../index.html">Koti</a></li>
+            <li><a href="tyokalut.html">Työkalut</a></li>
+            <li><a href="arvostelut.html">Arvostelut</a></li>
+            <li><a href="oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="blogi.html">Blogi</a></li>
+            <li><a href="yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <section id="blogi">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent-color), #0d6efd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Uusimmat blogiartikkelit</h2>
+                <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
+                    Lue uusimmat artikkelimme tekoälyn maailmasta. Vinkkejä, trendejä ja käytännön neuvoja tekoälyn hyödyntämiseen.
+                </p>
+            </div>
+            
+            <!-- Hakukenttä ja filtterit -->
+            <div class="blog-search-container">
+                <div class="search-box">
+                    <input type="text" id="blog-search" placeholder="Etsi artikkeleita...">
+                    <button id="search-button"><i class="fas fa-search"></i> Hae</button>
+                </div>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label><i class="fas fa-tags" style="color: var(--accent-color);"></i> Kategoria:</label>
+                        <select id="category-filter">
+                            <option value="all">Kaikki kategoriat</option>
+                            <option value="keskustelurobotit">Keskustelurobotit</option>
+                            <option value="kuvanluonti">Kuvanluonti</option>
+                            <option value="videogenerointi">Videogenerointi</option>
+                            <option value="aani">Ääni ja puhe</option>
+                            <option value="tuottavuus">Tuottavuus</option>
+                            <option value="tiedonhaku">Tiedonhaku</option>
+                            <option value="trendit">Trendit ja tulevaisuus</option>
+                            <option value="kaytannot">Käytännön vinkit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar-alt" style="color: var(--accent-color);"></i> Ajankohta:</label>
+                        <select id="date-filter">
+                            <option value="all">Kaikki ajankohdat</option>
+                            <option value="2025-03">Maaliskuu 2025</option>
+                            <option value="2025-02">Helmikuu 2025</option>
+                            <option value="2025-01">Tammikuu 2025</option>
+                            <option value="2024-12">Joulukuu 2024</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label><i class="fas fa-user" style="color: var(--accent-color);"></i> Kirjoittaja:</label>
+                        <select id="author-filter">
+                            <option value="all">Kaikki kirjoittajat</option>
+                            <option value="Patrik Juuti">Patrik Juuti</option>
+                            <option value="Patrik AI">Patrik AI</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid">
+                <div class="card" data-category="keskustelurobotit" data-date="2025-03" data-author="Patrik Juuti">
+                    <h3>ChatGPT: Miten tekoälykeskustelurobotti muuttaa työskentelyämme</h3>
+                    <p>
+                        Tutustu, miten ChatGPT mullistaa työskentelytapojamme ja miten voit hyödyntää sitä tehokkaasti omassa työssäsi.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Keskustelurobotti</span>
+                        <span class="article-tag date">15.3.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/chatgpt-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="kuvanluonti" data-date="2025-03" data-author="Patrik Juuti">
+                    <h3>Midjourney: Miten tekoälykuvageneraattori mullistaa visuaalisen sisällöntuotannon</h3>
+                    <p>
+                        Tutustu, miten Midjourney mullistaa visuaalisen sisällöntuotannon ja miten voit hyödyntää sitä tehokkaasti.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Kuvanluonti</span>
+                        <span class="article-tag date">20.3.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/midjourney-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="kuvanluonti" data-date="2025-03" data-author="Patrik Juuti">
+                    <h3>DALL-E: Tekoälyn vallankumous kuvien luomisessa</h3>
+                    <p>
+                        Miten DALL-E muuttaa visuaalista sisällöntuotantoa ja miten voit hyödyntää sitä omissa projekteissasi.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Kuvanluonti</span>
+                        <span class="article-tag date">10.3.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/dalle-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="tiedonhaku" data-date="2025-03" data-author="Patrik Juuti">
+                    <h3>DeepSeek: Tekoälyn uusi sukupolvi hakukoneissa</h3>
+                    <p>
+                        Tutustu DeepSeek-tekoälyyn ja miten se mullistaa tiedonhaun ja tutkimuksen tekemisen.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Tiedonhaku</span>
+                        <span class="article-tag date">5.3.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/deepseek-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="aani" data-date="2025-02" data-author="Patrik Juuti">
+                    <h3>ElevenLabs: Tekoälyn vallankumous äänen tuottamisessa</h3>
+                    <p>
+                        Miten ElevenLabs mullistaa äänen ja puheen tuottamisen ja miten voit hyödyntää sitä projekteissasi.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Ääni ja puhe</span>
+                        <span class="article-tag date">28.2.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/elevenlabs-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="tuottavuus" data-date="2025-02" data-author="Patrik Juuti">
+                    <h3>Fireflies.ai: Tekoäly kokousten tehostamisessa</h3>
+                    <p>
+                        Miten Fireflies.ai mullistaa kokousten dokumentoinnin ja jälkikäsittelyn tekoälyn avulla.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Tuottavuus</span>
+                        <span class="article-tag date">25.2.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/fireflies-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="tiedonhaku" data-date="2025-02" data-author="Patrik Juuti">
+                    <h3>Perplexity: Tekoälyavusteinen tiedonhaku uudella tasolla</h3>
+                    <p>
+                        Tutustu Perplexity-tekoälyyn ja miten se mullistaa tiedonhaun ja tutkimuksen tekemisen.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Tiedonhaku</span>
+                        <span class="article-tag date">22.2.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/perplexity-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="videogenerointi" data-date="2025-02" data-author="Patrik Juuti">
+                    <h3>Runway: Tekoäly videotuotannon mullistajana</h3>
+                    <p>
+                        Miten Runway-tekoäly muuttaa videotuotantoa ja miten voit hyödyntää sitä omissa projekteissasi.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Videogenerointi</span>
+                        <span class="article-tag date">20.2.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/runway-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="tuottavuus" data-date="2025-02" data-author="Patrik Juuti">
+                    <h3>Tome: Tekoäly esitysten ja tarinankerronnan uudistajana</h3>
+                    <p>
+                        Miten Tome-tekoäly mullistaa esitysten luomisen ja tarinankerronnan digitaalisessa ympäristössä.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Tuottavuus</span>
+                        <span class="article-tag date">18.2.2025</span>
+                        <span class="article-tag author">Patrik Juuti</span>
+                    </div>
+                    <a href="blogi/tome-artikkeli.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="kaytannot" data-date="2025-02" data-author="Patrik AI">
+                    <h3>5 tapaa hyödyntää tekoälyä pienyrityksessä</h3>
+                    <p>
+                        Pienyrittäjille suunnatut vinkit tekoälyn hyödyntämiseen kustannustehokkaasti.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Käytännön vinkit</span>
+                        <span class="article-tag date">15.2.2025</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/pienyritys-tekoaly.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="trendit" data-date="2025-02" data-author="Patrik AI">
+                    <h3>Tekoälyn trendit 2025</h3>
+                    <p>
+                        Katsaus tuleviin trendeihin tekoälyn maailmassa ja miten ne vaikuttavat liiketoimintaasi.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Trendit</span>
+                        <span class="article-tag date">5.2.2025</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/tekoaly-trendit-2025.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="trendit" data-date="2025-01" data-author="Patrik AI">
+                    <h3>Tekoäly ja työelämän muutos</h3>
+                    <p>
+                        Miten tekoäly muuttaa työelämää ja mitä taitoja tulevaisuudessa tarvitaan? Katsaus työmarkkinoiden muutokseen.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Trendit</span>
+                        <span class="article-tag date">28.1.2025</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/tekoaly-tyoelama.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="kaytannot" data-date="2025-01" data-author="Patrik AI">
+                    <h3>Tekoälyn käyttö asiakaspalvelussa</h3>
+                    <p>
+                        Miten tekoäly voi parantaa asiakaspalvelua ja asiakaskokemusta? Esimerkkejä onnistuneista toteutuksista.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Käytännön vinkit</span>
+                        <span class="article-tag date">15.1.2025</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/tekoaly-asiakaspalvelussa.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="kaytannot" data-date="2025-01" data-author="Patrik AI">
+                    <h3>Tekoälyn hyödyntäminen sisällöntuotannossa</h3>
+                    <p>
+                        Miten käyttää tekoälyä sisällöntuotannon apuna ilman, että laatu kärsii? Vinkit ja parhaat käytännöt.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Käytännön vinkit</span>
+                        <span class="article-tag date">5.1.2025</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/tekoaly-sisallontuotannossa.html" class="btn">Lue artikkeli</a>
+                </div>
+                
+                <div class="card" data-category="trendit" data-date="2024-12" data-author="Patrik AI">
+                    <h3>Tekoälyn tulevaisuus: Mitä odottaa vuodelta 2026?</h3>
+                    <p>
+                        Asiantuntijoiden ennusteet tekoälyn kehityksestä tulevana vuonna ja miten valmistautua muutoksiin.
+                    </p>
+                    <div class="article-tags">
+                        <span class="article-tag category">Trendit</span>
+                        <span class="article-tag date">20.12.2024</span>
+                        <span class="article-tag author">Patrik AI</span>
+                    </div>
+                    <a href="blogi/tekoaly-tulevaisuus-2026.html" class="btn">Lue artikkeli</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="#">Tietoa meistä</a> | 
+                <a href="#">Tietosuojakäytäntö</a> | 
+                <a href="#">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('blog-search');
+            const searchButton = document.getElementById('search-button');
+            const categoryFilter = document.getElementById('category-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const authorFilter = document.getElementById('author-filter');
+            const articleCards = document.querySelectorAll('.card');
+            
+            // Hakutoiminto
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const selectedCategory = categoryFilter.value;
+                const selectedDate = dateFilter.value;
+                const selectedAuthor = authorFilter.value;
+                
+                let visibleCount = 0;
+                
+                articleCards.forEach(card => {
+                    // Poista aiemmat korostukset
+                    const titleElement = card.querySelector('h3');
+                    const descriptionElement = card.querySelector('p');
+                    
+                    // Tallennetaan alkuperäiset tekstit, jos niitä ei ole vielä tallennettu
+                    if (!titleElement.dataset.originalText) {
+                        titleElement.dataset.originalText = titleElement.textContent;
+                    }
+                    if (!descriptionElement.dataset.originalText) {
+                        descriptionElement.dataset.originalText = descriptionElement.textContent;
+                    }
+                    
+                    // Palautetaan alkuperäiset tekstit
+                    titleElement.textContent = titleElement.dataset.originalText;
+                    descriptionElement.textContent = descriptionElement.dataset.originalText;
+                    
+                    const cardTitle = titleElement.textContent.toLowerCase();
+                    const cardDescription = descriptionElement.textContent.toLowerCase();
+                    const cardCategory = card.dataset.category;
+                    const cardDate = card.dataset.date;
+                    const cardAuthor = card.dataset.author;
+                    
+                    // Tarkistetaan hakusanan vastaavuus
+                    const matchesSearch = searchTerm === '' || 
+                                         cardTitle.includes(searchTerm) || 
+                                         cardDescription.includes(searchTerm);
+                    
+                    // Tarkistetaan kategorian vastaavuus
+                    const matchesCategory = selectedCategory === 'all' || 
+                                           cardCategory === selectedCategory;
+                    
+                    // Tarkistetaan päivämäärän vastaavuus
+                    const matchesDate = selectedDate === 'all' || 
+                                       cardDate.startsWith(selectedDate);
+                    
+                    // Tarkistetaan kirjoittajan vastaavuus
+                    const matchesAuthor = selectedAuthor === 'all' || 
+                                         cardAuthor === selectedAuthor;
+                    
+                    // Näytetään kortti vain, jos kaikki ehdot täyttyvät
+                    const isVisible = matchesSearch && matchesCategory && matchesDate && matchesAuthor;
+                    
+                    if (isVisible) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                        
+                        // Korostetaan hakusana, jos sellainen on annettu
+                        if (searchTerm !== '') {
+                            const highlightTitle = titleElement.textContent.replace(
+                                new RegExp(searchTerm, 'gi'),
+                                match => `<span class="highlight">${match}</span>`
+                            );
+                            
+                            const highlightDescription = descriptionElement.textContent.replace(
+                                new RegExp(searchTerm, 'gi'),
+                                match => `<span class="highlight">${match}</span>`
+                            );
+                            
+                            titleElement.innerHTML = highlightTitle;
+                            descriptionElement.innerHTML = highlightDescription;
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Näytetään "Ei tuloksia" -viesti, jos yhtään korttia ei löytynyt
+                const noResultsMessage = document.getElementById('no-results-message');
+                if (noResultsMessage) {
+                    if (visibleCount === 0) {
+                        noResultsMessage.style.display = 'block';
+                    } else {
+                        noResultsMessage.style.display = 'none';
+                    }
+                } else if (visibleCount === 0) {
+                    // Luodaan "ei tuloksia" -viesti, jos sitä ei ole vielä olemassa
+                    const noResultsElement = document.createElement('div');
+                    noResultsElement.id = 'no-results-message';
+                    noResultsElement.className = 'no-results';
+                    noResultsElement.innerHTML = 'Ei hakutuloksia. Kokeile eri hakuehtoja.<br><button id="reset-search" class="btn btn-small">Tyhjennä haku</button>';
+                    noResultsElement.style.textAlign = 'center';
+                    noResultsElement.style.margin = '2rem auto';
+                    noResultsElement.style.padding = '1rem';
+                    
+                    // Lisätään viesti gridiin
+                    const grid = document.querySelector('.grid');
+                    if (grid) {
+                        grid.appendChild(noResultsElement);
+                        
+                        // Lisätään tapahtumankäsittelijä reset-napille
+                        const resetButton = document.getElementById('reset-search');
+                        if (resetButton) {
+                            resetButton.addEventListener('click', resetSearch);
+                        }
+                    }
+                }
+            }
+            
+            // Hakukentän tyhjennys
+            function resetSearch() {
+                searchInput.value = '';
+                categoryFilter.value = 'all';
+                dateFilter.value = 'all';
+                authorFilter.value = 'all';
+                performSearch();
+            }
+            
+            // Lisätään tapahtumankäsittelijät
+            if (searchButton) {
+                searchButton.addEventListener('click', performSearch);
+            }
+            
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(event) {
+                    performSearch(); // Suoritetaan haku joka näppäinpainalluksella
+                });
+            }
+            
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', performSearch);
+            }
+            
+            if (dateFilter) {
+                dateFilter.addEventListener('change', performSearch);
+            }
+            
+            if (authorFilter) {
+                authorFilter.addEventListener('change', performSearch);
+            }
+            
+            // Lisätään tyylimäärittelyt korostuksille
+            const style = document.createElement('style');
+            style.textContent = `
+                .highlight {
+                    background-color: rgba(0, 230, 184, 0.2);
+                    color: var(--accent-color);
+                    padding: 0 2px;
+                    border-radius: 3px;
+                    font-weight: bold;
+                }
+                
+                .no-results {
+                    display: none;
+                    margin: 2rem auto;
+                    padding: 1rem;
+                    text-align: center;
+                    color: var(--text-light);
+                }
+                
+                .btn-small {
+                    font-size: 0.9rem;
+                    padding: 0.5rem 1rem;
+                    margin-top: 1rem;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 

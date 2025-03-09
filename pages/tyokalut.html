@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Työkalut - AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Uudet hakukentän ja filtterien tyylit */
+        .tools-search-container {
+            margin: 2rem auto;
+            padding: 0;
+            max-width: 900px;
+            position: relative;
+            background: transparent;
+        }
+        
+        .search-box {
+            display: flex;
+            position: relative;
+            margin: 0 auto 1.5rem;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 50px;
+            background: linear-gradient(145deg, rgba(30, 30, 40, 0.8), rgba(20, 20, 30, 0.8));
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .search-box:focus-within {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 
+                        0 0 0 3px rgba(0, 230, 184, 0.2), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: var(--text-light);
+            outline: none;
+            width: 100%;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus::placeholder {
+            opacity: 0.7;
+            transform: translateX(5px);
+        }
+        
+        .search-box button {
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            border: none;
+            color: white;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-right: 5px;
+        }
+        
+        .search-box button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-box button:active {
+            transform: scale(0.95);
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 20px;
+            background: rgba(30, 30, 40, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .filter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 230, 184, 0.05), rgba(13, 110, 253, 0.05));
+            border-radius: 15px;
+            z-index: -1;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            flex: 1;
+            position: relative;
+        }
+        
+        .filter-group label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .filter-group select {
+            background-color: rgba(40, 40, 50, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+            background-size: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-group select:hover {
+            border-color: rgba(0, 230, 184, 0.3);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 230, 184, 0.2);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--dark-surface);
+            color: var(--text-light);
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            line-height: 1.5;
+            pointer-events: none;
+        }
+        
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark-surface) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        /* Mobiiliresponsiivisuus */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 15px;
+            }
+            
+            .filter-group {
+                width: 100%;
+                min-width: unset;
+            }
+            
+            .search-box {
+                border-radius: 25px;
+            }
+            
+            .search-box input {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+            
+            .search-box button {
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-box {
+                margin-bottom: 1rem;
+            }
+            
+            .search-box input {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .search-box button {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .filter-group label {
+                font-size: 13px;
+            }
+            
+            .filter-group select {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../index.html">Koti</a></li>
+            <li class="active"><a href="tyokalut.html">Työkalut</a></li>
+            <li><a href="arvostelut.html">Arvostelut</a></li>
+            <li><a href="oppaat.html">Oppaat</a></li>
+            <li><a href="blogi.html">Blogi</a></li>
+            <li><a href="yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Otsikko -->
+    <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
+        <div class="section-header" style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent-color), #0d6efd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">AI-työkalut</h2>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
+                Tutustu tekoälytyökaluihin, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Hakukenttä ja filtterit -->
+    <div class="tools-search-container">
+        <div class="search-box">
+            <input type="text" id="tool-search" placeholder="Etsi työkaluja...">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="filter-container">
+            <div class="filter-group">
+                <label><i class="fas fa-tags" style="color: var(--accent-color);"></i> Kategoria:</label>
+                <select id="category-filter">
+                    <option value="all">Kaikki kategoriat</option>
+                    <option value="keskustelurobotit">Keskustelurobotit</option>
+                    <option value="kuvanluonti">Kuvanluonti</option>
+                    <option value="videogenerointi">Videogenerointi</option>
+                    <option value="aani">Ääni ja puhe</option>
+                    <option value="tuottavuus">Tuottavuus</option>
+                    <option value="tiedonhaku">Tiedonhaku</option>
+                    <option value="luovat">Luovat työkalut</option>
+                    <option value="yleiset">Yleiset AI-mallit</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-dollar-sign" style="color: var(--accent-color);"></i> Hinnoittelu:</label>
+                <select id="pricing-filter">
+                    <option value="all">Kaikki</option>
+                    <option value="ilmainen">Ilmainen</option>
+                    <option value="freemium">Freemium</option>
+                    <option value="maksullinen">Maksullinen</option>
+                </select>
+                <div class="tooltip">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="tooltip-text">Freemium tarkoittaa hinnoittelumallia, jossa perusversio on ilmainen, mutta lisäominaisuudet tai laajempi käyttö on maksullista.</span>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-bullseye" style="color: var(--accent-color);"></i> Käyttötarkoitus:</label>
+                <select id="purpose-filter">
+                    <option value="all">Kaikki</option>
+                    <option value="yritys">Yrityskäyttö</option>
+                    <option value="henkilokohtainen">Henkilökohtainen</option>
+                    <option value="luova">Luova työ</option>
+                    <option value="tutkimus">Tutkimus ja opiskelu</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem 0;">
+        <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0 20px; box-sizing: border-box;">
+            <div class="featured-tool" style="width: 100%; margin: 0 auto;">
+                <div class="featured-tool-header" style="background-color: rgba(0, 230, 184, 0.15); margin: -30px -30px 1.5rem -30px; padding: 1.2rem 2.5rem; border-bottom: 1px solid rgba(0, 230, 184, 0.3); text-align: center;">
+                    <h2 style="color: var(--accent-color); font-size: 2.2rem; margin: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">Viikon AI Työkalu</h2>
+                </div>
+                <h3>ElevenLabs</h3>
+                <p>
+                    ElevenLabs on huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
+                    Se tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
+                </p>
+                <p>
+                    <strong>Edut:</strong> Erittäin luonnollinen puhesynteesi, tukee useita kieliä, mahdollisuus luoda omia ääniä,
+                    helppokäyttöinen rajapinta, soveltuu podcasteihin, äänikirjoihin ja videoihin.
+                </p>
+                <a href="https://try.elevenlabs.io/keja882eenfs" class="btn btn-primary" target="_blank" style="display: block; margin: 20px auto 0; max-width: 300px;">Kokeile ElevenLabsia</a>
+            </div>
+        </div>
+    </div>
+    
+    <section id="tyokalut">
+        <div class="container">
+            <div class="grid">
+                <!-- Keskustelurobotit -->
+                <div class="tool-card" data-category="keskustelurobotit" data-pricing="freemium" data-purpose="henkilokohtainen,yritys">
+                    <h3>ChatGPT</h3>
+                    <p>
+                        OpenAI:n kehittämä tekoälypohjainen keskustelurobotti, joka tuottaa ihmismäistä tekstiä ja vastaa kysymyksiin monipuolisesti. 
+                        Soveltuu niin henkilökohtaiseen käyttöön kuin yritysten tarpeisiin.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Keskustelurobotti</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://chat.openai.com/" class="btn btn-primary" target="_blank">Kokeile ChatGPT:tä</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/chatgpt-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/chatgpt-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/chatgpt-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kuvanluonti -->
+                <div class="tool-card" data-category="kuvanluonti" data-pricing="maksullinen" data-purpose="luova,yritys">
+                    <h3>Midjourney</h3>
+                    <p>
+                        Tehokas AI-työkalu kuvien luomiseen tekstikuvauksista. Erityisen suosittu taiteilijoiden, suunnittelijoiden ja 
+                        markkinoinnin ammattilaisten keskuudessa. Tuottaa korkealaatuisia ja visuaalisesti näyttäviä kuvia.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Kuvanluonti</span>
+                        <span class="tool-tag">Maksullinen</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://www.midjourney.com/" class="btn btn-primary" target="_blank">Kokeile Midjourneytä</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/midjourney-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/midjourney-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/midjourney-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Videogenerointi -->
+                <div class="tool-card" data-category="videogenerointi" data-pricing="maksullinen" data-purpose="luova,yritys">
+                    <h3>Runway</h3>
+                    <p>
+                        Monipuolinen AI-pohjainen videonmuokkaustyökalu, joka mahdollistaa ammattimaisen videosisällön luomisen ja muokkauksen. 
+                        Sisältää useita tekoälyominaisuuksia kuten tyylinsiirto, objektien poisto ja generatiivinen täyttö.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Videogenerointi</span>
+                        <span class="tool-tag">Maksullinen</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://runwayml.com/" class="btn btn-primary" target="_blank">Kokeile Runwaytä</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/runway-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/runway-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/runway-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ääni ja puhe -->
+                <div class="tool-card" data-category="aani" data-pricing="freemium" data-purpose="luova,yritys">
+                    <h3>ElevenLabs</h3>
+                    <p>
+                        Huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
+                        Tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Ääni ja puhe</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://try.elevenlabs.io/keja882eenfs" class="btn btn-primary" target="_blank">Kokeile ElevenLabsia</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/elevenlabs-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/elevenlabs-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/elevenlabs-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tuottavuus -->
+                <div class="tool-card" data-category="tuottavuus" data-pricing="freemium" data-purpose="yritys">
+                    <h3>Fireflies</h3>
+                    <p>
+                        Tehokas AI-kokousavustaja, joka tallentaa, transkriboi ja tiivistää kokoukset automaattisesti. 
+                        Mahdollistaa kokousten hakemisen, jakamisen ja analysoinnin, säästäen aikaa ja parantaen tuottavuutta.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Tuottavuus</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://fireflies.ai/" class="btn btn-primary" target="_blank">Kokeile Firefliesia</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/fireflies-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/fireflies-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/fireflies-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiedonhaku -->
+                <div class="tool-card" data-category="tiedonhaku" data-pricing="freemium" data-purpose="henkilokohtainen,tutkimus">
+                    <h3>Perplexity AI</h3>
+                    <p>
+                        Älykäs AI-pohjainen hakukone, joka tarjoaa kattavia vastauksia webistä. Yhdistää tietoa useista lähteistä ja 
+                        esittää vastaukset selkeässä muodossa viitteineen, tehden tiedonhausta tehokkaampaa ja luotettavampaa.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Tiedonhaku</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://www.perplexity.ai/" class="btn btn-primary" target="_blank">Kokeile Perplexityä</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/perplexity-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/perplexity-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/perplexity-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Luovat työkalut -->
+                <div class="tool-card" data-category="luovat" data-pricing="freemium" data-purpose="luova,yritys">
+                    <h3>Tome</h3>
+                    <p>
+                        Innovatiivinen AI-pohjainen tarinankerrontaalusta, joka mahdollistaa visuaalisesti näyttävien ja interaktiivisten 
+                        esitysten ja tarinoiden luomisen. Yhdistää tekstin, kuvat ja animaatiot saumattomasti.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Luova työkalu</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://tome.app/" class="btn btn-primary" target="_blank">Kokeile Tomea</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/tome-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/tome-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/tome-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yleiset AI-mallit -->
+                <div class="tool-card" data-category="yleiset" data-pricing="freemium" data-purpose="tutkimus,yritys">
+                    <h3>DeepSeek AI</h3>
+                    <p>
+                        Kiinalainen AI-yritys, joka tarjoaa kustannustehokkaita ja tehokkaita tekoälymalleja. DeepSeek-R1-malli 
+                        kilpailee länsimallien kanssa tarjoten monipuolisia tekoälyominaisuuksia eri käyttötarkoituksiin.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Yleinen AI-malli</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://www.deepseek.ai/" class="btn btn-primary" target="_blank">Kokeile DeepSeek AI:ta</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/deepseek-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/deepseek-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/deepseek-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kuvanluonti -->
+                <div class="tool-card" data-category="kuvanluonti" data-pricing="freemium" data-purpose="luova,yritys">
+                    <h3>DALL-E</h3>
+                    <p>
+                        OpenAI:n kehittämä tekoälypohjainen kuvageneraattori, joka luo kuvia tekstikuvausten perusteella.
+                        DALL-E 3 on integroitu ChatGPT:hen, mikä tekee siitä helppokäyttöisen työkalun visuaalisen sisällön luomiseen.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Kuvanluonti</span>
+                        <span class="tool-tag">Freemium</span>
+                    </div>
+                    <div class="buttons-container">
+                        <a href="https://openai.com/dall-e-3" class="btn btn-primary" target="_blank">Kokeile DALL-E:tä</a>
+                        <div class="secondary-buttons">
+                            <a href="arvostelut/dalle-arvostelu.html" class="btn btn-secondary">Lue arvostelu</a>
+                            <a href="oppaat/dalle-opas.html" class="btn btn-secondary">Opas käyttöön</a>
+                            <a href="blogi/dalle-artikkeli.html" class="btn btn-secondary">Artikkeli työkalusta</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html> 

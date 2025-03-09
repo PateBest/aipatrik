@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aloittelijan opas tekoälyyn - AI Patrik</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00a67e, #00c4a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Aloittelijan opas tekoälyyn</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi ymmärtämään tekoälyn perusteet ja hyödyntämään sitä omassa elämässäsi tai liiketoiminnassasi</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #00a67e, #00c4a7); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <h2>Mitä tekoäly oikeastaan on?</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=Mitä+tekoäly+on" alt="Mitä tekoäly on" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoäly tarkoittaa tietokoneohjelmia, jotka kykenevät suorittamaan ihmisen älykkyyttä vaativia tehtäviä</p>
+                </div>
+                
+                <p>
+                    Tekoäly tarkoittaa tietokoneohjelmia, jotka kykenevät suorittamaan tehtäviä, jotka tyypillisesti vaativat ihmisen älykkyyttä. 
+                    Näitä ovat esimerkiksi:
+                </p>
+                <ul>
+                    <li>Tekstin, kuvien ja äänen tunnistaminen ja luominen</li>
+                    <li>Päätöksenteko ja ongelmanratkaisu</li>
+                    <li>Oppiminen kokemuksista (koneoppiminen)</li>
+                    <li>Luonnollisen kielen ymmärtäminen ja tuottaminen</li>
+                </ul>
+                <p>
+                    Nykyiset tekoälyt ovat "kapeita" tai "heikkoja" tekoälyjä, mikä tarkoittaa, että ne ovat erikoistuneet tiettyihin tehtäviin, 
+                    kuten kuvien luomiseen tai tekstin tuottamiseen. "Yleinen" tai "vahva" tekoäly, joka kykenisi ihmisen kaltaiseen laajaan ymmärrykseen, 
+                    on vielä tulevaisuuden teknologiaa.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tekoälyn keskeisiä käsitteitä</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=Tekoälyn+keskeiset+käsitteet" alt="Tekoälyn keskeiset käsitteet" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoälyn ymmärtäminen edellyttää keskeisten käsitteiden tuntemista</p>
+                </div>
+                
+                <dl>
+                    <dt>Koneoppiminen (Machine Learning)</dt>
+                    <dd>Tekoälyn osa-alue, jossa algoritmit oppivat datasta ilman, että niitä on erikseen ohjelmoitu jokaiseen tehtävään.</dd>
+                    
+                    <dt>Syväoppiminen (Deep Learning)</dt>
+                    <dd>Koneoppimisen osa-alue, joka käyttää neuroverkkoja, jotka jäljittelevät ihmisaivojen toimintaa. Erityisen tehokas monimutkaisissa tehtävissä kuten kuvantunnistuksessa.</dd>
+                    
+                    <dt>Luonnollisen kielen käsittely (NLP)</dt>
+                    <dd>Tekoälyn kyky ymmärtää, tulkita ja tuottaa ihmiskieltä. Tätä käytetään chatboteissa, kääntäjissä ja tekstintuotannossa.</dd>
+                    
+                    <dt>Generatiivinen tekoäly</dt>
+                    <dd>Tekoäly, joka luo uutta sisältöä, kuten tekstiä, kuvia, musiikkia tai videota.</dd>
+                    
+                    <dt>Algoritmi</dt>
+                    <dd>Sarja ohjeita tai sääntöjä, joita tietokone seuraa tehtävän suorittamiseksi.</dd>
+                    
+                    <dt>Neuroverkko</dt>
+                    <dd>Tietokonejärjestelmä, joka jäljittelee ihmisaivojen toimintaa ja oppii tunnistamaan malleja datasta.</dd>
+                </dl>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tekoälyn yleisimmät käyttökohteet</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Tekoälyn+käyttökohteet" alt="Tekoälyn käyttökohteet" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoälyä käytetään nykyään lukuisissa eri sovelluksissa ja toimialoilla</p>
+                </div>
+                
+                <p>Tekoälyä käytetään nykyään lukuisissa sovelluksissa:</p>
+                <ul>
+                    <li><strong>Sisällöntuotanto:</strong> Tekstin, kuvien, videoiden ja äänen luominen</li>
+                    <li><strong>Asiakaspalvelu:</strong> Chatbotit ja virtuaaliassistentit</li>
+                    <li><strong>Markkinointi:</strong> Personoitu mainonta ja asiakassegmentointi</li>
+                    <li><strong>Tietoturva:</strong> Uhkien tunnistaminen ja ennaltaehkäisy</li>
+                    <li><strong>Terveydenhuolto:</strong> Diagnoosien tukeminen ja lääketutkimus</li>
+                    <li><strong>Rahoitus:</strong> Riskianalyysi ja automaattinen kaupankäynti</li>
+                    <li><strong>Tuotanto:</strong> Laadunvalvonta ja prosessien optimointi</li>
+                </ul>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Miten aloittaa tekoälyn käyttö?</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=Tekoälyn+käytön+aloittaminen" alt="Tekoälyn käytön aloittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoälyn käyttöönotto ei vaadi teknistä osaamista, vaan selkeää suunnitelmaa</p>
+                </div>
+                
+                <p>Tekoälyn käyttöönotto ei vaadi teknistä osaamista. Tässä vaiheet alkuun pääsemiseksi:</p>
+                <ol>
+                    <li><strong>Tunnista tarpeesi:</strong> Mieti, missä tehtävissä voisit hyötyä automaatiosta tai tekoälystä.</li>
+                    <li><strong>Tutustu työkaluihin:</strong> Selaa <a href="../tyokalut.html">työkaluvalikoimaamme</a> ja löydä tarpeisiisi sopivat ratkaisut.</li>
+                    <li><strong>Aloita pienestä:</strong> Valitse yksi tehtävä tai prosessi, jossa kokeilla tekoälyä.</li>
+                    <li><strong>Opettele käyttö:</strong> Useimmat tekoälytyökalut tarjoavat tutoriaaleja ja ohjeita.</li>
+                    <li><strong>Arvioi tuloksia:</strong> Seuraa, miten tekoäly suoriutuu ja tee tarvittavia säätöjä.</li>
+                </ol>
+                <p>
+                    Muista, että tekoäly on työkalu, ei ihmeratkaisu. Se toimii parhaiten, kun sitä käytetään täydentämään ihmisen osaamista, 
+                    ei korvaamaan sitä kokonaan.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tekoälyn käytön vinkit aloittelijalle</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Vinkkejä+aloittelijalle" alt="Tekoälyn käytön vinkit aloittelijalle" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Näillä vinkeillä saat parhaan hyödyn tekoälytyökaluista</p>
+                </div>
+                
+                <ul>
+                    <li><strong>Ole tarkka ohjeistuksessa:</strong> Mitä selkeämpiä ohjeita annat tekoälylle, sitä parempia tuloksia saat.</li>
+                    <li><strong>Tarkista tulokset:</strong> Tekoäly voi tehdä virheitä, joten tarkista aina sen tuottama sisältö.</li>
+                    <li><strong>Opettele iteroimaan:</strong> Tekoälyn käyttö on usein iteratiivinen prosessi, jossa tuloksia parannetaan vähitellen.</li>
+                    <li><strong>Huomioi tietosuoja:</strong> Älä syötä tekoälyyn arkaluontoista tai salassapidettävää tietoa.</li>
+                    <li><strong>Pysy ajan tasalla:</strong> Tekoälyteknologia kehittyy nopeasti, joten seuraa uusia työkaluja ja ominaisuuksia.</li>
+                </ul>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Suositellut työkalut aloittelijoille</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/0d6efd/FFFFFF/png?text=Suositellut+työkalut" alt="Suositellut tekoälytyökalut aloittelijoille" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Nämä helppokäyttöiset työkalut sopivat erityisesti aloittelijoille</p>
+                </div>
+                
+                <ul>
+                    <li><strong>ChatGPT:</strong> Helppokäyttöinen keskusteleva tekoäly tekstin tuottamiseen ja kysymyksiin vastaamiseen.</li>
+                    <li><strong>Canva AI:</strong> Graafisen suunnittelun työkalu, jossa on tekoälyominaisuuksia.</li>
+                    <li><strong><a href="https://try.elevenlabs.io/keja882eenfs" target="_blank">ElevenLabs:</a></strong> Luonnollisen kuuloisen puheen tuottaminen tekstistä.</li>
+                    <li><strong>Jasper:</strong> Sisällöntuotannon työkalu, joka auttaa luomaan markkinointitekstejä ja muuta sisältöä.</li>
+                    <li><strong>Midjourney:</strong> Kuvien luominen tekstikuvausten perusteella.</li>
+                </ul>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Yhteenveto</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=Yhteenveto" alt="Tekoälyn käytön yhteenveto" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoäly on voimakas työkalu, joka voi auttaa tehostamaan työskentelyäsi</p>
+                </div>
+                
+                <p>
+                    Tekoäly on voimakas työkalu, joka voi auttaa sinua tehostamaan työskentelyäsi, luomaan sisältöä ja ratkaisemaan ongelmia. 
+                    Aloittaminen ei vaadi teknistä osaamista, vain avointa mieltä ja halua oppia. Tutustu työkaluihimme ja muihin oppaisiimme 
+                    syventääksesi osaamistasi tekoälyn parissa.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Aloita tekoälyn käyttö tänään</h3>
+                <p>Tutustu tekoälytyökaluihin ja ota ensimmäinen askel tekoälyn hyödyntämisessä!</p>
+                <a href="../tyokalut.html" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-rocket" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Tutustu työkaluihin
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="chatgpt-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">ChatGPT Käyttöopas</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Opi hyödyntämään ChatGPT:tä tehokkaasti erilaisissa tehtävissä.</p>
+                        </a>
+                        
+                        <a href="ai-kuvageneraattorit.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">AI-kuvageneraattorit</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Täydellinen opas AI-kuvageneraattoreiden käyttöön ja hyödyntämiseen.</p>
+                        </a>
+                        
+                        <a href="../yhteystiedot.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Ota yhteyttä</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tarvitsetko apua tekoälyn käytössä? Ota yhteyttä asiantuntijoihimme!</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

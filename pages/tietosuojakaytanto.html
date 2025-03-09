@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tietosuojakäytäntö - AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../index.html">Koti</a></li>
+            <li><a href="tyokalut.html">Työkalut</a></li>
+            <li><a href="arvostelut.html">Arvostelut</a></li>
+            <li><a href="oppaat.html">Oppaat</a></li>
+            <li><a href="blogi.html">Blogi</a></li>
+            <li><a href="yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <section class="page-content">
+        <div class="container">
+            <h2>Tietosuojakäytäntö</h2>
+            
+            <div class="privacy-section">
+                <h3>Johdanto</h3>
+                <p>
+                    AI Patrik on sitoutunut suojaamaan käyttäjiensä yksityisyyttä. Tämä tietosuojakäytäntö selittää, 
+                    miten keräämme, käytämme ja suojaamme tietoja, joita saamme verkkosivustomme kautta.
+                </p>
+                <p>
+                    Käyttämällä sivustoamme hyväksyt tämän tietosuojakäytännön ehdot. Jos et hyväksy näitä ehtoja, 
+                    pyydämme sinua olemaan käyttämättä sivustoamme.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Mitä tietoja keräämme</h3>
+                <p>
+                    Saatamme kerätä seuraavia tietoja:
+                </p>
+                <ul>
+                    <li>Nimi ja sähköpostiosoite (jos tilaat uutiskirjeemme tai otat meihin yhteyttä)</li>
+                    <li>Demografiset tiedot, kuten postinumero, mieltymykset ja kiinnostuksen kohteet</li>
+                    <li>Muut tiedot, jotka ovat olennaisia kyselyiden ja tarjousten kannalta</li>
+                    <li>Verkkosivuston käyttöön liittyvät tiedot</li>
+                </ul>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Miten käytämme keräämiämme tietoja</h3>
+                <p>
+                    Keräämme näitä tietoja ymmärtääksemme tarpeitasi ja tarjotaksemme sinulle parempaa palvelua. 
+                    Erityisesti käytämme tietoja seuraaviin tarkoituksiin:
+                </p>
+                <ul>
+                    <li>Sisäisten tietojen ylläpitämiseen</li>
+                    <li>Palveluidemme parantamiseen</li>
+                    <li>Säännöllisten markkinointiviestien lähettämiseen sähköpostitse (voit perua tilauksen milloin tahansa)</li>
+                    <li>Sivustomme mukauttamiseen mieltymystesi mukaan</li>
+                    <li>Käyttäjäkokemuksen parantamiseen</li>
+                </ul>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Evästeet</h3>
+                <p>
+                    Käytämme evästeitä tunnistaaksemme verkkoselaimen ja tallentaaksemme käyttäjien mieltymyksiä. 
+                    Evästeiden avulla voimme seurata, mitkä sivut käyttäjät kokevat hyödyllisiksi ja mitkä eivät. 
+                    Evästeet auttavat meitä myös tunnistamaan, milloin olet vieraillut sivustollamme aiemmin, ja 
+                    tallentamaan mieltymyksesi tulevia vierailuja varten.
+                </p>
+                <p>
+                    Voit halutessasi estää evästeiden käytön muuttamalla selaimesi asetuksia. Huomaa kuitenkin, 
+                    että tämä saattaa estää sinua hyödyntämästä kaikkia sivustomme ominaisuuksia.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Tietojen jakaminen</h3>
+                <p>
+                    Emme myy, jaa tai vuokraa henkilökohtaisia tunnistetietojasi kolmansille osapuolille. 
+                    Saatamme kuitenkin jakaa koottuja demografisia tietoja, jotka eivät liity henkilökohtaisiin 
+                    tunnistetietoihin, yhteistyökumppaneillemme, mainostajillemme ja muille kolmansille osapuolille.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Tietoturva</h3>
+                <p>
+                    Olemme sitoutuneet varmistamaan, että tietosi ovat turvassa. Käytämme asianmukaisia teknisiä 
+                    ja organisatorisia toimenpiteitä estääksemme luvattoman pääsyn tietoihisi tai niiden paljastumisen.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Linkit muille sivustoille</h3>
+                <p>
+                    Sivustomme saattaa sisältää linkkejä muille verkkosivustoille. Emme kuitenkaan ole vastuussa 
+                    muiden sivustojen tietosuojakäytännöistä. Kehotamme käyttäjiä lukemaan tietosuojalausunnon 
+                    jokaiselta sivustolta, joka kerää henkilökohtaisia tietoja.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Tietosuojakäytännön muutokset</h3>
+                <p>
+                    Saatamme päivittää tätä tietosuojakäytäntöä ajoittain julkaisemalla uuden version sivustollamme. 
+                    Sinun tulisi tarkistaa tämä sivu säännöllisesti varmistaaksesi, että olet tyytyväinen mahdollisiin muutoksiin.
+                </p>
+            </div>
+            
+            <div class="privacy-section">
+                <h3>Yhteystiedot</h3>
+                <p>
+                    Jos sinulla on kysyttävää tästä tietosuojakäytännöstä, voit ottaa meihin yhteyttä sähköpostitse: 
+                    aipatrik@outlook.com
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html> 

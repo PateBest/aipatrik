@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Patrik - Tekoälyn työkalut aloittelijoille</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Huom: Nämä tyylit on jo määritelty styles.css-tiedostossa, joten ne voidaan poistaa tästä */
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li class="active"><a href="index.html">Koti</a></li>
+            <li><a href="pages/tyokalut.html">Työkalut</a></li>
+            <li><a href="pages/arvostelut.html">Arvostelut</a></li>
+            <li><a href="pages/oppaat.html">Oppaat</a></li>
+            <li><a href="pages/blogi.html">Blogi</a></li>
+            <li><a href="pages/yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <section class="hero" id="koti">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-content-header">
+                    <h2>AI Patrik - Tekoälyopastus</h2>
+                </div>
+                <p>
+                    Autamme sinua hyödyntämään tekoälyä toimintasi kasvattamisessa ja tehostamisessa. 
+                    Täältä löydät parhaat työkalut, oppaat ja neuvot tekoälyn hyödyntämiseen - olipa kyseessä sitten sisältöjen 
+                    luominen, liiketoiminnan kasvattaminen tai päivittäisten tehtävien helpottaminen.
+                </p>
+                <p>
+                    <strong>Hyödyt:</strong> Ajansäästö, kustannustehokkuus, kilpailuetu markkinoilla, 
+                    automatisoitu sisällöntuotanto ja mahdollisuus keskittyä ydintoimintaan.
+                </p>
+                <a href="pages/tekoaly-opas-yrittajille-2025.html" class="btn btn-primary">Tutustu tekoälyn perusteisiin 2025</a>
+            </div>
+            
+            <div id="viikon-tyokalu">
+                <div class="container">
+                    <div class="featured-tool">
+                        <div class="featured-tool-header">
+                            <h2>Viikon AI Työkalu</h2>
+                        </div>
+                        <h3>ElevenLabs</h3>
+                        <p>
+                            ElevenLabs on huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
+                            Se tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
+                        </p>
+                        <p>
+                            <strong>Edut:</strong> Erittäin luonnollinen puhesynteesi, tukee useita kieliä, mahdollisuus luoda omia ääniä,
+                            helppokäyttöinen rajapinta, soveltuu podcasteihin, äänikirjoihin ja videoihin.
+                        </p>
+                        <a href="https://try.elevenlabs.io/keja882eenfs" class="btn btn-primary" target="_blank">Kokeile ElevenLabsia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about-patrik">
+        <div class="container">
+            <img src="https://www.dropbox.com/s/snnrmbiztdppquu/IMG_7726%20(1).jpg?raw=1" alt="Patrik AI" class="patrik-image">
+            <div class="patrik-bio">
+                <h2>Kuka on Patrik?</h2>
+                <p>
+                    Tervetuloa AI Patrikin maailmaan! Olen <span class="highlight">Patrik</span>, 29-vuotias kahden ihanan lapsen isä ja intohimoinen tekoälyn tutkimusmatkailija. Arjessani tasapainottelen perhe-elämän ja teknologian uusimpien innovaatioiden testaamisen välillä.
+                </p>
+                <p>
+                    Tekoäly ei ole minulle vain työkalu – se on <span class="highlight">intohimo ja elämäntapa</span>. Joka päivä herään innostuneena uusista mahdollisuuksista, joita tekoäly voi tarjota tavallisille ihmisille ja pienyrityksille. Uskon vahvasti, että tekoälyn vallankumous on vasta alussa, ja haluan auttaa sinua olemaan sen eturintamassa.
+                </p>
+                <p>
+                    Testaan jatkuvasti uusia tekoälytyökaluja, kokeilen niiden rajoja ja etsin tapoja, joilla ne voivat <span class="highlight">mullistaa arkipäiväisiä tehtäviä</span>. Jaan täällä vain työkaluja, jotka olen itse todennut toimiviksi ja arvokkaiksi – ei markkinointipuheita, vaan aitoja kokemuksia ja rehellisiä arvioita.
+                </p>
+                <p>
+                    Liity mukaan matkalleni tekoälyn maailmaan. Yhdessä voimme oppia, kasvaa ja hyödyntää näitä uskomattomia teknologioita tavalla, joka todella <span class="highlight">muuttaa tapamme työskennellä ja elää</span>.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="palvelut">
+        <div class="container">
+            <h2>Mitä tarjoamme</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Työkalut</h3>
+                    <p>Kattava valikoima tekoälytyökaluja eri tarpeisiin. Testaamme ja arvioimme työkalut puolestasi.</p>
+                    <a href="pages/tyokalut.html" class="btn">Tutustu työkaluihin</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Arvostelut</h3>
+                    <p>Rehellisiä ja puolueettomia arvosteluja suosituimmista tekoälytyökaluista.</p>
+                    <a href="pages/arvostelut.html" class="btn">Lue arvostelut</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Oppaat</h3>
+                    <p>Kattavat oppaat tekoälyn hyödyntämiseen eri tarkoituksissa.</p>
+                    <a href="pages/oppaat.html" class="btn">Tutustu oppaisiin</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Blogi</h3>
+                    <p>Ajankohtaisia artikkeleita tekoälyn maailmasta ja vinkkejä sen hyödyntämiseen.</p>
+                    <a href="pages/blogi.html" class="btn">Lue blogia</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="pages/tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="pages/tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="pages/affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 
