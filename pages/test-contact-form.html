@@ -26,6 +26,8 @@
     
     <!-- Testiskripti -->
     <!-- Erillinen Supabase-konfiguraatio -->
+    <!-- Suora konfiguraatio -->
+    <script src="../direct-config/config.js"></script>
     <script src="../js/supabase-config.js"></script>
     <script src="../js/test-config.js"></script>
     
@@ -411,6 +413,9 @@
         </div>
         
         <div class="action-buttons">
+            <button class="action-button" onclick="window.open('../direct-config/index.html', '_blank')">
+                <i class="fas fa-cog"></i> Avaa suora konfiguraatiosivu
+            </button>
             <button class="action-button" onclick="window.location.reload()">
                 <i class="fas fa-sync-alt"></i> Päivitä sivu
             </button>

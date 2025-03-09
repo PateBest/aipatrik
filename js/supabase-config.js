@@ -1,4 +1,4 @@
-// Supabase-konfiguraatio testisivua varten - Sun Mar  9 22:45:37 UTC 2025
+// Supabase-konfiguraatio testisivua varten - Sun Mar  9 22:48:44 UTC 2025
 console.log('Supabase-konfiguraatio ladattu erillisestä tiedostosta');
 window.SUPABASE_CONFIG = {
   SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
