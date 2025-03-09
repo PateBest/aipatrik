@@ -33,8 +33,7 @@ jobs:
           cp ./config.runtime.js ./js/config.runtime.js
           cp ./config.runtime.js ./pages/config.runtime.js
           
-          # Luodaan inline-konfiguraatio yhteystiedot.html-sivulle
-          echo "Luodaan inline-konfiguraatio yhteystiedot.html-sivulle"
+          # Luodaan inline-konfiguraatio
           INLINE_CONFIG="<script>window.INLINE_CONFIG = { SUPABASE_URL: '${{ secrets.SUPABASE_URL }}', SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}' };</script>"
           
           # Korvataan placeholder yhteystiedot.html-sivulla
@@ -43,6 +42,14 @@ jobs:
             echo "Inline-konfiguraatio lisätty yhteystiedot.html-sivulle"
           else
             echo "yhteystiedot.html-tiedostoa ei löytynyt"
+          fi
+          
+          # Korvataan placeholder myös testisivulla
+          if [ -f "./pages/test-contact-form.html" ]; then
+            sed -i "s|<!-- SUPABASE_CONFIG_PLACEHOLDER -->|$INLINE_CONFIG|" ./pages/test-contact-form.html
+            echo "Inline-konfiguraatio lisätty test-contact-form.html-sivulle"
+          else
+            echo "test-contact-form.html-tiedostoa ei löytynyt"
           fi
           
       - name: Verify config files
@@ -74,6 +81,15 @@ jobs:
               echo "Inline configuration added to yhteystiedot.html"
             else
               echo "Failed to add inline configuration to yhteystiedot.html"
+            fi
+          fi
+          
+          # Tarkistetaan, että inline-konfiguraatio on lisätty testisivulle
+          if [ -f "./pages/test-contact-form.html" ]; then
+            if grep -q "window.INLINE_CONFIG" ./pages/test-contact-form.html; then
+              echo "Inline configuration added to test-contact-form.html"
+            else
+              echo "Failed to add inline configuration to test-contact-form.html"
             fi
           fi
 
