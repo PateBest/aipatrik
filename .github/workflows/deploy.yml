@@ -77,7 +77,7 @@ jobs:
           cp js/config.runtime.js ./pages/config.runtime.js
           echo "Created copy of config.runtime.js in pages directory"
 
-      - name: Replace Supabase config
+      - name: Create and replace Supabase config
         run: |
           # Luodaan JavaScript-tiedosto, joka sisältää Supabase-konfiguraation
           cat > temp_config.js << 'EOFMARKER'
@@ -89,10 +89,12 @@ jobs:
           };
           console.log("Inline Supabase configuration loaded");
           EOFMARKER
-          
-          # Käytetään awk-komentoa korvaamaan placeholder
-          awk '{gsub(/\/\/ SUPABASE_CONFIG_PLACEHOLDER/, "'"$(cat temp_config.js)"'")}1' pages/yhteystiedot.html > temp.html
-          mv temp.html pages/yhteystiedot.html
+
+          # Käytetään sed-komentoa korvaamaan placeholder
+          sed -i '/\/\/ SUPABASE_CONFIG_PLACEHOLDER/ {
+            r temp_config.js
+            d
+          }' pages/yhteystiedot.html
           rm temp_config.js
 
           # Luodaan .nojekyll-tiedosto estämään GitHub Pagesin Jekyll-käsittely
