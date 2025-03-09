@@ -13,7 +13,12 @@ Tämä on palvelinpuolen toteutus AI Patrik -sivustolle, joka mahdollistaa AI Ag
    ```
    npm install
    ```
-4. Käynnistä palvelin:
+4. Kopioi ympäristömuuttujat:
+   ```
+   cp .env.example .env
+   ```
+   Muokkaa `.env`-tiedostoa ja aseta omat API-tunnuksesi ja salasanasi.
+5. Käynnistä palvelin:
    ```
    npm start
    ```
@@ -31,6 +36,8 @@ Palvelin käyttää seuraavia ympäristömuuttujia, jotka on määritelty `.env`
 - `CONTENT_DIR`: Hakemisto, johon sisältö tallennetaan (oletus: ../)
 - `API_USERNAME`: API-käyttäjätunnus autentikaatiota varten
 - `API_PASSWORD`: API-salasana autentikaatiota varten
+
+**TÄRKEÄÄ**: Älä koskaan jaa `.env`-tiedostoa versionhallinnassa tai julkisesti. Tiedosto on lisätty `.gitignore`-tiedostoon, jotta se ei päädy versionhallintaan.
 
 ## API-rajapinnat
 

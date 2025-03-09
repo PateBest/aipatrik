@@ -1,6 +1,6 @@
 // Supabase-asetukset
-const SUPABASE_URL = 'https://lknsmgfvmnvtpiyxzpod.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrbnNtZ2Z2bW52dHBpeXh6cG9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEwODg4MTYsImV4cCI6MjA1NjY2NDgxNn0.O2ff356-VICr_dBcLqpwcCmmpAL7C8hhBjOSFbpGtgI';
+const SUPABASE_URL = 'YOUR_SUPABASE_TEST_URL'; // Aseta oikea URL ympäristömuuttujiin tuotannossa
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_TEST_ANON_KEY'; // Aseta oikea avain ympäristömuuttujiin tuotannossa
 
 // Luodaan Supabase-asiakas
 const { createClient } = supabase;

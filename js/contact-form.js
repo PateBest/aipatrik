@@ -1,12 +1,15 @@
 // Supabase-asetukset
-// TÄRKEÄÄ: Nämä arvot ovat Supabase-projektisi tiedot
-const SUPABASE_URL = 'https://ograsjqhyblnfqqflwvo.supabase.co'; // Supabase-projektin URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4';
+// Käytetään config.js-tiedostossa määriteltyjä arvoja
+// Tämä mahdollistaa avainten turvallisen hallinnan eri ympäristöissä
 
 // Lomakkeen käsittely JavaScript
 // Tämä koodi käsittelee yhteydenottolomakkeen toiminnallisuuden
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Haetaan Supabase-asetukset konfiguraatiosta
+    const SUPABASE_URL = window.CONFIG?.SUPABASE_URL || 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = window.CONFIG?.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
+    
     // Luodaan Supabase-asiakas
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     

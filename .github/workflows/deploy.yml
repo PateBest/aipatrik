@@ -1,0 +1,27 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create runtime config
+        run: |
+          echo "window.CONFIG = {" > ./config.runtime.js
+          echo "  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}'," >> ./config.runtime.js
+          echo "  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'" >> ./config.runtime.js
+          echo "};" >> ./config.runtime.js
+          cp ./config.runtime.js ./build/config.runtime.js || mkdir -p build && cp ./config.runtime.js ./build/config.runtime.js
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: .
+          clean: false 

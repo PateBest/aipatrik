@@ -42,7 +42,15 @@ Sivusto on rakennettu käyttäen seuraavia teknologioita:
    cd ai-patrik
    ```
 
-2. Avaa `index.html` selaimessa tai käytä paikallista palvelinta:
+2. Aseta ympäristömuuttujat:
+   - Kopioi `.env.example` tiedosto nimellä `.env` sekä juurihakemistoon että server-hakemistoon
+   - Täytä `.env` tiedostoihin omat API-avaimesi ja muut tarvittavat tiedot
+   ```
+   cp .env.example .env
+   cp server/.env.example server/.env
+   ```
+
+3. Avaa `index.html` selaimessa tai käytä paikallista palvelinta:
    ```
    # Python 3
    python -m http.server
@@ -51,7 +59,7 @@ Sivusto on rakennettu käyttäen seuraavia teknologioita:
    python -m SimpleHTTPServer
    ```
 
-3. Sivusto on nyt käytettävissä osoitteessa `http://localhost:8000`
+4. Sivusto on nyt käytettävissä osoitteessa `http://localhost:8000`
 
 ### SupaBase Integraatio
 
