@@ -203,6 +203,47 @@ jobs:
             echo "Linkki GitHub Secrets -statussivulle lisätty test-contact-form.html-sivulle"
           fi
           
+          # UUSI TAPA: Lisätään konfiguraatio suoraan testisivulle
+          if [ -f "./pages/test-contact-form.html" ]; then
+            # Luodaan väliaikainen tiedosto
+            cp ./pages/test-contact-form.html ./pages/test-contact-form.html.temp2
+            
+            # Lisätään konfiguraatio suoraan sivun loppuun
+            awk -v supabase_url="${SUPABASE_URL}" -v supabase_anon_key="${SUPABASE_ANON_KEY}" '
+            /<\/body>/ {
+              print "    <!-- Inline-konfiguraatio sivun lopussa -->";
+              print "    <script>";
+              print "        // Varmistetaan, että konfiguraatio on saatavilla";
+              print "        document.addEventListener(\"DOMContentLoaded\", function() {";
+              print "            console.log(\"Inline-konfiguraatio sivun lopussa ladattu\");";
+              print "            window.INLINE_CONFIG_BOTTOM = {";
+              print "                SUPABASE_URL: \"" supabase_url "\",";
+              print "                SUPABASE_ANON_KEY: \"" supabase_anon_key "\"";
+              print "            };";
+              print "            // Asetetaan myös muut konfiguraatiomuuttujat";
+              print "            window.CONFIG = window.CONFIG || window.INLINE_CONFIG_BOTTOM;";
+              print "            window.INLINE_CONFIG = window.INLINE_CONFIG || window.INLINE_CONFIG_BOTTOM;";
+              print "            window.SUPABASE_CONFIG = window.SUPABASE_CONFIG || window.INLINE_CONFIG_BOTTOM;";
+              print "            window.DIRECT_CONFIG = window.DIRECT_CONFIG || window.INLINE_CONFIG_BOTTOM;";
+              print "            console.log(\"Konfiguraatio asetettu:\", window.CONFIG);";
+              print "        });";
+              print "    </script>";
+              print $0;
+              next;
+            }
+            { print $0 }
+            ' ./pages/test-contact-form.html.temp2 > ./pages/test-contact-form.html
+            
+            # Poistetaan väliaikainen tiedosto
+            rm ./pages/test-contact-form.html.temp2
+            
+            echo "Inline-konfiguraatio lisätty test-contact-form.html-sivun loppuun"
+          fi
+          
+          # Luodaan .nojekyll-tiedosto, jotta GitHub Pages ei käytä Jekylliä
+          touch .nojekyll
+          echo "Luotu .nojekyll-tiedosto"
+          
       - name: Verify config files
         run: |
           echo "Verifying config.runtime.js exists in multiple locations"
@@ -300,6 +341,20 @@ jobs:
             else
               echo "Failed to add GitHub Secrets status page link to test-contact-form.html"
             fi
+            
+            # Tarkistetaan, että inline-konfiguraatio on lisätty sivun loppuun
+            if grep -q "INLINE_CONFIG_BOTTOM" ./pages/test-contact-form.html; then
+              echo "Inline configuration added to the bottom of test-contact-form.html"
+            else
+              echo "Failed to add inline configuration to the bottom of test-contact-form.html"
+            fi
+          fi
+          
+          # Tarkistetaan .nojekyll-tiedosto
+          if [ -f "./.nojekyll" ]; then
+            echo ".nojekyll file created successfully"
+          else
+            echo ".nojekyll file creation failed"
           fi
 
       - name: Deploy to GitHub Pages
