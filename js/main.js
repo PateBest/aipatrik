@@ -45,14 +45,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const navList = document.querySelector('nav ul');
     const hamburger = document.querySelector('.hamburger');
     const navItems = document.querySelectorAll('nav ul li');
+    const logoLink = document.querySelector('.logo-link');
+    const navElement = document.querySelector('nav');
+    const body = document.body;
     
     // Luodaan sulkemispainike ja lisätään se bodyyn
     const closeBtn = document.createElement('button');
     closeBtn.className = 'nav-close-btn';
     closeBtn.innerHTML = '<i class="fas fa-times"></i>';
     closeBtn.setAttribute('aria-label', 'Sulje valikko');
+    closeBtn.style.position = 'absolute';
+    closeBtn.style.top = '20px';
+    closeBtn.style.right = '20px';
+    closeBtn.style.zIndex = '1001';
+    closeBtn.style.background = 'rgba(0, 40, 80, 0.9)';
+    closeBtn.style.border = '2px solid rgba(0, 150, 255, 0.3)';
+    closeBtn.style.borderRadius = '50%';
+    closeBtn.style.width = '40px';
+    closeBtn.style.height = '40px';
+    closeBtn.style.display = 'none';
+    closeBtn.style.alignItems = 'center';
+    closeBtn.style.justifyContent = 'center';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.color = 'white';
+    closeBtn.style.fontSize = '20px';
+    closeBtn.style.boxShadow = '0 4px 15px rgba(0, 100, 255, 0.3)';
     
-    // Lisätään sulkemispainike bodyyn, jotta se voidaan asemoida fixed-positiolla
     document.body.appendChild(closeBtn);
 
     // Funktio valikon sulkemiseen
@@ -60,6 +78,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('nav-open');
         navList.classList.remove('active');
         hamburger.classList.remove('open');
+        closeBtn.style.display = 'none';
+        
+        // Näytetään logo kun valikko suljetaan
+        if (logoLink) {
+            setTimeout(function() {
+                logoLink.style.opacity = '1';
+                logoLink.style.visibility = 'visible';
+            }, 300);
+        }
+        
+        // Näytetään hampurilaisvalikko kun valikko suljetaan
+        if (mobileNavToggle) {
+            setTimeout(function() {
+                mobileNavToggle.style.opacity = '1';
+                mobileNavToggle.style.visibility = 'visible';
+            }, 300);
+        }
     }
     
     // Asetetaan animaatioindeksi jokaiselle navigaatioelementille
@@ -73,6 +108,37 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.toggle('nav-open');
             navList.classList.toggle('active');
             hamburger.classList.toggle('open');
+            
+            // Näytetään tai piilotetaan sulkemispainike
+            if (navList.classList.contains('active')) {
+                closeBtn.style.display = 'flex';
+                
+                // Piilotetaan logo kun valikko avataan
+                if (logoLink) {
+                    logoLink.style.opacity = '0';
+                    logoLink.style.visibility = 'hidden';
+                }
+                
+                // Piilotetaan hampurilaisvalikko kun valikko avataan
+                mobileNavToggle.style.opacity = '0';
+                mobileNavToggle.style.visibility = 'hidden';
+            } else {
+                closeBtn.style.display = 'none';
+                
+                // Näytetään logo kun valikko suljetaan
+                if (logoLink) {
+                    setTimeout(function() {
+                        logoLink.style.opacity = '1';
+                        logoLink.style.visibility = 'visible';
+                    }, 300);
+                }
+                
+                // Näytetään hampurilaisvalikko kun valikko suljetaan
+                setTimeout(function() {
+                    mobileNavToggle.style.opacity = '1';
+                    mobileNavToggle.style.visibility = 'visible';
+                }, 300);
+            }
         });
         
         // Suljetaan valikko, kun klikataan sulkemispainiketta
@@ -85,6 +151,56 @@ document.addEventListener('DOMContentLoaded', function() {
         navItems.forEach(item => {
             item.addEventListener('click', closeNavMenu);
         });
+        
+        // Suljetaan valikko, kun klikataan dokumenttia valikon ulkopuolella
+        document.addEventListener('click', function(event) {
+            if (navList.classList.contains('active') && 
+                !navList.contains(event.target) && 
+                !mobileNavToggle.contains(event.target) &&
+                !closeBtn.contains(event.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Varmistetaan että valikon painikkeet skaalautuvat oikein mobiilissa
+        function updateNavItemsSize() {
+            const viewportWidth = window.innerWidth;
+            
+            if (viewportWidth <= 400) {
+                // Erittäin pienillä näytöillä
+                navItems.forEach(item => {
+                    const link = item.querySelector('a');
+                    if (link) {
+                        link.style.padding = '12px 20px';
+                        link.style.fontSize = '0.9rem';
+                    }
+                });
+            } else if (viewportWidth <= 576) {
+                // Pienillä näytöillä
+                navItems.forEach(item => {
+                    const link = item.querySelector('a');
+                    if (link) {
+                        link.style.padding = '14px 22px';
+                        link.style.fontSize = '1rem';
+                    }
+                });
+            } else {
+                // Palautetaan oletusarvot isommilla näytöillä
+                navItems.forEach(item => {
+                    const link = item.querySelector('a');
+                    if (link) {
+                        link.style.padding = '15px 25px';
+                        link.style.fontSize = '1.1rem';
+                    }
+                });
+            }
+        }
+        
+        // Päivitetään koot kun sivu latautuu
+        updateNavItemsSize();
+        
+        // Päivitetään koot kun ikkunan kokoa muutetaan
+        window.addEventListener('resize', updateNavItemsSize);
     }
 });
 
@@ -709,4 +825,158 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ... existing code ... 
+// Hampurilaisvalikon toiminnallisuus
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const navElement = document.querySelector('nav');
+    const body = document.body;
+    
+    if (mobileNavToggle && navElement) {
+        // Luodaan sulkemispainike
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'nav-close-btn';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        closeBtn.setAttribute('aria-label', 'Sulje valikko');
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '20px';
+        closeBtn.style.right = '20px';
+        closeBtn.style.zIndex = '1001';
+        closeBtn.style.background = 'rgba(0, 40, 80, 0.9)';
+        closeBtn.style.border = '2px solid rgba(0, 150, 255, 0.3)';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.width = '40px';
+        closeBtn.style.height = '40px';
+        closeBtn.style.display = 'none';
+        closeBtn.style.alignItems = 'center';
+        closeBtn.style.justifyContent = 'center';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.color = 'white';
+        closeBtn.style.fontSize = '20px';
+        closeBtn.style.boxShadow = '0 4px 15px rgba(0, 100, 255, 0.3)';
+        
+        document.body.appendChild(closeBtn);
+        
+        // Hampurilaisvalikon avaaminen
+        mobileNavToggle.addEventListener('click', function() {
+            navElement.style.display = 'block';
+            navElement.style.position = 'fixed';
+            navElement.style.top = '0';
+            navElement.style.left = '0';
+            navElement.style.width = '100%';
+            navElement.style.height = '100vh';
+            navElement.style.background = 'linear-gradient(135deg, rgba(0, 20, 40, 0.98), rgba(0, 40, 80, 0.95))';
+            navElement.style.zIndex = '1000';
+            navElement.style.padding = '80px 20px 40px 20px';
+            navElement.style.boxSizing = 'border-box';
+            navElement.style.overflow = 'auto';
+            navElement.style.borderRadius = '0';
+            
+            // Muokataan valikon ulkoasua
+            const navUl = navElement.querySelector('ul');
+            if (navUl) {
+                navUl.style.flexDirection = 'column';
+                navUl.style.alignItems = 'center';
+                navUl.style.gap = '15px';
+                
+                const navItems = navUl.querySelectorAll('li');
+                navItems.forEach(item => {
+                    item.style.width = '100%';
+                    item.style.maxWidth = '300px';
+                    item.style.textAlign = 'center';
+                });
+            }
+            
+            // Näytetään sulkemispainike
+            closeBtn.style.display = 'flex';
+            
+            // Lisätään luokka bodyyn
+            body.classList.add('nav-open');
+            
+            // Piilotetaan top bar
+            const topBar = document.querySelector('.top-bar');
+            if (topBar) {
+                topBar.style.opacity = '0';
+                topBar.style.visibility = 'hidden';
+            }
+            
+            // Estetään sivun vieritys
+            body.style.overflow = 'hidden';
+        });
+        
+        // Valikon sulkeminen
+        closeBtn.addEventListener('click', function() {
+            navElement.style.display = '';
+            navElement.style.position = '';
+            navElement.style.top = '';
+            navElement.style.left = '';
+            navElement.style.width = '';
+            navElement.style.height = '';
+            navElement.style.background = '';
+            navElement.style.zIndex = '';
+            navElement.style.padding = '';
+            navElement.style.boxSizing = '';
+            navElement.style.overflow = '';
+            
+            // Palautetaan valikon ulkoasu
+            const navUl = navElement.querySelector('ul');
+            if (navUl) {
+                navUl.style.flexDirection = '';
+                navUl.style.alignItems = '';
+                navUl.style.gap = '';
+                
+                const navItems = navUl.querySelectorAll('li');
+                navItems.forEach(item => {
+                    item.style.width = '';
+                    item.style.maxWidth = '';
+                    item.style.textAlign = '';
+                });
+            }
+            
+            // Piilotetaan sulkemispainike
+            closeBtn.style.display = 'none';
+            
+            // Poistetaan luokka bodysta
+            body.classList.remove('nav-open');
+            
+            // Näytetään top bar
+            const topBar = document.querySelector('.top-bar');
+            if (topBar) {
+                topBar.style.opacity = '';
+                topBar.style.visibility = '';
+            }
+            
+            // Sallitaan sivun vieritys
+            body.style.overflow = '';
+        });
+    }
+    
+    // Aktiivisen sivun korostus
+    const currentLocation = window.location.pathname;
+    const navItems = document.querySelectorAll('nav ul li');
+    const logoLink = document.querySelector('.logo-link');
+    
+    navItems.forEach(item => {
+        const link = item.querySelector('a');
+        if (link) {
+            const href = link.getAttribute('href');
+            if (currentLocation.includes(href) && href !== 'index.html') {
+                item.classList.add('active');
+            } else if (currentLocation.endsWith('/') || currentLocation.endsWith('index.html')) {
+                if (href === 'index.html') {
+                    item.classList.add('active');
+                }
+            }
+        }
+    });
+    
+    // Logo hover efekti
+    if (logoLink) {
+        logoLink.addEventListener('mouseenter', function() {
+            this.querySelector('h1').style.textShadow = '0 0 15px rgba(0, 200, 255, 0.8)';
+        });
+        
+        logoLink.addEventListener('mouseleave', function() {
+            this.querySelector('h1').style.textShadow = '';
+        });
+    }
+}); 

@@ -1,0 +1,7 @@
+[33mcommit 8227849fbfcb12fb8c35350b20a09cf4a9b57a31[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: PateBest <aipatrik@outlook.com>
+Date:   Mon Mar 10 01:52:01 2025 +0200
+
+    Parannettu sed-komento GitHub Actions -työnkulussa monirivisen korvauksen käsittelyyn
+
+.github/workflows/deploy.yml

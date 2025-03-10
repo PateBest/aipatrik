@@ -2,6 +2,7 @@
 /* Piilota hampurilaisvalikko oletuksena (työpöytäversio) */
 .mobile-nav-toggle {
     display: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 /* Piilota sulkemispainike oletuksena */
@@ -24,6 +25,7 @@
     transition: all 0.3s ease;
     opacity: 0;
     padding: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Näytetään sulkemispainike kun valikko on auki */
@@ -36,6 +38,7 @@ body.nav-open .nav-close-btn {
     color: var(--accent-color);
     transform: scale(1.1);
     background: rgba(50, 50, 70, 0.9);
+    box-shadow: 0 6px 20px rgba(0, 150, 255, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -190,5 +193,50 @@ body.nav-open .nav-close-btn {
     
     .hamburger.open {
         z-index: 1002;
+    }
+}
+
+/* Parannukset mobiilinavigaation painikkeisiin pienemmillä näytöillä */
+@media (max-width: 576px) {
+    nav ul li {
+        width: 90%;
+        margin: 6px 0;
+    }
+    
+    nav ul li a {
+        padding: 14px 18px;
+        font-size: 1.1rem;
+    }
+    
+    .nav-close-btn {
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 400px) {
+    nav ul li {
+        width: 95%;
+        margin: 5px 0;
+    }
+    
+    nav ul li a {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+    
+    .nav-close-btn {
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+    }
+    
+    nav ul {
+        padding: 3rem 1rem;
     }
 } 

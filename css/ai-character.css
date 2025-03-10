@@ -1,0 +1,983 @@
+/* AI Character Styles */
+
+#ai-character-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    background: transparent;
+    margin: 0 auto;
+    flex: 0 0 auto;
+}
+
+#ai-character-container canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Speech bubble styles */
+.ai-speech-bubble {
+    position: absolute;
+    padding: 15px 20px;
+    background: rgba(0, 30, 60, 0.85);
+    color: white;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 200, 255, 0.3);
+    border: 2px solid rgba(0, 200, 255, 0.5);
+    max-width: 280px;
+    text-align: center;
+    z-index: 1001;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-120px);
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+    animation: pulse 2s infinite;
+    top: 0;
+    left: 50%;
+}
+
+/* Add a small triangle at the bottom of the speech bubble */
+.ai-speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid rgba(0, 30, 60, 0.85);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 200, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 200, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 200, 255, 0.3);
+    }
+}
+
+/* Subtle glow effect for the head */
+@keyframes headGlow {
+    0% {
+        box-shadow: 0 0 20px rgba(245, 208, 176, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(245, 208, 176, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(245, 208, 176, 0.3);
+    }
+}
+
+#ai-character-container:after {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 25px rgba(245, 208, 176, 0.4);
+    animation: headGlow 3s infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Realistic shadow under the head */
+#ai-character-container:before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    width: 60%;
+    height: 20px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Debug info panel */
+#debug-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 12px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 200, 255, 0.5);
+    pointer-events: none;
+    max-width: 250px;
+    overflow: hidden;
+    display: none; /* Hide debug info by default in production */
+}
+
+/* Featured tool styles */
+.featured-tool {
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7));
+    border-radius: 15px;
+    padding: 25px 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset;
+    border: 1px solid rgba(0, 150, 255, 0.3);
+    transition: all 0.3s ease;
+    max-width: 48%;
+}
+
+.featured-tool:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 100, 255, 0.35), 0 0 25px rgba(0, 150, 255, 0.15) inset;
+    border-color: rgba(0, 200, 255, 0.4);
+}
+
+.featured-tool-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 150, 255, 0.3);
+    padding-bottom: 12px;
+}
+
+.featured-tool-header h2 {
+    font-size: 1.9rem;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6);
+    letter-spacing: 0.5px;
+}
+
+.featured-tool .tool-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 15px;
+}
+
+.featured-tool .tool-logo {
+    width: 55px;
+    height: 55px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 150, 255, 0.2) inset;
+    border: 1px solid rgba(0, 180, 255, 0.4);
+}
+
+.featured-tool .tool-logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.featured-tool h3 {
+    font-size: 1.6rem;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.featured-tool p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 18px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.featured-tool .benefits-box {
+    background: rgba(0, 100, 200, 0.2);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 150, 255, 0.1) inset;
+}
+
+.featured-tool .benefits-box p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.98);
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.featured-tool .benefits-box strong {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.featured-tool .cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--accent-color), #0066cc);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.featured-tool .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 150, 255, 0.5);
+    background: linear-gradient(135deg, #0088ff, #0055bb);
+}
+
+.featured-tool .cta-button i {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.featured-tool .cta-button:hover i {
+    transform: translateX(5px);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+    .hero .container {
+        flex-direction: column;
+        padding: 20px;
+        gap: 30px;
+    }
+    
+    .hero-content {
+        max-width: 100% !important;
+        text-align: center;
+    }
+    
+    #ai-character-container {
+        width: 300px !important;
+        height: 300px !important;
+        margin: 0 auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .featured-tool {
+        max-width: 100% !important;
+    }
+    
+    .hero {
+        padding: 30px 0 !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        gap: 40px;
+        display: flex;
+    }
+    
+    .hero-content, .featured-tool {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+        padding: 25px 30px;
+    }
+    
+    .hero-content {
+        order: 1;
+        margin-top: 0;
+    }
+    
+    #ai-character-container {
+        width: 320px;
+        height: 320px;
+        margin: 20px auto;
+        position: relative;
+        overflow: visible;
+        order: 2;
+    }
+    
+    .featured-tool {
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        order: 3;
+    }
+    
+    .hero {
+        padding: 50px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .ai-speech-bubble {
+        max-width: 250px;
+        font-size: 16px;
+        padding: 12px 18px;
+        border-width: 2px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 200, 255, 0.4);
+        top: -60px;
+        transform: translateX(-50%);
+    }
+    
+    /* Parannettu hahmon responsiivisuus */
+    #ai-character-container {
+        width: 300px !important;
+        height: 300px !important;
+        margin: 30px auto 10px auto !important;
+        position: relative !important;
+        overflow: visible !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Varmistetaan että canvas on keskellä */
+    #ai-character-container canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        max-height: 100%;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.05rem;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .featured-tool h3 {
+        font-size: 1.5rem;
+    }
+    
+    .featured-tool p {
+        font-size: 1rem;
+    }
+    
+    .featured-tool .benefits-box {
+        padding: 18px;
+    }
+    
+    .featured-tool .cta-button, .hero-content a {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    header .container {
+        padding: 15px !important;
+    }
+    
+    header h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    header p {
+        font-size: 0.85rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .ai-speech-bubble {
+        max-width: 240px;
+        font-size: 15px;
+        padding: 10px 15px;
+        top: -50px;
+    }
+    
+    /* Parannettu hahmon responsiivisuus */
+    #ai-character-container {
+        width: 280px !important;
+        height: 280px !important;
+        margin: 20px auto 30px auto !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.9rem;
+        margin-bottom: 18px;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 22px;
+    }
+    
+    .featured-tool {
+        padding: 25px;
+    }
+    
+    .featured-tool-header {
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .featured-tool .tool-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .featured-tool .tool-logo img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .featured-tool h3 {
+        font-size: 1.4rem;
+    }
+    
+    .featured-tool p {
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+    }
+    
+    .featured-tool .benefits-box {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .featured-tool .benefits-box p {
+        font-size: 0.9rem;
+    }
+    
+    .featured-tool .cta-button, .hero-content a {
+        padding: 10px 22px;
+        font-size: 0.95rem;
+    }
+    
+    nav ul li a {
+        padding: 12px 15px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .ai-speech-bubble {
+        max-width: 220px;
+        font-size: 14px;
+        padding: 10px 12px;
+        top: -40px;
+    }
+    
+    /* Parannettu hahmon responsiivisuus */
+    #ai-character-container {
+        width: 260px !important;
+        height: 260px !important;
+        margin: 15px auto 25px auto !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.7rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.95rem;
+    }
+    
+    .featured-tool {
+        padding: 20px;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .featured-tool .tool-logo {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .featured-tool .tool-logo img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .featured-tool h3 {
+        font-size: 1.3rem;
+    }
+    
+    .featured-tool p {
+        font-size: 0.9rem;
+    }
+    
+    .featured-tool .benefits-box {
+        padding: 12px;
+    }
+    
+    .featured-tool .benefits-box p {
+        font-size: 0.85rem;
+    }
+    
+    .featured-tool .benefits-box strong {
+        font-size: 0.95rem;
+    }
+    
+    .featured-tool .cta-button, .hero-content a {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Header ja navigaatio tyylit */
+header {
+    background: linear-gradient(to right, rgba(0, 10, 30, 0.95), rgba(0, 20, 50, 0.9));
+    border-bottom: 1px solid rgba(0, 150, 255, 0.1);
+    position: relative;
+}
+
+header:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    opacity: 0.8;
+}
+
+.logo-link:hover h1 {
+    text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+}
+
+.logo-link:hover div[style*="width: 50px"] {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.logo-link:hover div[style*="width: 20px"] {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+nav ul li a:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover:before {
+    width: 80%;
+}
+
+nav ul li.active a:before {
+    width: 80%;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+.mobile-nav-toggle:hover .hamburger span {
+    background: linear-gradient(90deg, #00ccff, #0088ff);
+}
+
+.mobile-nav-toggle:hover .hamburger span:nth-child(1) {
+    width: 70%;
+}
+
+.mobile-nav-toggle:hover .hamburger span:nth-child(3) {
+    width: 90%;
+}
+
+.mobile-nav-toggle:hover .hamburger span:nth-child(4) {
+    width: 50%;
+}
+
+/* Responsiiviset tyylit headerille ja navigaatiolle */
+@media (max-width: 768px) {
+    nav {
+        padding: 0 10px;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        width: 100%;
+        text-align: center;
+    }
+    
+    nav ul li a {
+        padding: 12px 0;
+    }
+}
+
+/* Top bar styles */
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 0;
+    background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1002; /* Korkeampi z-index kuin muilla elementeillä */
+}
+
+.top-bar .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-right: 20px;
+}
+
+.top-bar .social-icons a {
+    color: var(--text-light);
+    font-size: 20px;
+    transition: all 0.3s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    transform: scale(1.1);
+}
+
+.top-bar .social-icons a:hover {
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-bar .language-selector {
+    position: relative;
+    margin-left: 15px;
+}
+
+.top-bar .language-selector button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.top-bar .language-selector button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Kielivalikon dropdown */
+.top-bar .language-selector .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: rgba(0, 30, 60, 0.95);
+    min-width: 150px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1003; /* Korkeampi z-index kuin top barilla */
+    border-radius: 8px;
+    border: 1px solid rgba(0, 150, 255, 0.2);
+    overflow: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    margin-top: 5px;
+}
+
+.top-bar .language-selector:hover .dropdown-content {
+    display: block;
+    transform: translateY(0);
+}
+
+.top-bar .language-selector .dropdown-content a {
+    color: var(--text-light);
+    padding: 12px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-bar .language-selector .dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.top-bar .language-selector .dropdown-content a:hover {
+    background-color: rgba(0, 60, 120, 0.95);
+    color: var(--accent-color);
+    padding-left: 20px;
+}
+
+.top-bar .language-selector .dropdown-content a.active {
+    background-color: rgba(0, 100, 200, 0.5);
+    color: white;
+}
+
+.top-bar .language-selector .dropdown-content a.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Piilota top bar kun valikko on auki */
+body.nav-open .top-bar {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mobiiliresponsiivisuus top barille */
+@media (max-width: 576px) {
+    .top-bar .social-icons {
+        gap: 10px;
+        margin-right: 15px;
+    }
+    
+    .top-bar .social-icons a {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .top-bar .social-icons {
+        gap: 8px;
+        margin-right: 10px;
+    }
+    
+    .top-bar .social-icons a {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .top-bar .language-selector button {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
+}
+
+/* Responsiivisuus viikon työkalulle */
+@media (max-width: 992px) {
+    .featured-tool {
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 25px 30px;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .featured-tool {
+        padding: 20px 25px;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .featured-tool h3 {
+        font-size: 1.3rem;
+    }
+    
+    .featured-tool p {
+        font-size: 0.9rem;
+    }
+    
+    .featured-tool .benefits-box {
+        padding: 12px;
+    }
+    
+    .featured-tool .benefits-box p {
+        font-size: 0.85rem;
+    }
+    
+    .featured-tool .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .featured-tool {
+        padding: 15px 20px;
+    }
+    
+    .featured-tool-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .featured-tool .tool-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .featured-tool .tool-logo img {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .featured-tool h3 {
+        font-size: 1.2rem;
+    }
+    
+    .featured-tool .benefits-box {
+        padding: 10px;
+    }
+    
+    .featured-tool .benefits-box p {
+        font-size: 0.8rem;
+    }
+    
+    .featured-tool .cta-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 48%;
+    position: relative;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6);
+    white-space: normal;
+    letter-spacing: 0.5px;
+}
+
+.hero-content h1 .nowrap {
+    white-space: nowrap;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    margin-bottom: 25px;
+}
+
+.hero-content a {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--accent-color), #0066cc);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+}
+
+.hero-content a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 150, 255, 0.5);
+    background: linear-gradient(135deg, #0088ff, #0055bb);
+}
+
+.hero-content a i {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.hero-content a:hover i {
+    transform: translateX(5px);
+}
+
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        gap: 30px;
+        display: flex;
+    }
+    
+    .hero-content {
+        max-width: 100%;
+        width: 100%;
+        text-align: center;
+        order: 1;
+        margin-top: 0;
+    }
+    
+    #ai-character-container {
+        width: 300px;
+        height: 300px;
+        margin: 30px auto 10px auto;
+        position: relative;
+        overflow: visible;
+        order: 2;
+    }
+    
+    .featured-tool {
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 25px 30px;
+        order: 3;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .hero {
+        padding: 40px 0;
+    }
+} 
