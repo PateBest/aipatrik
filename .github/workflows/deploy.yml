@@ -80,22 +80,37 @@ jobs:
       - name: Create and replace Supabase config
         run: |
           # Luodaan JavaScript-tiedosto, joka sisältää Supabase-konfiguraation
-          cat > temp_config.js << 'EOFMARKER'
-          window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-          window.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          window.INLINE_CONFIG = {
-            SUPABASE_URL: '${{ secrets.SUPABASE_URL }}',
-            SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'
-          };
-          console.log("Inline Supabase configuration loaded");
-          EOFMARKER
-
-          # Käytetään sed-komentoa korvaamaan placeholder
-          sed -i '/\/\/ SUPABASE_CONFIG_PLACEHOLDER/ {
-            r temp_config.js
-            d
-          }' pages/yhteystiedot.html
-          rm temp_config.js
+          SUPABASE_CONFIG="window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';\nwindow.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';\nwindow.INLINE_CONFIG = {\n  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}',\n  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'\n};\nconsole.log(\"Inline Supabase configuration loaded\");"
+          
+          # Tulostetaan debug-tietoa (ei näytä secretien arvoja)
+          echo "Replacing placeholder with Supabase configuration"
+          echo "SUPABASE_URL length: ${#SUPABASE_URL}"
+          echo "SUPABASE_ANON_KEY length: ${#SUPABASE_ANON_KEY}"
+          
+          # Käytetään perl-komentoa korvaamaan placeholder
+          # Perl on luotettavampi monirivisten korvausten käsittelyssä
+          perl -i -pe "s|// SUPABASE_CONFIG_PLACEHOLDER|$SUPABASE_CONFIG|g" pages/yhteystiedot.html
+          
+          # Varmistetaan, että korvaus onnistui
+          if grep -q "window.SUPABASE_URL" pages/yhteystiedot.html; then
+            echo "Placeholder successfully replaced with Supabase configuration"
+          else
+            echo "Failed to replace placeholder with Supabase configuration"
+            echo "Trying alternative method..."
+            
+            # Vaihtoehtoinen tapa: luodaan uusi tiedosto ja korvataan vanha
+            cp pages/yhteystiedot.html pages/yhteystiedot.html.bak
+            cat pages/yhteystiedot.html.bak | sed "s|// SUPABASE_CONFIG_PLACEHOLDER|$SUPABASE_CONFIG|g" > pages/yhteystiedot.html
+            rm pages/yhteystiedot.html.bak
+            
+            # Tarkistetaan uudelleen
+            if grep -q "window.SUPABASE_URL" pages/yhteystiedot.html; then
+              echo "Alternative method successful"
+            else
+              echo "Both methods failed. Manual inspection needed."
+              exit 1
+            fi
+          fi
 
           # Luodaan .nojekyll-tiedosto estämään GitHub Pagesin Jekyll-käsittely
           touch .nojekyll
