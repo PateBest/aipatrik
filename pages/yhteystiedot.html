@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
+<script>
+// Suora Supabase-konfiguraatio
+window.SUPABASE_URL = 'https://ograsjqhyblnfqqflwvo.supabase.co';
+window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4';
+
+// Asetetaan konfiguraatio myös CONFIG-objektiin
+if (typeof window.CONFIG === 'undefined') {
+  window.CONFIG = {};
+}
+window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
+window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+
+// Asetetaan konfiguraatio myös INLINE_CONFIG-objektiin
+window.INLINE_CONFIG = {
+  SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4'
+};
+
+console.log('Suora Supabase-konfiguraatio ladattu');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yhteystiedot - AI Patrik</title>
@@ -573,10 +593,10 @@ console.log("Inline Supabase configuration loaded");
             color: white;
         }
     </style>
-    <script src="../js/supabase-config.js"></script>
-    <script src="./js/supabase-config.js"></script>
-    <script src="/js/supabase-config.js"></script>
-    <script src="/aipatrik/js/supabase-config.js"></script>
+    <script src="../inline-config.js"></script>
+    <script src="./js/inline-config.js"></script>
+    <script src="/inline-config.js"></script>
+    <script src="/aipatrik/inline-config.js"></script>
 </head>
 <body>
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
