@@ -48,13 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoLink = document.querySelector('.logo-link');
     const navElement = document.querySelector('nav');
     const body = document.body;
+    const topBar = document.querySelector('.top-bar');
     
     // Luodaan sulkemispainike ja lisätään se bodyyn
     const closeBtn = document.createElement('button');
     closeBtn.className = 'nav-close-btn';
     closeBtn.innerHTML = '<i class="fas fa-times"></i>';
     closeBtn.setAttribute('aria-label', 'Sulje valikko');
-    closeBtn.style.position = 'absolute';
+    closeBtn.style.position = 'fixed';
     closeBtn.style.top = '20px';
     closeBtn.style.right = '20px';
     closeBtn.style.zIndex = '1001';
@@ -95,6 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileNavToggle.style.visibility = 'visible';
             }, 300);
         }
+        
+        // Näytetään top bar kun valikko suljetaan
+        if (topBar) {
+            setTimeout(function() {
+                topBar.style.opacity = '1';
+                topBar.style.visibility = 'visible';
+            }, 300);
+        }
     }
     
     // Asetetaan animaatioindeksi jokaiselle navigaatioelementille
@@ -122,22 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Piilotetaan hampurilaisvalikko kun valikko avataan
                 mobileNavToggle.style.opacity = '0';
                 mobileNavToggle.style.visibility = 'hidden';
-            } else {
-                closeBtn.style.display = 'none';
                 
-                // Näytetään logo kun valikko suljetaan
-                if (logoLink) {
-                    setTimeout(function() {
-                        logoLink.style.opacity = '1';
-                        logoLink.style.visibility = 'visible';
-                    }, 300);
+                // Piilotetaan top bar kun valikko avataan
+                if (topBar) {
+                    topBar.style.opacity = '0';
+                    topBar.style.visibility = 'hidden';
                 }
-                
-                // Näytetään hampurilaisvalikko kun valikko suljetaan
-                setTimeout(function() {
-                    mobileNavToggle.style.opacity = '1';
-                    mobileNavToggle.style.visibility = 'visible';
-                }, 300);
+            } else {
+                closeNavMenu();
             }
         });
         
@@ -201,6 +202,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Päivitetään koot kun ikkunan kokoa muutetaan
         window.addEventListener('resize', updateNavItemsSize);
+        
+        // Varmistetaan että valikko sulkeutuu kun näytön orientaatio muuttuu
+        window.addEventListener('orientationchange', function() {
+            setTimeout(closeNavMenu, 100);
+        });
     }
 });
 
