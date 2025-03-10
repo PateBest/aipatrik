@@ -50,6 +50,60 @@
             transform: scale(1.1);
         }
         
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
         .language-selector button {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -62,6 +116,62 @@
             gap: 5px;
             font-size: 14px;
             transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        .language-selector .dropdown-content a.active {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .language-selector .dropdown-content a.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* Responsive styles for "Lue lisää" cards */
@@ -83,7 +193,7 @@
 <body>
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
     <div class="top-bar">
-        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+        <div class="container">
             <div class="social-icons">
                 <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
                 <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
@@ -162,7 +272,7 @@
                 </p>
                 <ul>
                     <li><strong>Kasvava vaikutusvalta:</strong> Tekoäly vaikuttaa yhä enemmän päätöksentekoon, työllisyyteen ja yhteiskuntaan.</li>
-                    <li><strong>Läpinäkyvyyden puute:</strong> Monet tekoälyjärjestelmät toimivat "mustina laatikoina", joiden päätöksentekoprosesseja on vaikea ymmärtää.</li>
+                    <li><strong>Läpinäkyden puute:</strong> Monet tekoälyjärjestelmät toimivat "mustina laatikoina", joiden päätöksentekoprosesseja on vaikea ymmärtää.</li>
                     <li><strong>Datan käyttö:</strong> Tekoäly tarvitsee valtavia määriä dataa, mikä herättää kysymyksiä yksityisyydestä ja suostumuksesta.</li>
                     <li><strong>Ennakkoluulot ja syrjintä:</strong> Tekoäly voi vahvistaa olemassa olevia yhteiskunnallisia ennakkoluuloja.</li>
                     <li><strong>Autonomia ja vastuu:</strong> Kun tekoäly tekee päätöksiä, kuka on vastuussa seurauksista?</li>
