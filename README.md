@@ -22,13 +22,13 @@ Sivusto on rakennettu käyttäen seuraavia teknologioita:
 - JavaScript (vanilla JS)
 - Font Awesome -ikonit
 - Responsiivinen suunnittelu kaikille laitteille
-- SupaBase integraatio uutiskirjeen tilaajien hallintaan
+- Formspree integraatio yhteydenottolomaketta varten
 
 ## Ominaisuudet
 
 - **Moderni käyttöliittymä**: Tyylikäs ja käyttäjäystävällinen design
 - **Responsiivisuus**: Toimii saumattomasti kaikilla laitteilla
-- **Uutiskirjeen tilaus**: SupaBase-integraatio tilaajien hallintaan
+- **Yhteydenottolomake**: Formspree-integraatio viestien vastaanottamiseen
 - **Sosiaalisen median integraatio**: Linkit sosiaalisen median kanaviin
 - **Kielivalinta**: Tuki useille kielille (tulossa pian)
 
@@ -42,15 +42,7 @@ Sivusto on rakennettu käyttäen seuraavia teknologioita:
    cd ai-patrik
    ```
 
-2. Aseta ympäristömuuttujat:
-   - Kopioi `.env.example` tiedosto nimellä `.env` sekä juurihakemistoon että server-hakemistoon
-   - Täytä `.env` tiedostoihin omat API-avaimesi ja muut tarvittavat tiedot
-   ```
-   cp .env.example .env
-   cp server/.env.example server/.env
-   ```
-
-3. Avaa `index.html` selaimessa tai käytä paikallista palvelinta:
+2. Avaa `index.html` selaimessa tai käytä paikallista palvelinta:
    ```
    # Python 3
    python -m http.server
@@ -59,11 +51,15 @@ Sivusto on rakennettu käyttäen seuraavia teknologioita:
    python -m SimpleHTTPServer
    ```
 
-4. Sivusto on nyt käytettävissä osoitteessa `http://localhost:8000`
+3. Sivusto on nyt käytettävissä osoitteessa `http://localhost:8000`
 
-### SupaBase Integraatio
+### Formspree Integraatio
 
-Uutiskirjeen tilaajien hallintaan käytetään SupaBase-palvelua. Asetukset ja ohjeet löytyvät kansiosta `supabase/README.md`.
+Yhteydenottolomake käyttää Formspree-palvelua viestien vastaanottamiseen. Formspree on ilmainen palvelu, joka mahdollistaa lomakkeiden lähettämisen suoraan sähköpostiin ilman backend-koodia.
+
+1. Rekisteröidy osoitteessa [formspree.io](https://formspree.io/)
+2. Luo uusi lomake ja saat yksilöllisen lomakkeen URL:n
+3. Päivitä lomakkeen action-attribuutti `yhteystiedot.html`-tiedostossa
 
 ## Sivuston Julkaisu
 
@@ -87,15 +83,14 @@ ai-patrik/
 ├── js/
 │   └── main.js             # JavaScript-toiminnallisuudet
 ├── images/                 # Kuvat ja ikonit
-├── pages/                  # Alasivut
-│   ├── tyokalut.html       # Työkalut-sivu
-│   ├── oppaat.html         # Oppaat-sivu
-│   ├── blogi.html          # Blogi-sivu
-│   ├── arvostelut.html     # Arvostelut-sivu
-│   └── yhteystiedot.html   # Yhteystiedot-sivu
-└── supabase/               # SupaBase integraatio
-    ├── README.md           # SupaBase ohjeet
-    └── functions/          # SupaBase Edge Functions
+└── pages/                  # Alasivut
+    ├── tyokalut.html       # Työkalut-sivu
+    ├── oppaat.html         # Oppaat-sivu
+    ├── blogi.html          # Blogi-sivu
+    ├── arvostelut.html     # Arvostelut-sivu
+    ├── yhteystiedot.html   # Yhteystiedot-sivu
+    ├── kiitos.html         # Kiitossivu lomakkeen lähetyksen jälkeen
+    └── virhe.html          # Virhesivu lomakkeen lähetyksen epäonnistuessa
 ```
 
 ## Kehitys ja Ylläpito
