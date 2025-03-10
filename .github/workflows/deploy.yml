@@ -116,12 +116,23 @@ jobs:
           touch .nojekyll
           echo "Created .nojekyll file"
           
-          # Luodaan suora JavaScript-tiedosto pages-hakemistoon
-          echo "Creating direct JavaScript file with Supabase configuration"
+          # Lisätään Supabase-konfiguraatio suoraan yhteystiedot.html-tiedostoon
+          echo "Adding direct Supabase configuration to yhteystiedot.html"
+          
+          # Luodaan konfiguraatio-skripti
+          DIRECT_CONFIG="<script>\n// Suora Supabase-konfiguraatio\nwindow.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';\nwindow.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';\n\n// Asetetaan konfiguraatio myös CONFIG-objektiin\nif (typeof window.CONFIG === 'undefined') {\n  window.CONFIG = {};\n}\nwindow.CONFIG.SUPABASE_URL = window.SUPABASE_URL;\nwindow.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;\n\n// Asetetaan konfiguraatio myös INLINE_CONFIG-objektiin\nwindow.INLINE_CONFIG = {\n  SUPABASE_URL: '${{ secrets.SUPABASE_URL }}',\n  SUPABASE_ANON_KEY: '${{ secrets.SUPABASE_ANON_KEY }}'\n};\n\nconsole.log('Suora Supabase-konfiguraatio ladattu');\n</script>"
+          
+          # Lisätään konfiguraatio-skripti head-tagin alkuun
+          perl -i -pe "s|<head>|<head>\n$DIRECT_CONFIG|" pages/yhteystiedot.html
+          
+          echo "Added direct Supabase configuration to yhteystiedot.html"
+          
+          # Luodaan myös inline-config.js-tiedosto
+          echo "Creating inline-config.js file"
+          
           mkdir -p pages/js
           
-          # Luodaan supabase-config.js-tiedosto
-          cat > pages/js/supabase-config.js << EOF
+          cat > pages/js/inline-config.js << EOF
           // This file is generated during deployment - do not edit manually
           window.SUPABASE_URL = "${{ secrets.SUPABASE_URL }}";
           window.SUPABASE_ANON_KEY = "${{ secrets.SUPABASE_ANON_KEY }}";
@@ -139,25 +150,16 @@ jobs:
             SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
           };
           
-          console.log("Supabase configuration loaded from supabase-config.js");
+          console.log("Supabase configuration loaded from inline-config.js");
           EOF
           
-          echo "Created supabase-config.js with Supabase configuration"
-          
-          # Kopioidaan tiedosto myös juurihakemistoon ja muihin hakemistoihin
-          cp pages/js/supabase-config.js ./supabase-config.js
-          cp pages/js/supabase-config.js ./pages/supabase-config.js
-          cp pages/js/supabase-config.js ./js/supabase-config.js
-          
-          echo "Copied supabase-config.js to multiple locations for better accessibility"
+          # Kopioidaan tiedosto myös juurihakemistoon
+          cp pages/js/inline-config.js ./inline-config.js
           
           # Lisätään script-tagi yhteystiedot.html-tiedostoon
-          echo "Adding script tag to yhteystiedot.html"
+          perl -i -pe 's|</head>|    <script src="../inline-config.js"></script>\n    <script src="./js/inline-config.js"></script>\n    <script src="/inline-config.js"></script>\n    <script src="/aipatrik/inline-config.js"></script>\n</head>|g' pages/yhteystiedot.html
           
-          # Etsitään sopiva kohta (head-tagin loppu) ja lisätään script-tagi
-          perl -i -pe 's|</head>|    <script src="../js/supabase-config.js"></script>\n    <script src="./js/supabase-config.js"></script>\n    <script src="/js/supabase-config.js"></script>\n    <script src="/aipatrik/js/supabase-config.js"></script>\n</head>|g' pages/yhteystiedot.html
-          
-          echo "Added script tags to yhteystiedot.html"
+          echo "Added inline-config.js script tags to yhteystiedot.html"
 
       - name: Create direct configuration page
         run: |
@@ -317,21 +319,29 @@ jobs:
             exit 1
           fi
           
-          # Verify supabase-config.js exists and contains Supabase configuration
-          if [ -f "./js/supabase-config.js" ]; then
-            if grep -q "window.SUPABASE_URL" ./js/supabase-config.js; then
-              echo "Supabase config successfully added to js/supabase-config.js"
+          # Verify direct configuration in yhteystiedot.html
+          if grep -q "Suora Supabase-konfiguraatio" ./pages/yhteystiedot.html; then
+            echo "Direct Supabase configuration successfully added to yhteystiedot.html"
+          else
+            echo "Failed to add direct Supabase configuration to yhteystiedot.html"
+            exit 1
+          fi
+          
+          # Verify inline-config.js exists and contains Supabase configuration
+          if [ -f "./inline-config.js" ]; then
+            if grep -q "window.SUPABASE_URL" ./inline-config.js; then
+              echo "Supabase config successfully added to inline-config.js"
             else
-              echo "Failed to add Supabase config to js/supabase-config.js"
+              echo "Failed to add Supabase config to inline-config.js"
               exit 1
             fi
           else
-            echo "js/supabase-config.js not found"
+            echo "inline-config.js not found"
             exit 1
           fi
           
           # Verify script tags in yhteystiedot.html
-          if grep -q "supabase-config.js" ./pages/yhteystiedot.html; then
+          if grep -q "inline-config.js" ./pages/yhteystiedot.html; then
             echo "Script tags successfully added to yhteystiedot.html"
           else
             echo "Failed to add script tags to yhteystiedot.html"
