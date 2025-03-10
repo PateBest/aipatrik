@@ -25,9 +25,12 @@ let waveAnimationMixer;
 let waveAction;
 let particles = [];
 let debugElement;
-let isDebugMode = true;
+let isDebugMode = false; // Disable debug mode in production
 let isMouseTracking = true; // Flag to enable/disable mouse tracking
 let isThreeJsAvailable = false; // Flag to check if Three.js is available
+let isMobile = false; // Flag to check if device is mobile
+let hasRendered = false; // Flag to check if character has been rendered at least once
+let fallbackCreated = false; // Flag to check if fallback character has been created
 
 // ===== SCENE SETUP =====
 /**
@@ -36,6 +39,9 @@ let isThreeJsAvailable = false; // Flag to check if Three.js is available
 function init() {
     try {
         console.log("Initializing AI character...");
+        
+        // Check if device is mobile
+        isMobile = window.innerWidth <= 768;
         
         // Enable debug mode
         debugElement = document.getElementById('debug-info');
@@ -53,9 +59,8 @@ function init() {
         }
         
         isThreeJsAvailable = true;
-        updateDebugInfo('THREE.js loaded successfully');
         
-        // Get the container element
+        // Get container
         container = document.getElementById('ai-character-container');
         if (!container) {
             console.error('Container not found');
@@ -63,95 +68,60 @@ function init() {
             return;
         }
         
-        updateDebugInfo('Container found: ' + container.clientWidth + 'x' + container.clientHeight);
-        
-        // Initialize clock
-        clock = new THREE.Clock();
-        
         // Create scene
         scene = new THREE.Scene();
         
-        // Create camera
-        const width = container.clientWidth || 500;
-        const height = container.clientHeight || 500;
-        const aspect = width / height;
-        
-        camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-        camera.position.set(0, 0.5, 5); // Täsmälleen keskellä x-akselilla, hieman ylempänä y-akselilla
-        camera.lookAt(0, 0, 0); // Katsoo suoraan origoon, missä hahmo sijaitsee
+        // Create camera with perspective
+        const aspectRatio = container.clientWidth / container.clientHeight;
+        camera = new THREE.PerspectiveCamera(45, aspectRatio, 0.1, 1000);
+        camera.position.z = isMobile ? 5 : 4; // Adjust camera position for mobile
         
         // Create renderer
-        renderer = new THREE.WebGLRenderer({
+        renderer = new THREE.WebGLRenderer({ 
             antialias: true,
-            alpha: true,
-            preserveDrawingBuffer: false
+            alpha: true
         });
-        renderer.setSize(width, height);
+        renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setClearColor(0x000000, 0); // Transparent background
-        renderer.shadowMap.enabled = true;
         
-        // Apply styles to renderer
-        renderer.domElement.style.position = 'absolute';
-        renderer.domElement.style.top = '50%';
-        renderer.domElement.style.left = '50%';
-        renderer.domElement.style.transform = 'translate(-50%, -50%)';
-        renderer.domElement.style.background = 'transparent';
-        renderer.domElement.style.backgroundColor = 'transparent';
-        renderer.domElement.style.borderRadius = '0';
-        renderer.domElement.style.boxShadow = 'none';
-        
-        // Varmistetaan että canvas on täysin läpinäkyvä
-        const canvas = renderer.domElement;
-        canvas.style.background = 'transparent';
-        canvas.style.backgroundColor = 'transparent';
-        
-        // Clear container before appending
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
-        
+        // Add renderer to container
         container.appendChild(renderer.domElement);
         
-        // Add lights
+        // Setup lighting
         setupLighting();
         
-        // Create the character
+        // Create character
         createCharacter();
+        
+        // Create particles
+        createParticles();
+        
+        // Setup wave animation
+        setupWaveAnimation();
         
         // Create speech bubble
         createSpeechBubble();
         
-        // Create particle effects
-        createParticles();
-        
-        // Add event listeners for mouse movement and window resize
-        window.addEventListener('mousemove', onMouseMove);
+        // Add event listeners
         window.addEventListener('resize', onWindowResize);
+        document.addEventListener('mousemove', onMouseMove);
         
-        // Force initial resize to ensure correct dimensions
-        onWindowResize();
+        // Add touch event listeners for mobile
+        document.addEventListener('touchstart', onTouchMove);
+        document.addEventListener('touchmove', onTouchMove);
+        
+        // Initialize clock for animations
+        clock = new THREE.Clock();
+        
+        // Show welcome message
+        showWelcomeMessage();
         
         // Start animation loop
         animate();
         
-        // Show welcome message and wave animation after a short delay
-        setTimeout(() => {
-            showWelcomeMessage();
-            playWaveAnimation();
-        }, 500);
-        
-        // Varmistetaan että puhekupla päivittyy kun sivu on täysin latautunut
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (speechBubble) {
-                    updateSpeechBubblePosition();
-                }
-            }, 500);
-        });
-        
         updateDebugInfo('Initialization complete');
     } catch (error) {
-        console.error("Error:", error);
+        console.error('Error initializing AI character:', error);
         updateDebugInfo('ERROR: ' + error.message);
         createFallbackCharacter();
     }
@@ -790,106 +760,103 @@ function onMouseMove(event) {
 }
 
 /**
+ * Handle touch events for mobile devices
+ */
+function onTouchMove(event) {
+    if (!isMouseTracking || !isThreeJsAvailable) return;
+    
+    // Prevent default behavior to avoid scrolling
+    // event.preventDefault();
+    
+    if (event.touches.length > 0) {
+        const touch = event.touches[0];
+        
+        // Calculate mouse position
+        mouseX = touch.clientX;
+        mouseY = touch.clientY;
+        
+        // Calculate normalized mouse position (-1 to 1)
+        normalizedMouseX = (mouseX / windowWidth) * 2 - 1;
+        normalizedMouseY = -((mouseY / windowHeight) * 2 - 1);
+        
+        // Limit rotation range
+        targetRotationY = normalizedMouseX * 0.3;
+        targetRotationX = normalizedMouseY * 0.2;
+        
+        // Limit hand rotation range
+        targetHandRotationY = normalizedMouseX * 0.5;
+        targetHandRotationX = normalizedMouseY * 0.3;
+        
+        updateDebugInfo(`Touch: ${Math.round(normalizedMouseX * 100) / 100}, ${Math.round(normalizedMouseY * 100) / 100}`);
+    }
+}
+
+/**
  * Handle window resize
  */
 function onWindowResize() {
-    try {
-        if (!container || !camera || !renderer) return;
-        
-        // Update window dimensions
-        windowWidth = window.innerWidth;
-        windowHeight = window.innerHeight;
-        
-        // Get container dimensions
-        const width = container.clientWidth || 500;
-        const height = container.clientHeight || 500;
-        
-        updateDebugInfo('Resize: ' + width + 'x' + height);
-        
-        // Update camera aspect ratio
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        
-        // Update renderer size
-        renderer.setSize(width, height);
-        
-        // Varmistetaan että kamera katsoo edelleen keskelle
-        camera.position.set(0, 0.5, 5);
-        camera.lookAt(0, 0, 0);
-        
-        // Update speech bubble position
-        if (speechBubble) {
-        updateSpeechBubblePosition();
-            
-            // Varmistetaan että puhekupla päivittyy myös pienen viiveen jälkeen
-            // kun kaikki muut elementit ovat asettuneet paikoilleen
-            setTimeout(updateSpeechBubblePosition, 300);
-        }
-        
-        // Varmistetaan että hahmo on keskellä
-        if (character) {
-            character.position.set(0, character.position.y, 0);
-        }
-        
-        // Varmistetaan että renderer on keskitetty containerissa
-        if (renderer.domElement) {
-            renderer.domElement.style.position = 'absolute';
-            renderer.domElement.style.top = '50%';
-            renderer.domElement.style.left = '50%';
-            renderer.domElement.style.transform = 'translate(-50%, -50%)';
-            renderer.domElement.style.background = 'transparent';
-            renderer.domElement.style.borderRadius = '0';
-            renderer.domElement.style.boxShadow = 'none';
-        }
-    } catch (error) {
-        console.error("Window resize error:", error);
-    }
+    if (!isThreeJsAvailable) return;
+    
+    // Update window dimensions
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    
+    // Check if device is mobile
+    isMobile = windowWidth <= 768;
+    
+    // Update camera
+    const aspectRatio = container.clientWidth / container.clientHeight;
+    camera.aspect = aspectRatio;
+    camera.position.z = isMobile ? 5 : 4; // Adjust camera position for mobile
+    camera.updateProjectionMatrix();
+    
+    // Update renderer
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    
+    // Update speech bubble position
+    updateSpeechBubblePosition();
+    
+    updateDebugInfo(`Resize: ${windowWidth}x${windowHeight}, Mobile: ${isMobile}`);
 }
 
 /**
  * Animation loop
  */
 function animate() {
-    // Only run animation if Three.js is available
     if (!isThreeJsAvailable) return;
     
     requestAnimationFrame(animate);
     
-    try {
-        const delta = clock.getDelta();
+    // Get delta time
+    const delta = clock.getDelta();
+    
+    // Update character
+    updateCharacter(delta);
+    
+    // Update particles
+    animateParticles(delta);
+    
+    // Update wave animation
+    if (waveAnimationMixer) {
+        waveAnimationMixer.update(delta);
+    }
+    
+    // Render scene
+    renderer.render(scene, camera);
+    
+    // Set flag that character has been rendered
+    if (!hasRendered) {
+        hasRendered = true;
+        updateDebugInfo('First render complete');
         
-        // Update character animations
-        updateCharacter(delta);
-        
-        // Update particles
-        animateParticles(delta);
-        
-        // Update wave animation if playing
-        if (isWaving && waveAnimationMixer) {
-            waveAnimationMixer.update(delta);
+        // If on mobile, reduce animation complexity after first render
+        if (isMobile) {
+            // Reduce particle count
+            while (particles.length > 20) {
+                const particle = particles.pop();
+                scene.remove(particle);
+            }
         }
-        
-        // Tyhjennä renderer täysin läpinäkyväksi
-        renderer.setClearColor(0x000000, 0);
-        renderer.clear();
-        
-        // Render scene
-        renderer.render(scene, camera);
-        
-        // Update debug info periodically (not every frame) to improve performance
-        if (isDebugMode && debugElement && Math.random() < 0.1) { // Only update ~10% of frames
-            updateDebugInfo(
-                'FPS: ' + Math.round(1 / delta) + 
-                '<br>Container: ' + container.clientWidth + 'x' + container.clientHeight +
-                '<br>Canvas: ' + renderer.domElement.width + 'x' + renderer.domElement.height +
-                '<br>Mouse: ' + Math.round(normalizedMouseX * 100) / 100 + ', ' + Math.round(normalizedMouseY * 100) / 100 +
-                '<br>Head Rotation: ' + (head ? Math.round(head.rotation.y * 100) / 100 + ', ' + Math.round(head.rotation.x * 100) / 100 : 'N/A') +
-                '<br>THREE.js version: ' + (THREE.REVISION || 'unknown')
-            );
-        }
-    } catch (error) {
-        console.error("Animation error:", error);
-        updateDebugInfo('ANIMATION ERROR: ' + error.message);
     }
 }
 
@@ -957,13 +924,17 @@ function updateDebugInfo(message) {
     }
 }
 
-// Initialize when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        // Wait a moment to ensure Three.js is fully loaded
-        setTimeout(init, 500);
-    });
-} else {
-    // DOM already loaded, initialize after a short delay
-    setTimeout(init, 500);
-} 
+// Initialize on DOM content loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Delay initialization to ensure DOM is fully loaded
+    setTimeout(function() {
+        try {
+            init();
+        } catch (error) {
+            console.error('Error initializing AI character:', error);
+            if (!fallbackCreated) {
+                createFallbackCharacter();
+            }
+        }
+    }, 500);
+}); 
