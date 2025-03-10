@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasper AI arvostelu - AI Patrik</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li class="active"><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <section class="review-content">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00a67e, #00c4a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; text-align: center; width: 100%;">Jasper AI Arvostelu 2025</h2>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0; text-align: center;">Kattava arvio tekoälypohjaisesta sisällöntuotannon työkalusta</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #00a67e, #00c4a7); margin: 1.5rem auto;"></div>
+            
+            <div class="review-meta">
+                <p>Julkaistu: 4.3.2025 | Päivitetty: 4.3.2025 | Kirjoittanut: AI Patrik</p>
+                <div class="rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="score">4.8/5</span>
+                </div>
+            </div>
+            
+            <div class="review-summary">
+                <h3>Yhteenveto</h3>
+                <p>
+                    Jasper AI on yksi markkinoiden johtavista tekoälysisällöntuottajista, joka tarjoaa monipuolisia 
+                    työkaluja niin aloittelijoille kuin ammattilaisillekin. Testauksemme perusteella Jasper erottuu 
+                    edukseen erityisesti käyttäjäystävällisyydellään, monipuolisilla ominaisuuksillaan ja laadukkaalla 
+                    sisällöntuotannolla. Vaikka hinta on hieman korkeampi kuin joillakin kilpailijoilla, Jasper tarjoaa 
+                    vastinetta rahalle erityisesti aktiivisille sisällöntuottajille.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Mikä on Jasper AI?</h3>
+                <p>
+                    Jasper AI (aiemmin tunnettu nimellä Jarvis) on tekoälypohjainen sisällöntuotantotyökalu, joka on 
+                    suunniteltu auttamaan markkinoijia, bloggaajia, copywritereita ja muita sisällöntuottajia luomaan 
+                    laadukasta sisältöä nopeammin. Jasper hyödyntää GPT-teknologiaa ja on koulutettu valtavalla määrällä 
+                    tekstiä, mikä mahdollistaa ihmismäisen tekstin tuottamisen eri aiheista ja eri tyyleillä.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Tärkeimmät ominaisuudet</h3>
+                <ul>
+                    <li>
+                        <strong>Yli 50 sisältömallia:</strong> Jasper tarjoaa valmiita malleja eri sisältötyypeille, 
+                        kuten blogiartikkeleille, sähköposteille, sosiaalisen median julkaisuille, tuotekuvauksille ja 
+                        mainoksille.
+                    </li>
+                    <li>
+                        <strong>Jasper Chat:</strong> Keskustelupohjainen käyttöliittymä, joka mahdollistaa luonnollisen 
+                        vuorovaikutuksen tekoälyn kanssa.
+                    </li>
+                    <li>
+                        <strong>Jasper Art:</strong> Tekoälypohjainen kuvageneraattori, joka luo korkealaatuisia kuvia 
+                        tekstikuvausten perusteella.
+                    </li>
+                    <li>
+                        <strong>Dokumenttieditori:</strong> Monipuolinen tekstieditori, joka mahdollistaa pitkien 
+                        sisältöjen, kuten blogiartikkeleiden ja e-kirjojen, luomisen.
+                    </li>
+                    <li>
+                        <strong>Plagiointitarkistus:</strong> Integroitu Copyscape-tarkistus, joka varmistaa sisällön 
+                        ainutlaatuisuuden.
+                    </li>
+                    <li>
+                        <strong>SEO-integraatiot:</strong> Yhteensopivuus Surfer SEO:n kanssa hakukoneoptimointia varten.
+                    </li>
+                    <li>
+                        <strong>Tiimityöskentely:</strong> Mahdollisuus jakaa projekteja ja työskennellä yhteistyössä 
+                        tiimin kanssa.
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="review-section">
+                <h3>Käyttökokemus</h3>
+                <p>
+                    Jasperin käyttöliittymä on intuitiivinen ja selkeä. Uudet käyttäjät pääsevät nopeasti alkuun 
+                    kattavan perehdytyksen ja valmiiden mallien ansiosta. Dokumenttieditori muistuttaa perinteisiä 
+                    tekstinkäsittelyohjelmia, mikä tekee siitä helposti lähestyttävän.
+                </p>
+                <p>
+                    Erityisen vaikuttavaa on Jasperin kyky ymmärtää kontekstia ja tuottaa johdonmukaista sisältöä. 
+                    Tekoäly osaa jatkaa tekstiä luontevasti ja säilyttää yhtenäisen tyylin läpi dokumentin. Tämä 
+                    on erityisen hyödyllistä pitkien sisältöjen, kuten blogiartikkeleiden, luomisessa.
+                </p>
+                <p>
+                    Jasper Chat -ominaisuus on merkittävä parannus käyttökokemukseen. Sen avulla käyttäjät voivat 
+                    kommunikoida tekoälyn kanssa luonnollisella kielellä, mikä tekee sisällöntuotannosta entistä 
+                    sujuvampaa.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Sisällön laatu</h3>
+                <p>
+                    Jasperin tuottama sisältö on yleisesti ottaen korkealaatuista ja luonnollisen kuuloista. Tekoäly 
+                    osaa mukautua eri äänensävyihin ja tyyleihin, mikä mahdollistaa brändin mukaisen sisällön luomisen.
+                </p>
+                <p>
+                    Testasimme Jasperia eri sisältötyypeillä, kuten blogiartikkeleilla, tuotekuvauksilla ja sosiaalisen 
+                    median julkaisuilla. Kaikissa tapauksissa tulokset olivat vaikuttavia, vaikkakin joitakin pieniä 
+                    muokkauksia tarvittiin täydellisen lopputuloksen saavuttamiseksi.
+                </p>
+                <p>
+                    Erityisen hyvin Jasper suoriutui markkinointitekstien, kuten mainosten ja myyntisähköpostien, 
+                    luomisessa. Tekoäly osaa käyttää tehokkaita copywriting-tekniikoita, jotka voivat parantaa 
+                    konversioita.
+                </p>
+                <p>
+                    On kuitenkin huomattava, että Jasper ei ole täydellinen. Tekoäly saattaa toisinaan tuottaa 
+                    epätarkkaa tietoa, erityisesti erikoistuneilla aloilla tai uusimmista aiheista. Tämän vuoksi 
+                    on tärkeää tarkistaa faktat ja muokata sisältöä tarvittaessa.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Hinnoittelu</h3>
+                <p>
+                    Jasper tarjoaa kolme hinnoittelusuunnitelmaa:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Creator (49 €/kk):</strong> Perusominaisuudet, 50 000 sanaa kuukaudessa, 
+                        yksi käyttäjä.
+                    </li>
+                    <li>
+                        <strong>Teams (125 €/kk):</strong> Kaikki Creator-ominaisuudet, 100 000 sanaa kuukaudessa, 
+                        3 käyttäjää, tiimityöskentelyominaisuudet.
+                    </li>
+                    <li>
+                        <strong>Business (räätälöity hinnoittelu):</strong> Kaikki Teams-ominaisuudet, räätälöity 
+                        sanamäärä, rajaton määrä käyttäjiä, API-pääsy, koulutus ja tuki.
+                    </li>
+                </ul>
+                <p>
+                    Hinnoittelu on hieman korkeampi kuin joillakin kilpailijoilla, mutta Jasperin monipuoliset 
+                    ominaisuudet ja laadukas sisällöntuotanto tekevät siitä hintansa arvoisen aktiivisille 
+                    sisällöntuottajille. Erityisesti Teams-suunnitelma tarjoaa hyvän vastineen rahalle pienille 
+                    tiimeille.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Vertailu kilpailijoihin</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Ominaisuus</th>
+                            <th>Jasper AI</th>
+                            <th>Copy.ai</th>
+                            <th>Rytr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sisällön laatu</td>
+                            <td>★★★★★</td>
+                            <td>★★★★☆</td>
+                            <td>★★★☆☆</td>
+                        </tr>
+                        <tr>
+                            <td>Käyttöliittymä</td>
+                            <td>★★★★★</td>
+                            <td>★★★★☆</td>
+                            <td>★★★★☆</td>
+                        </tr>
+                        <tr>
+                            <td>Ominaisuudet</td>
+                            <td>★★★★★</td>
+                            <td>★★★★☆</td>
+                            <td>★★★☆☆</td>
+                        </tr>
+                        <tr>
+                            <td>Hinta-laatusuhde</td>
+                            <td>★★★★☆</td>
+                            <td>★★★★☆</td>
+                            <td>★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td>Tiimityöskentely</td>
+                            <td>★★★★★</td>
+                            <td>★★★☆☆</td>
+                            <td>★★☆☆☆</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    Verrattuna kilpailijoihin, kuten Copy.ai ja Rytr, Jasper erottuu edukseen erityisesti sisällön 
+                    laadun, monipuolisten ominaisuuksien ja tiimityöskentelymahdollisuuksien osalta. Copy.ai on 
+                    vahva kilpailija, joka tarjoaa samankaltaisia ominaisuuksia hieman edullisempaan hintaan, 
+                    mutta Jasperin sisällön laatu ja käyttökokemus ovat yleisesti ottaen parempia.
+                </p>
+                <p>
+                    Rytr on huomattavasti edullisempi vaihtoehto, joka sopii hyvin aloittelijoille ja pienemmän 
+                    budjetin käyttäjille. Sen ominaisuudet ja sisällön laatu eivät kuitenkaan yllä Jasperin tasolle.
+                </p>
+            </div>
+            
+            <div class="review-section">
+                <h3>Kenelle Jasper sopii?</h3>
+                <p>
+                    Jasper AI sopii erityisesti:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Sisältömarkkinoijille ja copywritereille:</strong> Jasperin monipuoliset mallit ja 
+                        laadukas sisällöntuotanto tekevät siitä erinomaisen työkalun ammattimaiseen sisällöntuotantoon.
+                    </li>
+                    <li>
+                        <strong>Bloggaajille:</strong> Dokumenttieditori ja SEO-integraatiot helpottavat 
+                        hakukoneoptimoitujen blogiartikkeleiden luomista.
+                    </li>
+                    <li>
+                        <strong>Markkinointitiimeille:</strong> Tiimityöskentelyominaisuudet ja monipuoliset 
+                        sisältömallit tekevät Jasperista hyödyllisen työkalun markkinointitiimeille.
+                    </li>
+                    <li>
+                        <strong>Yrittäjille ja pienyrityksille:</strong> Jasper voi auttaa yrittäjiä luomaan 
+                        ammattimaista markkinointisisältöä ilman copywriterin palkkaamista.
+                    </li>
+                </ul>
+                <p>
+                    Jasper ei välttämättä ole paras valinta:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Satunnaisille käyttäjille:</strong> Jos tarvitset tekoälyä vain satunnaisesti, 
+                        edullisemmat vaihtoehdot kuten Rytr voivat olla sopivampia.
+                    </li>
+                    <li>
+                        <strong>Erittäin teknisen sisällön tuottajille:</strong> Erikoistuneilla aloilla Jasperin 
+                        tuottama sisältö voi vaatia merkittävää muokkausta.
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="review-section">
+                <h3>Plussat ja miinukset</h3>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Plussat</h4>
+                        <ul>
+                            <li>Erinomainen sisällön laatu</li>
+                            <li>Intuitiivinen käyttöliittymä</li>
+                            <li>Monipuoliset sisältömallit</li>
+                            <li>Tehokas dokumenttieditori</li>
+                            <li>Hyvät tiimityöskentelyominaisuudet</li>
+                            <li>Jasper Art -kuvageneraattori</li>
+                            <li>SEO-integraatiot</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Miinukset</h4>
+                        <ul>
+                            <li>Korkeahko hinta</li>
+                            <li>Saattaa tuottaa epätarkkaa tietoa</li>
+                            <li>Rajoitettu sanamäärä perussuunnitelmissa</li>
+                            <li>Vaatii jonkin verran opettelua kaikkien ominaisuuksien hyödyntämiseksi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="review-section">
+                <h3>Yhteenveto</h3>
+                <p>
+                    Vaikka hinta on hieman korkeampi kuin joillakin kilpailijoilla, Jasper tarjoaa vastinetta rahalle 
+                    erityisesti aktiivisille sisällöntuottajille ja tiimeille. Jos tuotat säännöllisesti sisältöä 
+                    markkinointiin, blogeihin tai sosiaaliseen mediaan, Jasper voi merkittävästi tehostaa työnkulkuasi 
+                    ja parantaa sisällön laatua.
+                </p>
+                
+                <div class="guide-example" style="background: linear-gradient(to right, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin: 30px 0;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.8rem; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0, 166, 126, 0.3); margin-right: 20px;">
+                            4.8
+                        </div>
+                        <div>
+                            <h4 style="margin: 0 0 5px 0; font-size: 1.4rem; color: #00a67e;">Lopullinen arvosana</h4>
+                            <div style="display: flex; margin-top: 5px;">
+                                <i class="fas fa-star" style="color: #00a67e; margin-right: 3px;"></i>
+                                <i class="fas fa-star" style="color: #00a67e; margin-right: 3px;"></i>
+                                <i class="fas fa-star" style="color: #00a67e; margin-right: 3px;"></i>
+                                <i class="fas fa-star" style="color: #00a67e; margin-right: 3px;"></i>
+                                <i class="fas fa-star-half-alt" style="color: #00a67e;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 15px;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <h5 style="margin: 0 0 10px 0; color: #00a67e; display: flex; align-items: center;">
+                                <i class="fas fa-plus-circle" style="margin-right: 8px;"></i> Plussat
+                            </h5>
+                            <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <i class="fas fa-check" style="color: #00a67e; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Erinomainen sisällön laatu
+                                </li>
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <i class="fas fa-check" style="color: #00a67e; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Intuitiivinen käyttöliittymä
+                                </li>
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <i class="fas fa-check" style="color: #00a67e; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Monipuoliset sisältömallit
+                                </li>
+                                <li style="position: relative; padding-left: 15px;">
+                                    <i class="fas fa-check" style="color: #00a67e; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Tehokas dokumenttieditori
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1; min-width: 250px;">
+                            <h5 style="margin: 0 0 10px 0; color: #dc3545; display: flex; align-items: center;">
+                                <i class="fas fa-minus-circle" style="margin-right: 8px;"></i> Miinukset
+                            </h5>
+                            <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <i class="fas fa-times" style="color: #dc3545; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Korkeahko hinta
+                                </li>
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <i class="fas fa-times" style="color: #dc3545; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Saattaa tuottaa epätarkkaa tietoa
+                                </li>
+                                <li style="position: relative; padding-left: 15px;">
+                                    <i class="fas fa-times" style="color: #dc3545; position: absolute; left: -10px; top: 4px; font-size: 0.8rem;"></i>
+                                    Rajoitettu sanamäärä perussuunnitelmissa
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://www.jasper.ai" class="btn" target="_blank" style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-pen-fancy" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Kokeile Jasper AI:ta
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="../oppaat/sisallontuotanto-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Sisällöntuotanto tekoälyllä</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava opas tekoälyn hyödyntämiseen sisällöntuotannossa ja markkinoinnissa.</p>
+                        </a>
+                        
+                        <a href="../blogi/ai-markkinointi.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoäly markkinoinnissa</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Artikkeli tekoälyn vaikutuksesta markkinointiin ja sisällöntuotantoon.</p>
+                        </a>
+                        
+                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

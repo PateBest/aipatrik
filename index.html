@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PATRIK - Tekoälyn työkalut ja opastus</title>
+    <meta name="description" content="AI Patrik tarjoaa asiantuntevaa apua tekoälyn hyödyntämisessä. Ota yhteyttä ja tehosta liiketoimintaasi tekoälyn avulla.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile-nav.css">
+    <link rel="stylesheet" href="css/ai-character.css">
+    
+    <!-- Three.js library - Primary source -->
+    <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
+    
+    <!-- Fallback for Three.js if CDN fails -->
+    <script>
+        window.addEventListener('error', function(e) {
+            if (e.target.src && e.target.src.includes('three')) {
+                console.log('Three.js failed to load from primary source, trying fallback...');
+                
+                // Try another CDN
+                var fallbackScript = document.createElement('script');
+                fallbackScript.src = 'https://cdn.jsdelivr.net/npm/three@0.148.0/build/three.min.js';
+                
+                // If the second CDN also fails, use the local fallback
+                fallbackScript.onerror = function() {
+                    console.log('Three.js failed to load from fallback CDN, using local fallback...');
+                    var localFallbackScript = document.createElement('script');
+                    localFallbackScript.src = 'js/lib/three-basic.js';
+                    document.head.appendChild(localFallbackScript);
+                };
+                
+                document.head.appendChild(fallbackScript);
+            }
+        }, true);
+    </script>
+    
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <script>
+        // Verify Three.js is loaded correctly
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                if (typeof THREE === 'undefined') {
+                    console.error('THREE.js is not loaded correctly!');
+                    
+                    // Create a simple fallback character if Three.js fails
+                    var container = document.getElementById('ai-character-container');
+                    if (container) {
+                        container.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">' +
+                            '<div style="width: 80px; height: 80px; background-color: #0066cc; border-radius: 50%; margin-bottom: 10px; position: relative; transform-origin: center center;">' +
+                            '<div style="position: absolute; width: 15px; height: 15px; background-color: #00ffff; border-radius: 50%; top: 25px; left: 20px;"></div>' +
+                            '<div style="position: absolute; width: 15px; height: 15px; background-color: #00ffff; border-radius: 50%; top: 25px; right: 20px;"></div>' +
+                            '</div>' +
+                            '<div style="width: 60px; height: 100px; background-color: #0066cc; border-radius: 10px; position: relative;">' +
+                            '<div style="position: absolute; width: 15px; height: 70px; background-color: #0066cc; border-radius: 8px; top: 10px; left: -20px; transform-origin: top center;"></div>' +
+                            '<div style="position: absolute; width: 15px; height: 70px; background-color: #0066cc; border-radius: 8px; top: 10px; right: -20px; transform-origin: top center;"></div>' +
+                            '</div>' +
+                            '<div class="ai-speech-bubble" style="opacity: 1; transform: translateY(0);">Tervetuloa AI Patrikin maailmaan</div>' +
+                            '</div>';
+                    }
+                } else {
+                    console.log('THREE.js loaded successfully. Version:', THREE.REVISION);
+                }
+            }, 1000); // Increased timeout to ensure scripts have time to load
+        });
+    </script>
+    <style>
+        /* Huom: Nämä tyylit on jo määritelty styles.css-tiedostossa, joten ne voidaan poistaa tästä */
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .hero .container a[href="pages/tyokalut.html"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+        }
+        
+        /* Hero-osion otsikon tyylit */
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 100, 255, 0.5);
+            white-space: normal;
+        }
+        
+        .hero-content h1 .nowrap {
+            white-space: nowrap;
+        }
+        
+        /* Responsive title styles */
+        @media (max-width: 768px) {
+            .logo-link h1 {
+                font-size: 2.5rem !important;
+                letter-spacing: 2px !important;
+                padding: 0 10px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.9rem !important;
+            }
+            
+            /* Hampurilaisvalikon hover-efekti */
+            .mobile-nav-toggle:hover {
+                background: rgba(0, 40, 80, 0.8) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span {
+                width: 90% !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(1) {
+                transform: translateY(-1px) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(3) {
+                transform: translateY(1px) !important;
+            }
+            
+            /* Piilota otsikko kun valikko on auki */
+            body.nav-open .logo-link {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Piilota top bar painikkeet kun valikko on auki */
+            body.nav-open .top-bar {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Parannukset hampurilaisvalikon sisällä oleviin painikkeisiin */
+            nav ul li {
+                margin: 10px 0 !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a {
+                background: linear-gradient(135deg, rgba(0, 40, 80, 0.9), rgba(0, 60, 120, 0.9)) !important;
+                border: 1px solid rgba(0, 150, 255, 0.2) !important;
+                border-radius: 10px !important;
+                padding: 15px 25px !important;
+                font-weight: 500 !important;
+                letter-spacing: 0.5px !important;
+                text-transform: uppercase !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a:hover {
+                background: linear-gradient(135deg, rgba(0, 60, 120, 0.95), rgba(0, 100, 180, 0.95)) !important;
+                transform: translateY(-3px) !important;
+                box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3) !important;
+                color: white !important;
+                border-color: rgba(0, 200, 255, 0.4) !important;
+            }
+            
+            nav ul li.active a {
+                background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)) !important;
+                color: white !important;
+                font-weight: 600 !important;
+                box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4) !important;
+                border-color: rgba(0, 200, 255, 0.5) !important;
+            }
+            
+            /* Sulkemispainikkeen tyylit */
+            .nav-close-btn {
+                background: rgba(0, 40, 80, 0.9) !important;
+                border: 2px solid rgba(0, 150, 255, 0.3) !important;
+                color: white !important;
+                box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .nav-close-btn:hover {
+                background: rgba(0, 60, 120, 0.95) !important;
+                transform: scale(1.1) !important;
+                box-shadow: 0 6px 20px rgba(0, 150, 255, 0.4) !important;
+            }
+            
+            .nav-close-btn i {
+                text-shadow: 0 0 10px rgba(0, 200, 255, 0.5) !important;
+            }
+            
+            /* Hero-osion otsikon tyylit mobiilissa */
+            .hero-content h1 {
+                font-size: 2.2rem !important;
+                text-align: center !important;
+                line-height: 1.3 !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-link h1 {
+                font-size: 2rem !important;
+                letter-spacing: 1px !important;
+                padding: 0 5px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.8rem !important;
+            }
+            
+            /* Hero-osion otsikon tyylit pienemmillä näytöillä */
+            .hero-content h1 {
+                font-size: 1.8rem !important;
+            }
+        }
+        
+        /* Responsive hero section */
+        @media (max-width: 992px) {
+            .hero-container {
+                flex-direction: column !important;
+                gap: 30px !important;
+                display: flex !important;
+            }
+            
+            /* Muuta elementtien järjestystä mobiilissa */
+            .hero-container {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            /* Aseta hero-content ensimmäiseksi */
+            .hero-container .hero-content {
+                order: 1 !important;
+                margin-top: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            /* Aseta hahmo toiseksi */
+            .hero-container #ai-character-container {
+                order: 2 !important;
+                margin: 20px auto 30px auto !important;
+                height: 320px !important;
+            }
+            
+            /* Aseta featured-tool viimeiseksi */
+            .hero-container .featured-tool {
+                order: 3 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .hero-content h1 {
+                text-align: center !important;
+            }
+            
+            .hero-content p {
+                text-align: center !important;
+            }
+            
+            .hero-content div {
+                text-align: center !important;
+            }
+            
+            .hero-content a {
+                display: inline-block !important;
+                margin: 0 auto !important;
+            }
+            
+            #ai-character-container {
+                width: 300px !important;
+                height: 300px !important;
+                margin: 30px auto 10px auto !important;
+                position: relative !important;
+                overflow: visible !important;
+            }
+            
+            .featured-tool {
+                margin-top: 20px !important;
+                padding: 20px !important;
+                max-width: 600px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            
+            .featured-tool .tool-header {
+                justify-content: center !important;
+            }
+            
+            .featured-tool .cta-button {
+                display: inline-block !important;
+                margin: 0 auto !important;
+                width: auto !important;
+                min-width: 200px !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 30px 0 !important;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem !important;
+                margin-bottom: 15px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .hero-content p {
+                font-size: 1rem !important;
+            }
+            
+            #ai-character-container {
+                width: 280px !important;
+                height: 280px !important;
+                margin: 20px auto 30px auto !important;
+                position: relative !important;
+                overflow: visible !important;
+            }
+            
+            .featured-tool-header h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            .featured-tool p {
+                font-size: 0.9rem !important;
+            }
+            
+            .featured-tool .cta-button {
+                padding: 10px 20px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            #ai-character-container {
+                width: 260px !important;
+                height: 260px !important;
+                margin: 15px auto 25px auto !important;
+                position: relative !important;
+                overflow: visible !important;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.5rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            .hero-content p {
+                font-size: 0.9rem !important;
+            }
+            
+            .featured-tool-header h2 {
+                font-size: 1.3rem !important;
+            }
+            
+            .featured-tool .benefits-box {
+                padding: 10px !important;
+            }
+            
+            .featured-tool .benefits-box p {
+                font-size: 0.8rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Muokkaan top barin HTML-rakennetta -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1003;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container" style="display: flex; justify-content: center; align-items: center; padding: 20px 0; position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%;">
+            <a href="index.html" class="logo-link" style="display: block; text-decoration: none; position: relative; z-index: 100; text-align: center; padding: 0 40px;">
+                <h1 style="margin: 0 auto; font-size: 3rem; background: linear-gradient(135deg, var(--accent-color), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0, 200, 255, 0.3); white-space: nowrap; letter-spacing: 3px; display: inline-block; padding: 0 15px;">AI PATRIK</h1>
+                <p style="margin: 8px 0 0 0; font-size: 1.1rem; color: var(--text-light); opacity: 0.9; text-align: center;">Tekoälyn työkalut ja opastus</p>
+            </a>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);"> <!-- Oikea puoli mobiilivalikkoa varten -->
+                <button class="mobile-nav-toggle" style="background: rgba(0, 30, 60, 0.6); border: 1px solid rgba(0, 200, 255, 0.3); border-radius: 8px; cursor: pointer; padding: 12px; z-index: 100; box-shadow: 0 2px 10px rgba(0, 100, 255, 0.2); transition: all 0.3s ease;">
+                    <div class="hamburger" style="position: relative; width: 26px; height: 20px;">
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 0; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 8px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 16px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                </div>
+            </button>
+            </div>
+        </div>
+    </header>
+    
+    <nav style="background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9)); border-radius: 0 0 15px 15px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); margin-bottom: 30px; position: relative; z-index: 5;">
+        <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <ul style="display: flex; justify-content: center; list-style: none; margin: 0; padding: 0;">
+                <li class="active" style="position: relative;"><a href="index.html" style="display: block; padding: 15px 25px; color: white; text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Koti</a></li>
+                <li style="position: relative;"><a href="pages/tyokalut.html" style="display: block; padding: 15px 25px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Työkalut</a></li>
+                <li style="position: relative;"><a href="pages/arvostelut.html" style="display: block; padding: 15px 25px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Arvostelut</a></li>
+                <li style="position: relative;"><a href="pages/oppaat.html" style="display: block; padding: 15px 25px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Oppaat</a></li>
+                <li style="position: relative;"><a href="pages/blogi.html" style="display: block; padding: 15px 25px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Blogi</a></li>
+                <li style="position: relative;"><a href="pages/yhteystiedot.html" style="display: block; padding: 15px 25px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative;">Ota Yhteyttä</a></li>
+        </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(0, 15, 40, 0.9), rgba(0, 30, 80, 0.85)); padding: 50px 0; position: relative; overflow: hidden; margin-top: -30px; border-radius: 0 0 20px 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: -100px; left: 10%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -50px; right: 15%; animation: float 12s infinite ease-in-out reverse;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, rgba(50, 150, 200, 0) 70%); top: 30%; left: 5%; animation: float 10s infinite ease-in-out 2s;"></div>
+        </div>
+        
+        <div class="container hero-container" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px; box-sizing: border-box;">
+            <div class="hero-content" style="flex: 1; max-width: 48%; position: relative;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: white; text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6); white-space: normal; letter-spacing: 0.5px;"><span class="nowrap">Tervetuloa AI Patrikin</span> maailmaan</h1>
+                <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); margin-bottom: 25px;">Olen tekoälyn asiantuntija, joka auttaa sinua hyödyntämään tekoälyä tehokkaasti ja helposti. Tutustutaan yhdessä tekoälyn mahdollisuuksiin!</p>
+                <div style="margin-top: 0;">
+                    <a href="pages/tyokalut.html" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; letter-spacing: 0.5px; font-size: 1rem;">Tutustu työkaluihin <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+            </div>
+            <div id="ai-character-container" style="flex: 0 0 auto; width: 350px; height: 350px; display: flex; align-items: center; justify-content: center; margin: 0 auto; position: relative; overflow: visible; z-index: 2; background: transparent;">
+                <!-- Three.js character will be rendered here -->
+                <div id="debug-info" style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 12px; z-index: 1000; background: rgba(0,0,0,0.5); padding: 5px; display: none;"></div>
+            </div>
+            <div class="featured-tool" style="flex: 1; max-width: 48%; position: relative; z-index: 2; background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7)); border-radius: 15px; padding: 25px 35px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset; border: 1px solid rgba(0, 150, 255, 0.3);">
+                <div class="featured-tool-header" style="margin-bottom: 15px; border-bottom: 1px solid rgba(0, 150, 255, 0.3); padding-bottom: 12px;">
+                    <h2 style="font-size: 1.9rem; color: white; margin: 0; text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6); letter-spacing: 0.5px;">Viikon AI Työkalu</h2>
+                </div>
+                <div class="tool-header" style="display: flex; align-items: center; gap: 18px; margin-bottom: 15px;">
+                    <div class="tool-logo" style="width: 55px; height: 55px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 150, 255, 0.2) inset; border: 1px solid rgba(0, 180, 255, 0.4);">
+                        <img src="https://elevenlabs.io/favicon.ico" alt="ElevenLabs logo" style="width: 32px; height: 32px; object-fit: contain;">
+        </div>
+                <h3 style="font-size: 1.6rem; color: white; margin: 0; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px;">ElevenLabs</h3>
+                </div>
+                <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 18px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">
+                    ElevenLabs on huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
+                    Se tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
+                </p>
+                <div class="benefits-box" style="background: rgba(0, 100, 200, 0.2); border-radius: 12px; padding: 15px 20px; margin-bottom: 20px; border: 1px solid rgba(0, 180, 255, 0.3); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 150, 255, 0.1) inset;">
+                <p style="font-size: 0.95rem; line-height: 1.5; color: rgba(255, 255, 255, 0.98); margin: 0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">
+                    <strong style="color: var(--accent-color); font-weight: 600; font-size: 1rem; letter-spacing: 0.5px;">Edut:</strong> Erittäin luonnollinen puhesynteesi, tukee useita kieliä, mahdollisuus luoda omia ääniä,
+                    helppokäyttöinen rajapinta, soveltuu podcasteihin, äänikirjoihin ja videoihin.
+                </p>
+                </div>
+                <a href="https://try.elevenlabs.io/keja882eenfs" class="cta-button" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; border: none; font-size: 1rem; text-align: center; letter-spacing: 0.5px;" target="_blank">Kokeile ElevenLabsia <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,50 C150,20 350,80 720,50 C1080,20 1290,80 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <section class="about-patrik">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <img src="https://www.dropbox.com/s/snnrmbiztdppquu/IMG_7726%20(1).jpg?raw=1" alt="Patrik AI" class="patrik-image">
+            <div class="patrik-bio">
+                <h2>Kuka on Patrik?</h2>
+                <p>
+                    Tervetuloa AI Patrikin maailmaan! Olen <span class="highlight">Patrik</span>, 29-vuotias kahden ihanan lapsen isä ja intohimoinen tekoälyn tutkimusmatkailija. Arjessani tasapainottelen perhe-elämän ja teknologian uusimpien innovaatioiden testaamisen välillä.
+                </p>
+                <p>
+                    Tekoäly ei ole minulle vain työkalu – se on <span class="highlight">intohimo ja elämäntapa</span>. Joka päivä herään innostuneena uusista mahdollisuuksista, joita tekoäly voi tarjota tavallisille ihmisille ja pienyrityksille. Uskon vahvasti, että tekoälyn vallankumous on vasta alussa, ja haluan auttaa sinua olemaan sen eturintamassa.
+                </p>
+                <p>
+                    Testaan jatkuvasti uusia tekoälytyökaluja, kokeilen niiden rajoja ja etsin tapoja, joilla ne voivat <span class="highlight">mullistaa arkipäiväisiä tehtäviä</span>. Jaan täällä vain työkaluja, jotka olen itse todennut toimiviksi ja arvokkaiksi – ei markkinointipuheita, vaan aitoja kokemuksia ja rehellisiä arvioita.
+                </p>
+                <p>
+                    Liity mukaan matkalleni tekoälyn maailmaan. Yhdessä voimme oppia, kasvaa ja hyödyntää näitä uskomattomia teknologioita tavalla, joka todella <span class="highlight">muuttaa tapamme työskennellä ja elää</span>.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="about-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,40 C250,70 350,20 720,40 C1080,60 1190,10 1440,30 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <section id="palvelut" class="services-section">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; width: 100%; padding: 30px 20px 0 20px; box-sizing: border-box;">
+            <h2 style="font-size: 2.5rem; color: white; margin-bottom: 30px; text-align: center; text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6); letter-spacing: 0.5px;">Mitä tarjoamme</h2>
+            <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px;">
+                <div class="card" style="background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7)); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset; border: 1px solid rgba(0, 150, 255, 0.3); transition: all 0.3s ease; position: relative; overflow: hidden;">
+                    <h3 style="font-size: 1.6rem; color: white; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px; position: relative;">Työkalut</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">Kattava valikoima tekoälytyökaluja eri tarpeisiin. Testaamme ja arvioimme työkalut puolestasi.</p>
+                    <a href="pages/tyokalut.html" class="btn" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; letter-spacing: 0.5px; font-size: 1rem;">Tutustu työkaluihin <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7)); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset; border: 1px solid rgba(0, 150, 255, 0.3); transition: all 0.3s ease; position: relative; overflow: hidden;">
+                    <h3 style="font-size: 1.6rem; color: white; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px; position: relative;">Arvostelut</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">Rehellisiä ja puolueettomia arvosteluja suosituimmista tekoälytyökaluista.</p>
+                    <a href="pages/arvostelut.html" class="btn" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; letter-spacing: 0.5px; font-size: 1rem;">Lue arvostelut <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7)); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset; border: 1px solid rgba(0, 150, 255, 0.3); transition: all 0.3s ease; position: relative; overflow: hidden;">
+                    <h3 style="font-size: 1.6rem; color: white; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px; position: relative;">Oppaat</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">Kattavat oppaat tekoälyn hyödyntämiseen eri tarkoituksissa.</p>
+                    <a href="pages/oppaat.html" class="btn" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; letter-spacing: 0.5px; font-size: 1rem;">Tutustu oppaisiin <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7)); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset; border: 1px solid rgba(0, 150, 255, 0.3); transition: all 0.3s ease; position: relative; overflow: hidden;">
+                    <h3 style="font-size: 1.6rem; color: white; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px; position: relative;">Blogi</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">Ajankohtaisia artikkeleita tekoälyn maailmasta ja vinkkejä sen hyödyntämiseen.</p>
+                    <a href="pages/blogi.html" class="btn" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--accent-color), #0066cc); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4); transition: all 0.3s ease; letter-spacing: 0.5px; font-size: 1rem;">Lue blogia <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="services-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,60 C150,30 350,80 720,50 C1080,20 1290,70 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <section class="newsletter-section">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: 20%; left: 15%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: 10%; right: 10%; animation: float 12s infinite ease-in-out reverse;"></div>
+        </div>
+        
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color); font-size: 1.1rem; margin-bottom: 0;">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="newsletter-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <footer class="footer-section">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.05) 0%, rgba(0, 100, 200, 0) 70%); top: 30%; left: 5%; animation: float 18s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.05) 0%, rgba(0, 150, 200, 0) 70%); bottom: 20%; right: 8%; animation: float 15s infinite ease-in-out reverse;"></div>
+        </div>
+        
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="pages/tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="pages/tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="pages/affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+            
+            <!-- Sosiaalisen median linkit footerissa -->
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/ai-character.js"></script>
+</body>
+</html> 

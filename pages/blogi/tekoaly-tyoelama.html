@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tekoäly ja työelämän muutos - AI Patrik</title>
+    <meta name="description" content="Tutustu, miten tekoäly muuttaa työelämää ja miten voit valmistautua tulevaisuuden työmarkkinoihin.">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li><a href="../oppaat.html">Oppaat</a></li>
+            <li class="active"><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #0288D1, #00BCD4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Tekoäly ja työelämän muutos: Mitä jokaisen tulisi tietää</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Julkaistu: 28.1.2025 | Kirjoittanut: Patrik Juuti</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #0288D1, #00BCD4); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <p>
+                    Tekoälyn nopea kehitys muuttaa työelämää perustavanlaatuisesti. Tässä artikkelissa 
+                    tarkastelemme, miten tekoäly vaikuttaa työmarkkinoihin, mitä taitoja tulevaisuudessa 
+                    tarvitaan ja miten sekä työntekijät että työnantajat voivat valmistautua muutokseen.
+                </p>
+                
+                <h2>Tekoälyn vaikutus työmarkkinoihin</h2>
+                <p>
+                    Tekoälyn vaikutus työmarkkinoihin on kaksijakoinen: se sekä korvaa tiettyjä työtehtäviä 
+                    että luo uusia mahdollisuuksia. Tutkimusten mukaan:
+                </p>
+                <ul>
+                    <li>Noin 25% nykyisistä työtehtävistä voidaan automatisoida tekoälyn avulla seuraavan 
+                        vuosikymmenen aikana</li>
+                    <li>Samalla syntyy uusia työpaikkoja, joita ei vielä ole olemassa</li>
+                    <li>Lähes 85% vuoden 2035 työpaikoista ei ole vielä olemassa</li>
+                </ul>
+                <p>
+                    Tekoäly vaikuttaa erityisesti rutiininomaisiin tehtäviin, jotka perustuvat selkeisiin 
+                    sääntöihin ja toistuviin kaavoihin. Tällaisia tehtäviä on monilla aloilla, kuten:
+                </p>
+                <ul>
+                    <li>Taloushallinto ja kirjanpito</li>
+                    <li>Asiakaspalvelu</li>
+                    <li>Tiedon käsittely ja analysointi</li>
+                    <li>Logistiikka ja toimitusketjun hallinta</li>
+                    <li>Perustason sisällöntuotanto</li>
+                </ul>
+                
+                <blockquote>
+                    "Tekoäly ei korvaa ihmisiä, vaan ihmiset, jotka käyttävät tekoälyä, korvaavat ne, 
+                    jotka eivät käytä sitä. Tulevaisuuden työelämässä menestyvät ne, jotka oppivat 
+                    hyödyntämään tekoälyä työnsä tehostamiseen."
+                    <cite>- Professori Timo Seppälä, Aalto-yliopisto</cite>
+                </blockquote>
+                
+                <h2>Tulevaisuuden taidot tekoälyaikakaudella</h2>
+                <p>
+                    Tekoälyn yleistyessä tietyt taidot nousevat entistä arvokkaammiksi. Näitä ovat:
+                </p>
+                
+                <h3>1. Luovuus ja innovaatio</h3>
+                <p>
+                    Tekoäly voi tuottaa sisältöä ja ratkaisuja, mutta todellinen luovuus ja innovaatio 
+                    ovat edelleen ihmisen vahvuuksia. Kyky ajatella "laatikon ulkopuolelta" ja yhdistää 
+                    ideoita uusilla tavoilla on arvokas taito.
+                </p>
+                
+                <h3>2. Kriittinen ajattelu ja ongelmanratkaisu</h3>
+                <p>
+                    Kyky analysoida monimutkaisia tilanteita, arvioida tietoa kriittisesti ja ratkaista 
+                    ongelmia, joihin ei ole selkeitä vastauksia, on entistä tärkeämpää. Tekoäly voi tarjota 
+                    dataa ja ehdotuksia, mutta ihmisen harkintakyky on korvaamaton.
+                </p>
+                
+                <h3>3. Tunneäly ja sosiaalinen älykkyys</h3>
+                <p>
+                    Empatia, ihmissuhteiden rakentaminen ja kyky ymmärtää hienovaraisia sosiaalisia 
+                    vihjeitä ovat taitoja, joissa tekoäly ei vielä pärjää ihmiselle. Näiden taitojen 
+                    merkitys korostuu entisestään tekoälyn hoitaessa rutiinitehtäviä.
+                </p>
+                
+                <h3>4. Tekoälyn ja ihmisen yhteistyötaidot</h3>
+                <p>
+                    Kyky työskennellä tehokkaasti tekoälyn kanssa, ymmärtää sen vahvuudet ja heikkoudet 
+                    sekä hyödyntää tekoälytyökaluja oman työn tehostamiseen on keskeinen tulevaisuuden taito. 
+                    Tämä sisältää myös kyvyn muotoilla tehtäviä ja kysymyksiä tekoälylle optimaalisella tavalla.
+                </p>
+                
+                <h3>5. Sopeutumiskyky ja jatkuva oppiminen</h3>
+                <p>
+                    Nopea teknologinen kehitys vaatii jatkuvaa uusien taitojen oppimista ja kykyä 
+                    sopeutua muuttuviin olosuhteisiin. Elinikäisestä oppimisesta tulee välttämättömyys, 
+                    ei vaihtoehto.
+                </p>
+                
+                <div style="background: linear-gradient(to right, rgba(2, 136, 209, 0.1), rgba(0, 188, 212, 0.1)); border-left: 4px solid #0288D1; padding: 20px; margin: 30px 0; border-radius: 0 8px 8px 0;">
+                    <h3 style="margin-top: 0; color: #0288D1;">Tekoälyn vaikutus eri toimialoihin</h3>
+                    <p>
+                        Tekoälyn vaikutus vaihtelee toimialoittain. Tässä muutamia esimerkkejä:
+                    </p>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Terveydenhuolto:</strong> Diagnoosien tuki, hoitosuunnitelmien optimointi, lääketutkimus</li>
+                        <li><strong>Rahoitusala:</strong> Riskianalyysi, sijoitusneuvonta, petostentorjunta</li>
+                        <li><strong>Koulutus:</strong> Personoitu oppiminen, automaattinen arviointi, oppimateriaalien luonti</li>
+                        <li><strong>Valmistava teollisuus:</strong> Tuotannon optimointi, laadunvalvonta, ennakoiva huolto</li>
+                        <li><strong>Luovat alat:</strong> Ideointiapu, rutiinitehtävien automatisointi, sisällöntuotannon tehostaminen</li>
+                    </ul>
+                </div>
+                
+                <h2>Miten valmistautua tekoälyn muuttamaan työelämään?</h2>
+                
+                <h3>Neuvoja työntekijöille:</h3>
+                <ol>
+                    <li>
+                        <strong>Investoi jatkuvaan oppimiseen:</strong> Varaa aikaa uusien taitojen 
+                        oppimiseen ja nykyisten taitojen päivittämiseen. Verkkokurssit, webinaarit ja 
+                        ammatilliset sertifikaatit ovat hyviä tapoja pysyä ajan tasalla.
+                    </li>
+                    <li>
+                        <strong>Opettele käyttämään tekoälytyökaluja:</strong> Tutustu oman alasi 
+                        tekoälytyökaluihin ja opettele hyödyntämään niitä työsi tehostamiseen. Kokeile 
+                        erilaisia työkaluja löytääksesi itsellesi sopivimmat.
+                    </li>
+                    <li>
+                        <strong>Kehitä taitoja, joita tekoäly ei voi korvata:</strong> Keskity 
+                        kehittämään luovuutta, kriittistä ajattelua, tunneälyä ja muita "pehmeitä taitoja", 
+                        jotka täydentävät tekoälyn kykyjä.
+                    </li>
+                    <li>
+                        <strong>Rakenna monipuolinen osaamisprofiili:</strong> Yhdistä eri alojen 
+                        osaamista ja taitoja, jotka täydentävät toisiaan. T-mallinen osaaminen (syvä 
+                        osaaminen yhdellä alueella ja laaja ymmärrys useista alueista) on erityisen arvokasta.
+                    </li>
+                    <li>
+                        <strong>Verkostoidu:</strong> Rakenna vahva ammatillinen verkosto, joka voi 
+                        auttaa löytämään uusia mahdollisuuksia ja pysymään ajan tasalla alan kehityksestä.
+                    </li>
+                </ol>
+                
+                <h3>Neuvoja työnantajille:</h3>
+                <ol>
+                    <li>
+                        <strong>Investoi työntekijöiden koulutukseen:</strong> Tarjoa mahdollisuuksia 
+                        uudelleenkoulutukseen ja taitojen päivittämiseen. Tämä on usein kustannustehokkaampi 
+                        ratkaisu kuin uusien työntekijöiden rekrytointi.
+                    </li>
+                    <li>
+                        <strong>Suunnittele tekoälyn käyttöönotto huolellisesti:</strong> Mieti, miten 
+                        tekoäly voi täydentää työntekijöiden osaamista sen sijaan, että se korvaisi heitä. 
+                        Osallista työntekijät suunnitteluprosessiin.
+                    </li>
+                    <li>
+                        <strong>Luo kulttuuri, joka arvostaa jatkuvaa oppimista:</strong> Kannusta 
+                        työntekijöitä kokeilemaan uusia työkaluja ja oppimaan uusia taitoja. Palkitse 
+                        innovatiivisuudesta ja aloitteellisuudesta.
+                    </li>
+                    <li>
+                        <strong>Kehitä uusia työrooleja:</strong> Luo uusia työrooleja, jotka hyödyntävät 
+                        tekoälyn ja ihmisen yhteistyötä. Esimerkiksi "tekoälyvalmentaja" tai "tekoälyetiikan 
+                        asiantuntija" voivat olla tulevaisuuden ammatteja.
+                    </li>
+                    <li>
+                        <strong>Huomioi muutoksen inhimillinen puoli:</strong> Tarjoa tukea työntekijöille, 
+                        jotka kokevat epävarmuutta tekoälyn aiheuttamien muutosten edessä. Viesti avoimesti 
+                        ja rehellisesti tulevista muutoksista.
+                    </li>
+                </ol>
+                
+                <h2>Esimerkkejä tekoälyn ja ihmisen yhteistyöstä</h2>
+                <p>
+                    Tekoäly ei korvaa ihmisiä, vaan muuttaa työn luonnetta. Tässä muutamia esimerkkejä 
+                    siitä, miten tekoäly ja ihmiset voivat työskennellä yhdessä:
+                </p>
+                
+                <h3>Terveydenhuolto:</h3>
+                <p>
+                    Tekoäly voi analysoida potilastietoja ja tunnistaa mahdollisia diagnooseja, mutta 
+                    lääkärit tekevät lopulliset päätökset, kommunikoivat potilaiden kanssa ja tarjoavat 
+                    empaattista hoitoa. Esimerkiksi radiologiassa tekoäly voi auttaa tunnistamaan poikkeavuuksia 
+                    kuvantamistutkimuksissa, mutta radiologi tulkitsee löydökset kliinisessä kontekstissa.
+                </p>
+                
+                <h3>Luova ala:</h3>
+                <p>
+                    Tekoäly voi tuottaa luonnoksia ja ehdotuksia, mutta suunnittelijat ja taiteilijat 
+                    hienosäätävät ja kehittävät niitä eteenpäin, tuoden mukaan inhimillistä näkemystä 
+                    ja kontekstiymmärrystä. Esimerkiksi mainostoimistossa copywriter voi käyttää tekoälyä 
+                    ideointiin, mutta tuo itse mukaan brändin äänen ja emotionaalisen resonanssin.
+                </p>
+                
+                <h3>Asiakaspalvelu:</h3>
+                <p>
+                    Chatbotit voivat hoitaa rutiinikyselyt, mutta ihmiset käsittelevät monimutkaisemmat 
+                    tapaukset, jotka vaativat empatiaa ja joustavaa ongelmanratkaisua. Tekoäly voi myös 
+                    analysoida asiakaspalvelukeskusteluja ja tarjota asiakaspalvelijoille reaaliaikaisia 
+                    suosituksia.
+                </p>
+                
+                <h3>Ohjelmistokehitys:</h3>
+                <p>
+                    Tekoäly voi generoida koodia ja tunnistaa virheitä, mutta kehittäjät määrittelevät 
+                    vaatimukset, suunnittelevat arkkitehtuurin ja varmistavat, että lopputulos vastaa 
+                    käyttäjien tarpeita. Kehittäjät voivat käyttää tekoälyä rutiinitehtävien automatisointiin 
+                    ja keskittyä itse haastavampiin ja luovempiin aspekteihin.
+                </p>
+                
+                <h3>Koulutus:</h3>
+                <p>
+                    Tekoäly voi tarjota personoituja oppimispolkuja ja automaattista palautetta, mutta 
+                    opettajat tarjoavat syvempää ohjausta, motivointia ja sosiaalista vuorovaikutusta. 
+                    Opettajat voivat käyttää tekoälyn tuottamaa dataa tunnistaakseen oppilaiden vahvuuksia 
+                    ja heikkouksia.
+                </p>
+                
+                <h2>Yhteenveto</h2>
+                <p>
+                    Tekoäly muuttaa työelämää merkittävästi, mutta muutos ei ole yksinomaan uhka vaan 
+                    myös mahdollisuus. Rutiinitehtävien automatisointi vapauttaa aikaa luovempaan ja 
+                    merkityksellisempään työhön.
+                </p>
+                <p>
+                    Avain menestykseen tekoälyaikakaudella on jatkuva oppiminen, sopeutumiskyky ja 
+                    ihmisen ainutlaatuisten vahvuuksien kehittäminen. Tekoäly on työkalu, joka voi 
+                    tehostaa työtämme, mutta ihmisen luovuus, empatia ja kriittinen ajattelu ovat 
+                    edelleen korvaamattomia.
+                </p>
+                <p>
+                    Sekä työntekijöiden että työnantajien kannattaa suhtautua tekoälyyn mahdollisuutena 
+                    kehittää uusia taitoja ja työtapoja. Ne, jotka oppivat hyödyntämään tekoälyä 
+                    tehokkaasti, ovat vahvoilla tulevaisuuden työmarkkinoilla.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="guide-cta" style="background: linear-gradient(to right, rgba(2, 136, 209, 0.05), rgba(0, 188, 212, 0.05)); padding: 60px 0; text-align: center; margin: 40px 0;">
+        <div class="container">
+            <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--text-color);">Valmistaudu tekoälyn muuttamaan työelämään</h3>
+            <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto 30px; color: var(--text-light);">
+                Haluatko pysyä kilpailukykyisenä tekoälyn muuttamilla työmarkkinoilla? Tutustu tekoälytyökaluihin, jotka voivat auttaa sinua tehostamaan työtäsi ja kehittämään uusia taitoja.
+            </p>
+            <a href="../tyokalut.html" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #0288D1, #00BCD4); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(2, 136, 209, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                <span style="display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-briefcase" style="margin-right: 10px; font-size: 1.1em;"></i>
+                    Tutustu tekoälytyökaluihin
+                </span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="guide-section" style="padding: 60px 0;">
+        <div class="container">
+            <h3 style="text-align: center; margin-bottom: 40px; font-size: 1.8rem;">Lue lisää aiheesta</h3>
+            <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <div class="related-cards-grid">
+                    <a href="tekoaly-trendit-2025.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(2, 136, 209, 0.1), rgba(0, 188, 212, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(2, 136, 209, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0288D1; text-align: center;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoälyn trendit 2025</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tutustu tärkeimpiin tekoälytrendeihin ja miten ne vaikuttavat eri toimialoihin.</p>
+                    </a>
+                    
+                    <a href="tekoaly-tulevaisuus-2026.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(2, 136, 209, 0.1), rgba(0, 188, 212, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(2, 136, 209, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0288D1; text-align: center;">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoälyn tulevaisuus 2026</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Mitä odottaa tekoälyn kehitykseltä tulevina vuosina ja miten valmistautua muutoksiin.</p>
+                    </a>
+                    
+                    <a href="../tyokalut.html#tyoelama" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 188, 212, 0.1), rgba(0, 188, 212, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 188, 212, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00BCD4; text-align: center;">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Työelämän tekoälytyökalut</h4>
+                        <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tutustu työkaluihin, jotka auttavat sinua hyödyntämään tekoälyä työelämässä.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 

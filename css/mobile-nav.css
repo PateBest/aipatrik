@@ -1,0 +1,242 @@
+/* Mobiilinavigaation parannukset */
+/* Piilota hampurilaisvalikko oletuksena (työpöytäversio) */
+.mobile-nav-toggle {
+    display: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Piilota sulkemispainike oletuksena */
+.nav-close-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(40, 40, 60, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1002;
+    transition: all 0.3s ease;
+    opacity: 0;
+    padding: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Näytetään sulkemispainike kun valikko on auki */
+body.nav-open .nav-close-btn {
+    display: flex;
+    opacity: 1;
+}
+
+.nav-close-btn:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+    background: rgba(50, 50, 70, 0.9);
+    box-shadow: 0 6px 20px rgba(0, 150, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    /* Näytä hampurilaisvalikko vain mobiiliversiossa */
+    .mobile-nav-toggle {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 10px;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        z-index: 1001;
+    }
+
+    body.nav-open {
+        overflow: hidden;
+    }
+    
+    nav ul {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(20, 20, 30, 0.97); /* Tummempi, lähes läpinäkymätön tausta */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 999;
+        padding: 4rem 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px); /* Lisää blur-efekti taustalle */
+    }
+    
+    nav ul.active {
+        transform: translateY(0);
+    }
+    
+    nav ul li {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition-delay: calc(0.1s * var(--i));
+        width: 80%;
+        text-align: center;
+        background-color: rgba(40, 40, 60, 0.95);
+        border-radius: 8px;
+        margin: 8px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    nav ul li a {
+        padding: 15px 20px;
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+    }
+    
+    nav ul li.active a {
+        color: var(--accent-color);
+        background-color: rgba(50, 50, 70, 0.95);
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    nav ul li a:hover {
+        color: var(--accent-color);
+        background-color: rgba(50, 50, 70, 0.95);
+        border-radius: 8px;
+        transform: translateY(-2px);
+    }
+    
+    nav ul.active li {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .language-selector {
+        position: static;
+        margin-top: 2rem;
+    }
+    
+    .social-links {
+        position: static;
+        margin-top: 2rem;
+    }
+    
+    .hamburger {
+        width: 30px;
+        height: 25px;
+        position: relative;
+        transform: rotate(0deg);
+        transition: .5s ease-in-out;
+        cursor: pointer;
+    }
+    
+    .hamburger span {
+        display: block;
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background: var(--text-light);
+        border-radius: 9px;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: .25s ease-in-out;
+    }
+    
+    .hamburger span:nth-child(1) {
+        top: 0px;
+    }
+    
+    .hamburger span:nth-child(2),
+    .hamburger span:nth-child(3) {
+        top: 10px;
+    }
+    
+    .hamburger span:nth-child(4) {
+        top: 20px;
+    }
+    
+    .hamburger.open span:nth-child(1) {
+        top: 10px;
+        width: 0%;
+        left: 50%;
+    }
+    
+    .hamburger.open span:nth-child(2) {
+        transform: rotate(45deg);
+    }
+    
+    .hamburger.open span:nth-child(3) {
+        transform: rotate(-45deg);
+    }
+    
+    .hamburger.open span:nth-child(4) {
+        top: 10px;
+        width: 0%;
+        left: 50%;
+    }
+    
+    .hamburger.open {
+        z-index: 1002;
+    }
+}
+
+/* Parannukset mobiilinavigaation painikkeisiin pienemmillä näytöillä */
+@media (max-width: 576px) {
+    nav ul li {
+        width: 90%;
+        margin: 6px 0;
+    }
+    
+    nav ul li a {
+        padding: 14px 18px;
+        font-size: 1.1rem;
+    }
+    
+    .nav-close-btn {
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 400px) {
+    nav ul li {
+        width: 95%;
+        margin: 5px 0;
+    }
+    
+    nav ul li a {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+    
+    .nav-close-btn {
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+    }
+    
+    nav ul {
+        padding: 3rem 1rem;
+    }
+} 

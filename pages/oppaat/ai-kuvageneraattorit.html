@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-kuvageneraattorit: Täydellinen opas - AI Patrik</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background-color: var(--dark-background);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive styles for "Lue lisää" cards */
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="../../index.html">Koti</a></li>
+            <li><a href="../tyokalut.html">Työkalut</a></li>
+            <li><a href="../arvostelut.html">Arvostelut</a></li>
+            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
+            <li><a href="../blogi.html">Blogi</a></li>
+            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <div class="guide-header">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00a67e, #00c4a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">AI-kuvageneraattorit: Täydellinen opas</h1>
+            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi hyödyntämään tekoälypohjaisia kuvageneraattoreita tehokkaasti erilaisissa projekteissa</p>
+            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #00a67e, #00c4a7); margin: 1.5rem auto;"></div>
+        </div>
+    </div>
+    
+    <div class="guide-content">
+        <div class="container">
+            <div class="guide-section">
+                <h2>Mitä AI-kuvageneraattorit ovat?</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=AI-kuvageneraattorit" alt="AI-kuvageneraattorit esittely" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">AI-kuvageneraattorit luovat kuvia tekstikuvausten perusteella</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattorit ovat tekoälypohjaisia työkaluja, jotka luovat kuvia tekstikuvausten perusteella. 
+                    Ne hyödyntävät syväoppimista ja erityisesti diffuusiomalleja, jotka on koulutettu miljoonilla kuvilla 
+                    tunnistamaan yhteyksiä tekstin ja visuaalisten elementtien välillä.
+                </p>
+                <p>
+                    Näiden työkalujen avulla käyttäjät voivat luoda monimutkaisia, yksityiskohtaisia ja luovia kuvia 
+                    pelkästään kirjoittamalla kuvauksen haluamastaan lopputuloksesta. Tämä on mullistanut visuaalisen 
+                    sisällöntuotannon tekemällä siitä nopeampaa, edullisempaa ja saavutettavampaa.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Miten AI-kuvageneraattorit toimivat?</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=AI-kuvageneraattoreiden+toiminta" alt="AI-kuvageneraattoreiden toiminta" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Diffuusiomallit muuntavat tekstikuvaukset visuaalisiksi elementeiksi</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattoreiden toiminta perustuu monimutkaisiin koneoppimismalleihin, erityisesti:
+                </p>
+                <dl>
+                    <dt>Diffuusiomallit</dt>
+                    <dd>
+                        Nämä mallit toimivat lisäämällä ensin kuvaan kohinaa ja sitten poistamalla sitä vähitellen, 
+                        luoden samalla kuvaa tekstikuvauksen perusteella. Tämä prosessi muistuttaa taiteilijan työskentelyä, 
+                        jossa luonnoksesta kehittyy vähitellen valmis teos.
+                    </dd>
+                    
+                    <dt>Tekstistä kuvaksi -mallit</dt>
+                    <dd>
+                        Nämä mallit on koulutettu ymmärtämään sekä tekstiä että kuvia, mikä mahdollistaa tekstikuvausten 
+                        muuntamisen visuaalisiksi elementeiksi. Ne osaavat tulkita monimutkaisia kuvauksia ja luoda niitä 
+                        vastaavia kuvia.
+                    </dd>
+                    
+                    <dt>Generatiiviset kilpailevat verkot (GAN)</dt>
+                    <dd>
+                        Vanhempi teknologia, jossa kaksi neuroverkkoa kilpailee keskenään: toinen luo kuvia ja toinen arvioi 
+                        niiden aitoutta. Tämä kilpailu johtaa yhä parempien kuvien luomiseen.
+                    </dd>
+                </dl>
+                <p>
+                    Kuvageneraattoreiden tehokkuus riippuu niiden koulutukseen käytetyn datan määrästä ja laadusta sekä 
+                    mallien arkkitehtuurista. Uusimmat mallit pystyvät luomaan hämmästyttävän realistisia ja yksityiskohtaisia 
+                    kuvia lähes mistä tahansa aiheesta.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Suosituimmat AI-kuvageneraattorit</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Suosituimmat+AI-kuvageneraattorit" alt="Suosituimmat AI-kuvageneraattorit" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourney, DALL-E ja Stable Diffusion ovat suosituimpia AI-kuvageneraattoreita</p>
+                </div>
+                
+                <p>
+                    Markkinoilla on useita AI-kuvageneraattoreita, joista jokaisella on omat vahvuutensa:
+                </p>
+                <dl>
+                    <dt>Midjourney</dt>
+                    <dd>
+                        Tunnettu taiteellisista ja esteettisesti miellyttävistä kuvista. Midjourney toimii Discord-alustalla 
+                        ja on erityisen suosittu taiteilijoiden ja suunnittelijoiden keskuudessa.
+                    </dd>
+                    
+                    <dt>DALL-E (OpenAI)</dt>
+                    <dd>
+                        Yksi ensimmäisistä ja tunnetuimmista kuvageneraattoreista. DALL-E 3 on integroitu ChatGPT:hen, 
+                        mikä tekee siitä helposti saavutettavan.
+                    </dd>
+                    
+                    <dt>Stable Diffusion</dt>
+                    <dd>
+                        Avoimen lähdekoodin malli, joka tarjoaa enemmän muokattavuutta ja voidaan asentaa paikallisesti. 
+                        Suosittu kehittäjien ja teknisesti taitavien käyttäjien keskuudessa.
+                    </dd>
+                    
+                    <dt>Adobe Firefly</dt>
+                    <dd>
+                        Adoben kehittämä kuvageneraattori, joka on integroitu Creative Cloud -sovelluksiin. Suunniteltu 
+                        erityisesti kaupalliseen käyttöön ja koulutettu lisensoidulla sisällöllä.
+                    </dd>
+                    
+                    <dt>Canva AI Image Generator</dt>
+                    <dd>
+                        Integroitu Canvan helppokäyttöiseen suunnittelualustaan, mikä tekee siitä ihanteellisen aloittelijoille 
+                        ja markkinointisisällön luomiseen.
+                    </dd>
+                </dl>
+                <p>
+                    Jokainen työkalu tarjoaa erilaisen käyttökokemuksen ja lopputuloksen, joten kannattaa kokeilla useita 
+                    löytääksesi omiin tarpeisiisi parhaiten sopivan.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>AI-kuvageneraattoreiden käyttökohteet</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=AI-kuvageneraattoreiden+käyttökohteet" alt="AI-kuvageneraattoreiden käyttökohteet" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">AI-kuvageneraattoreita voidaan hyödyntää monissa eri projekteissa</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattoreita voidaan hyödyntää monissa eri yhteyksissä:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Markkinointi ja mainonta:</strong> Tuotekuvat, mainoskampanjat, sosiaalisen median sisältö, 
+                        bannerit ja esitteet.
+                    </li>
+                    <li>
+                        <strong>Verkkosivujen suunnittelu:</strong> Kuvituskuvat, taustakuvat, ikonit ja käyttöliittymäelementit.
+                    </li>
+                    <li>
+                        <strong>Tuotekehitys:</strong> Konseptikuvat, prototyypit ja visualisoinnit.
+                    </li>
+                    <li>
+                        <strong>Kustannustoiminta:</strong> Kirjojen kansikuvat, kuvitukset ja infografiikka.
+                    </li>
+                    <li>
+                        <strong>Taide ja viihde:</strong> Taideteokset, pelisuunnittelu, elokuvien konseptitaide.
+                    </li>
+                    <li>
+                        <strong>Koulutus:</strong> Opetusmateriaalit, visualisoinnit ja havainnollistavat kuvat.
+                    </li>
+                </ul>
+                <p>
+                    AI-kuvageneraattorit ovat erityisen hyödyllisiä, kun tarvitset nopeasti räätälöityjä kuvia, 
+                    joita ei löydy kuvapankeista, tai kun budjetti ei riitä ammattilaisen palkkaamiseen.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Tehokkaat promptit: Avain hyviin tuloksiin</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Tehokkaat+promptit" alt="Tehokkaat promptit AI-kuvageneraattoreille" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Hyvin muotoillut promptit tuottavat parempia kuvia</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattoreiden käytössä promptien (tekstikuvausten) laatiminen on avainasemassa. 
+                    Hyvä prompti tuottaa parempia tuloksia:
+                </p>
+                <h4>Promptien laatimisen periaatteet:</h4>
+                <ol>
+                    <li>
+                        <strong>Ole yksityiskohtainen:</strong> Kuvaile tarkasti, mitä haluat nähdä kuvassa. 
+                        Mainitse tyylit, värit, sommittelu, tunnelma ja yksityiskohdat.
+                    </li>
+                    <li>
+                        <strong>Käytä tarkkoja adjektiiveja:</strong> "Kaunis" on subjektiivinen, mutta "pastellisävyinen, 
+                        impressionistinen, eteerinen" antaa selkeämmän suunnan.
+                    </li>
+                    <li>
+                        <strong>Määritä taidetyyli:</strong> Esimerkiksi "öljymaalaus", "valokuvamainen", "anime", 
+                        "minimalistinen", "surrealistinen".
+                    </li>
+                    <li>
+                        <strong>Mainitse taiteilijat tai vaikutteet:</strong> "Tyyliltään kuin Monet" tai 
+                        "cyberpunk-estetiikalla" auttaa määrittämään visuaalista suuntaa.
+                    </li>
+                    <li>
+                        <strong>Huomioi valaistus ja tunnelma:</strong> "Pehmeä iltavalo", "dramaattinen varjo-valo-kontrasti", 
+                        "utuinen aamu".
+                    </li>
+                </ol>
+                
+                <h4>Esimerkkejä tehokkaista prompteista:</h4>
+                <div class="example-prompt">
+                    <p><strong>Heikko prompti:</strong> "Maisema järvellä"</p>
+                    <p><strong>Tehokas prompti:</strong> "Rauhallinen suomalainen järvimaisema auringonlaskun aikaan, kultaiset 
+                    sävyt heijastuvat tyynestä vedenpinnasta, etualalla muutama koivu, taustalla havumetsää, impressionistinen 
+                    tyyli, pehmeät siveltimenvedot, 4K-tarkkuus"</p>
+                </div>
+                
+                <div class="example-prompt">
+                    <p><strong>Heikko prompti:</strong> "Liiketoimintakokous"</p>
+                    <p><strong>Tehokas prompti:</strong> "Moderni, valoisa neuvotteluhuone, jossa monimuotoinen ryhmä 
+                    ammattilaisia keskustelee innostuneesti, suuret ikkunat tarjoavat näkymän kaupunkimaisemaan, 
+                    valokuvamainen realismi, ammattimainen valaistus, 16:9-kuvasuhde, tarkka yksityiskohtien kuvaus"</p>
+                </div>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Kuvien jälkikäsittely ja integrointi</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/0d6efd/FFFFFF/png?text=Kuvien+jälkikäsittely" alt="AI-kuvien jälkikäsittely" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Jälkikäsittely parantaa AI-generoitujen kuvien laatua</p>
+                </div>
+                
+                <p>
+                    AI-generoidut kuvat ovat usein vain lähtökohta. Jälkikäsittely voi parantaa niitä merkittävästi:
+                </p>
+                <ol>
+                    <li>
+                        <strong>Kuvankäsittely:</strong> Käytä Photoshopia, GIMPiä tai muita kuvankäsittelyohjelmia 
+                        säätääksesi värejä, kontrastia ja terävyyttä.
+                    </li>
+                    <li>
+                        <strong>Yhdistäminen:</strong> Yhdistä useita AI-generoituja kuvia tai lisää niihin valokuvia 
+                        tai muita elementtejä.
+                    </li>
+                    <li>
+                        <strong>Tekstin lisääminen:</strong> Lisää otsikoita, logoja tai muuta tekstiä kuviin.
+                    </li>
+                    <li>
+                        <strong>Rajaaminen:</strong> Rajaa kuvia eri käyttötarkoituksiin sopiviksi.
+                    </li>
+                    <li>
+                        <strong>Virheiden korjaaminen:</strong> AI-generaattorit tekevät usein virheitä esimerkiksi 
+                        ihmisten sormissa tai tekstissä, jotka voit korjata jälkikäsittelyssä.
+                    </li>
+                </ol>
+                <p>
+                    Monet ammattilaiset käyttävät AI-generoituja kuvia lähtökohtana ja jalostavat niitä edelleen 
+                    perinteisillä työkaluilla.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Eettiset näkökohdat ja tekijänoikeudet</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/dc3545/FFFFFF/png?text=Eettiset+näkökohdat" alt="AI-kuvien eettiset näkökohdat" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekijänoikeudet ja eettiset kysymykset ovat tärkeitä AI-kuvien käytössä</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattoreiden käyttöön liittyy tärkeitä eettisiä ja oikeudellisia kysymyksiä:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Tekijänoikeudet:</strong> Kuka omistaa AI-generoidun kuvan oikeudet? Useimmissa tapauksissa 
+                        käyttäjä saa käyttöoikeudet, mutta tarkista aina palvelun käyttöehdot.
+                    </li>
+                    <li>
+                        <strong>Koulutusdata:</strong> Monet generaattorit on koulutettu internetistä kerätyillä kuvilla, 
+                        mikä herättää kysymyksiä alkuperäisten taiteilijoiden oikeuksista.
+                    </li>
+                    <li>
+                        <strong>Kaupallinen käyttö:</strong> Tarkista, salliiko työkalu kuvien kaupallisen käytön. 
+                        Esimerkiksi Adobe Firefly on suunniteltu erityisesti kaupalliseen käyttöön.
+                    </li>
+                    <li>
+                        <strong>Läpinäkyvyys:</strong> On suositeltavaa ilmoittaa, kun käytät AI-generoituja kuvia, 
+                        erityisesti ammatillisessa kontekstissa.
+                    </li>
+                    <li>
+                        <strong>Stereotypiat ja ennakkoluulot:</strong> AI-generaattorit voivat vahvistaa olemassa olevia 
+                        stereotypioita. Ole tietoinen tästä ja pyri monipuoliseen esittämiseen.
+                    </li>
+                </ul>
+                <p>
+                    Lue lisää tekoälyn eettisestä käytöstä <a href="tekoalyn-etiikka.html">tekoälyn etiikka -oppaastamme</a>.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Vinkkejä aloittelijoille</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/ffc107/FFFFFF/png?text=Vinkkejä+aloittelijoille" alt="Vinkkejä AI-kuvageneraattoreiden käyttöön" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Näillä vinkeillä pääset alkuun AI-kuvageneraattoreiden käytössä</p>
+                </div>
+                
+                <p>
+                    Jos olet vasta aloittamassa AI-kuvageneraattoreiden käyttöä, nämä vinkit auttavat sinua pääsemään alkuun:
+                </p>
+                <ol>
+                    <li>
+                        <strong>Aloita ilmaisilla työkaluilla:</strong> Kokeile ensin ilmaisia vaihtoehtoja, kuten 
+                        DALL-E Minin ChatGPT:n kautta tai Canvan ilmaista versiota.
+                    </li>
+                    <li>
+                        <strong>Opettele promptien kirjoittamista:</strong> Harjoittele erilaisten promptien kirjoittamista 
+                        ja katso, miten ne vaikuttavat tuloksiin.
+                    </li>
+                    <li>
+                        <strong>Iteroi:</strong> Ensimmäinen tulos ei yleensä ole täydellinen. Muokkaa promptia tulosten 
+                        perusteella ja kokeile uudelleen.
+                    </li>
+                    <li>
+                        <strong>Tutki esimerkkejä:</strong> Etsi verkosta esimerkkejä onnistuneista prompteista ja kuvista.
+                    </li>
+                    <li>
+                        <strong>Yhdistä työkaluja:</strong> Käytä eri työkaluja eri tarkoituksiin ja yhdistele niiden tuloksia.
+                    </li>
+                    <li>
+                        <strong>Opi perusteita:</strong> Perustiedot sommittelusta, väreistä ja visuaalisesta suunnittelusta 
+                        auttavat sinua luomaan parempia prompteja.
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="guide-section">
+                <h2>AI-kuvageneraattoreiden tulevaisuus</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/17a2b8/FFFFFF/png?text=AI-kuvageneraattoreiden+tulevaisuus" alt="AI-kuvageneraattoreiden tulevaisuus" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">AI-kuvageneraattoreiden teknologia kehittyy jatkuvasti</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattoreiden teknologia kehittyy nopeasti. Tulevaisuudessa voimme odottaa:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Parempaa hallintaa:</strong> Tarkempia työkaluja kuvien yksityiskohtien hallintaan.
+                    </li>
+                    <li>
+                        <strong>Videogeneraattoreita:</strong> Liikkuvan kuvan luominen tekstikuvausten perusteella.
+                    </li>
+                    <li>
+                        <strong>3D-mallien generointia:</strong> Kolmiulotteisten mallien luominen tekstikuvausten perusteella.
+                    </li>
+                    <li>
+                        <strong>Interaktiivisuutta:</strong> Mahdollisuus muokata kuvia reaaliajassa keskustelemalla tekoälyn kanssa.
+                    </li>
+                    <li>
+                        <strong>Integraatiota:</strong> Syvempää integraatiota muihin luoviin työkaluihin ja työnkulkuihin.
+                    </li>
+                </ul>
+                <p>
+                    Nämä kehityssuunnat tulevat entisestään laajentamaan AI-kuvageneraattoreiden käyttömahdollisuuksia 
+                    ja tekemään niistä yhä keskeisemmän osan luovaa työtä.
+                </p>
+            </div>
+            
+            <div class="guide-section">
+                <h2>Yhteenveto</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=AI-kuvageneraattorit+yhteenveto" alt="AI-kuvageneraattorit yhteenveto" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">AI-kuvageneraattorit ovat mullistaneet visuaalisen sisällöntuotannon</p>
+                </div>
+                
+                <p>
+                    AI-kuvageneraattorit ovat mullistaneet visuaalisen sisällöntuotannon tekemällä siitä nopeampaa, 
+                    edullisempaa ja saavutettavampaa. Ne tarjoavat valtavia mahdollisuuksia luovuuden ja visuaalisen 
+                    viestinnän tehostamiseen.
+                </p>
+                <p>
+                    Parhaiden tulosten saavuttamiseksi on tärkeää ymmärtää, miten nämä työkalut toimivat, miten kirjoittaa 
+                    tehokkaita prompteja ja miten integroida AI-generoidut kuvat osaksi laajempaa työnkulkua. Samalla on 
+                    tärkeää huomioida eettiset näkökohdat ja tekijänoikeuskysymykset.
+                </p>
+                <p>
+                    Olitpa sitten markkinoinnin ammattilainen, suunnittelija, taiteilija tai yrittäjä, AI-kuvageneraattorit 
+                    tarjoavat sinulle uuden, tehokkaan työkalun visuaalisten ideoiden toteuttamiseen.
+                </p>
+            </div>
+            
+            <div class="guide-cta">
+                <h3>Kokeile AI-kuvageneraattoreita tänään</h3>
+                <p>Aloita AI-kuvien luominen ja näe, miten ne voivat tehostaa visuaalista viestintääsi!</p>
+                <a href="https://www.midjourney.com/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
+                    <span style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-image" style="margin-right: 10px; font-size: 1.1em;"></i>
+                        Kokeile Midjourneyta
+                    </span>
+                </a>
+            </div>
+            
+            <div class="guide-section">
+                <h3>Lue lisää aiheesta</h3>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <div class="related-cards-grid">
+                        <a href="dalle-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">DALL-E Käyttöopas</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava opas DALL-E:n käyttöön ja tehokkaiden promptien kirjoittamiseen.</p>
+                        </a>
+                        
+                        <a href="midjourney-opas.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(0, 166, 126, 0.1), rgba(0, 166, 126, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 166, 126, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #00a67e; text-align: center;">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Midjourney Käyttöopas</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Opi luomaan vaikuttavia kuvia Midjourneyn avulla ja hyödyntämään työkalua tehokkaasti.</p>
+                        </a>
+                        
+                        <a href="tekoalyn-etiikka.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tekoälyn etiikka</h4>
+                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Tutustu tekoälyn eettisiin kysymyksiin ja vastuulliseen käyttöön.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="../tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html> 
