@@ -330,16 +330,22 @@
     .hero {
         padding: 40px 0 !important;
     }
+    
+    .ai-speech-bubble {
+        transform: translateX(-50%) translateY(-150px);
+        max-width: 250px;
+        font-size: 16px;
+        padding: 12px 18px;
+        z-index: 1005; /* Korkeampi z-index, jotta puhekupla näkyy muiden elementtien päällä */
+    }
 }
 
 @media (max-width: 768px) {
     .ai-speech-bubble {
-        font-size: 16px !important;
-        padding: 12px 18px !important;
-        max-width: 250px !important;
-        transform: translateX(-50%) translateY(-100px) !important;
-        border-width: 1px !important;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), 0 0 15px rgba(0, 200, 255, 0.25) !important;
+        transform: translateX(-50%) translateY(-180px);
+        max-width: 220px;
+        font-size: 15px;
+        padding: 10px 15px;
     }
     
     #ai-character-container {
@@ -401,11 +407,10 @@
 
 @media (max-width: 576px) {
     .ai-speech-bubble {
-        font-size: 14px !important;
-        padding: 10px 15px !important;
-        max-width: 220px !important;
-        transform: translateX(-50%) translateY(-90px) !important;
-        border-width: 1px !important;
+        transform: translateX(-50%) translateY(-200px);
+        max-width: 200px;
+        font-size: 14px;
+        padding: 8px 12px;
     }
     
     #ai-character-container {
@@ -482,11 +487,10 @@
 
 @media (max-width: 400px) {
     .ai-speech-bubble {
-        font-size: 13px !important;
-        padding: 8px 12px !important;
-        max-width: 200px !important;
-        transform: translateX(-50%) translateY(-80px) !important;
-        border-width: 1px !important;
+        transform: translateX(-50%) translateY(-220px);
+        max-width: 180px;
+        font-size: 13px;
+        padding: 8px 10px;
     }
     
     #ai-character-container {
