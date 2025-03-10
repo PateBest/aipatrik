@@ -115,6 +115,49 @@ jobs:
           # Luodaan .nojekyll-tiedosto estämään GitHub Pagesin Jekyll-käsittely
           touch .nojekyll
           echo "Created .nojekyll file"
+          
+          # Luodaan suora JavaScript-tiedosto pages-hakemistoon
+          echo "Creating direct JavaScript file with Supabase configuration"
+          mkdir -p pages/js
+          
+          # Luodaan supabase-config.js-tiedosto
+          cat > pages/js/supabase-config.js << EOF
+          // This file is generated during deployment - do not edit manually
+          window.SUPABASE_URL = "${{ secrets.SUPABASE_URL }}";
+          window.SUPABASE_ANON_KEY = "${{ secrets.SUPABASE_ANON_KEY }}";
+          
+          // Make configuration available through CONFIG object for compatibility
+          if (typeof window.CONFIG === 'undefined') {
+            window.CONFIG = {};
+          }
+          window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
+          window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+          
+          // Make configuration available through INLINE_CONFIG object for compatibility
+          window.INLINE_CONFIG = {
+            SUPABASE_URL: "${{ secrets.SUPABASE_URL }}",
+            SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
+          };
+          
+          console.log("Supabase configuration loaded from supabase-config.js");
+          EOF
+          
+          echo "Created supabase-config.js with Supabase configuration"
+          
+          # Kopioidaan tiedosto myös juurihakemistoon ja muihin hakemistoihin
+          cp pages/js/supabase-config.js ./supabase-config.js
+          cp pages/js/supabase-config.js ./pages/supabase-config.js
+          cp pages/js/supabase-config.js ./js/supabase-config.js
+          
+          echo "Copied supabase-config.js to multiple locations for better accessibility"
+          
+          # Lisätään script-tagi yhteystiedot.html-tiedostoon
+          echo "Adding script tag to yhteystiedot.html"
+          
+          # Etsitään sopiva kohta (head-tagin loppu) ja lisätään script-tagi
+          perl -i -pe 's|</head>|    <script src="../js/supabase-config.js"></script>\n    <script src="./js/supabase-config.js"></script>\n    <script src="/js/supabase-config.js"></script>\n    <script src="/aipatrik/js/supabase-config.js"></script>\n</head>|g' pages/yhteystiedot.html
+          
+          echo "Added script tags to yhteystiedot.html"
 
       - name: Create direct configuration page
         run: |
@@ -271,6 +314,27 @@ jobs:
             echo "Supabase config successfully added to yhteystiedot.html"
           else
             echo "Failed to add Supabase config to yhteystiedot.html"
+            exit 1
+          fi
+          
+          # Verify supabase-config.js exists and contains Supabase configuration
+          if [ -f "./js/supabase-config.js" ]; then
+            if grep -q "window.SUPABASE_URL" ./js/supabase-config.js; then
+              echo "Supabase config successfully added to js/supabase-config.js"
+            else
+              echo "Failed to add Supabase config to js/supabase-config.js"
+              exit 1
+            fi
+          else
+            echo "js/supabase-config.js not found"
+            exit 1
+          fi
+          
+          # Verify script tags in yhteystiedot.html
+          if grep -q "supabase-config.js" ./pages/yhteystiedot.html; then
+            echo "Script tags successfully added to yhteystiedot.html"
+          else
+            echo "Failed to add script tags to yhteystiedot.html"
             exit 1
           fi
           
