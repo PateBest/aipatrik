@@ -45,6 +45,50 @@ console.log("Inline Supabase configuration loaded");
     <!-- Konfiguraatiotiedosto -->
     <script src="../js/config.js"></script>
     
+    <!-- Varmistetaan konfiguraation lataus -->
+    <script>
+    // Ladataan config.runtime.js dynaamisesti, jos konfiguraatiota ei ole vielä saatavilla
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+                console.log('Trying to load config.runtime.js dynamically');
+                
+                // Yritetään ladata konfiguraatio eri poluista
+                const paths = [
+                    '../config.runtime.js',
+                    '../js/config.runtime.js',
+                    './config.runtime.js',
+                    './js/config.runtime.js',
+                    '/config.runtime.js',
+                    '/js/config.runtime.js',
+                    '/aipatrik/config.runtime.js',
+                    '/aipatrik/js/config.runtime.js'
+                ];
+                
+                function tryLoadConfig(index) {
+                    if (index >= paths.length) {
+                        console.error('Failed to load config from all paths');
+                        return;
+                    }
+                    
+                    const script = document.createElement('script');
+                    script.src = paths[index];
+                    script.onload = function() {
+                        console.log('Successfully loaded config from', paths[index]);
+                    };
+                    script.onerror = function() {
+                        console.log('Failed to load config from', paths[index]);
+                        tryLoadConfig(index + 1);
+                    };
+                    document.head.appendChild(script);
+                }
+                
+                tryLoadConfig(0);
+            }
+        }, 500);
+    });
+    </script>
+    
     <!-- Debug-skripti konfiguraation tarkistamiseen -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -686,7 +730,7 @@ console.log("Inline Supabase configuration loaded");
                 <div id="error-message" class="error-message">
                     <i class="fas fa-exclamation-circle"></i> Viestin lähetyksessä tapahtui virhe. Ole hyvä ja yritä uudelleen.
                 </div>
-                <form id="contact-form">
+                <form id="contact-form" action="https://formspree.io/f/xayrqwgj" method="POST">
                     <div class="form-group">
                         <label for="name">Nimi</label>
                         <i class="fas fa-user"></i>
@@ -715,6 +759,15 @@ console.log("Inline Supabase configuration loaded");
                         <i class="fas fa-paper-plane"></i> <span>Lähetä viesti</span>
                         <span id="loading" class="loading" style="display: none;"></span>
                     </button>
+                    
+                    <!-- Lisätään piilokenttä, joka ohjaa käyttäjän takaisin sivustolle lomakkeen lähetyksen jälkeen -->
+                    <input type="hidden" name="_next" value="https://patebest.github.io/aipatrik/pages/kiitos.html">
+                    
+                    <!-- Lisätään piilokenttä, joka määrittää virhesivun -->
+                    <input type="hidden" name="_error" value="https://patebest.github.io/aipatrik/pages/virhe.html">
+                    
+                    <!-- Lisätään piilokenttä, joka määrittää viestin aiheen -->
+                    <input type="hidden" name="_subject" value="Uusi yhteydenotto AI Patrik -sivustolta">
                 </form>
             </div>
         </div>

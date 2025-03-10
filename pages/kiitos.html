@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiitos yhteydenotosta - AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .thank-you-container {
+            margin: 4rem auto;
+            max-width: 800px;
+            background-color: var(--dark-surface);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .thank-you-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), #0d6efd);
+        }
+        
+        .thank-you-icon {
+            font-size: 5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .thank-you-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .thank-you-message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+        
+        .back-button {
+            background: linear-gradient(135deg, var(--accent-color), #0d6efd);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 230, 184, 0.3);
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 230, 184, 0.4);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header-osio -->
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <h1>AI Patrik</h1>
+                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+            </a>
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Navigaatio -->
+    <nav>
+        <ul>
+            <li><a href="../index.html">Koti</a></li>
+            <li><a href="tyokalut.html">Työkalut</a></li>
+            <li><a href="arvostelut.html">Arvostelut</a></li>
+            <li><a href="oppaat.html">Oppaat</a></li>
+            <li><a href="blogi.html">Blogi</a></li>
+            <li><a href="yhteystiedot.html">Ota Yhteyttä</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Kiitos-osio -->
+    <section>
+        <div class="container">
+            <div class="thank-you-container">
+                <i class="fas fa-check-circle thank-you-icon"></i>
+                <h2 class="thank-you-title">Kiitos yhteydenotostasi!</h2>
+                <p class="thank-you-message">
+                    Viestisi on vastaanotettu onnistuneesti. Pyrimme vastaamaan mahdollisimman pian, yleensä 1-2 arkipäivän kuluessa.
+                </p>
+                <a href="../index.html" class="back-button">
+                    <i class="fas fa-home"></i> Takaisin etusivulle
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer-osio -->
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript-tiedostot -->
+    <script src="../js/main.js"></script>
+</body>
+</html> 
