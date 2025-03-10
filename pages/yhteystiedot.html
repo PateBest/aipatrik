@@ -1,138 +1,12 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-<script>
-// Suora Supabase-konfiguraatio
-window.SUPABASE_URL = 'https://ograsjqhyblnfqqflwvo.supabase.co';
-window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4';
-
-// Asetetaan konfiguraatio myös CONFIG-objektiin
-if (typeof window.CONFIG === 'undefined') {
-  window.CONFIG = {};
-}
-window.CONFIG.SUPABASE_URL = window.SUPABASE_URL;
-window.CONFIG.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
-
-// Asetetaan konfiguraatio myös INLINE_CONFIG-objektiin
-window.INLINE_CONFIG = {
-  SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4'
-};
-
-console.log('Suora Supabase-konfiguraatio ladattu');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yhteystiedot - AI Patrik</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/mobile-nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Supabase JavaScript-kirjasto -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Supabase-konfiguraatio (tämä korvataan GitHub Actionsin toimesta) -->
-    <script>
-    window.SUPABASE_URL = 'https://ograsjqhyblnfqqflwvo.supabase.co';
-window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4';
-window.INLINE_CONFIG = {
-  SUPABASE_URL: 'https://ograsjqhyblnfqqflwvo.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ncmFzanFoeWJsbmZxcWZsd3ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDExMjEwNjMsImV4cCI6MjA1NjY5NzA2M30.snp4uBr2GNOj_LYi7B1-jGPlogEydnLnkcsiqRRKss4'
-};
-console.log("Inline Supabase configuration loaded");
-    </script>
-    
-    <!-- Konfiguraatiotiedosto -->
-    <script src="../js/config.js"></script>
-    
-    <!-- Varmistetaan konfiguraation lataus -->
-    <script>
-    // Ladataan config.runtime.js dynaamisesti, jos konfiguraatiota ei ole vielä saatavilla
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
-                console.log('Trying to load config.runtime.js dynamically');
-                
-                // Yritetään ladata konfiguraatio eri poluista
-                const paths = [
-                    '../config.runtime.js',
-                    '../js/config.runtime.js',
-                    './config.runtime.js',
-                    './js/config.runtime.js',
-                    '/config.runtime.js',
-                    '/js/config.runtime.js',
-                    '/aipatrik/config.runtime.js',
-                    '/aipatrik/js/config.runtime.js'
-                ];
-                
-                function tryLoadConfig(index) {
-                    if (index >= paths.length) {
-                        console.error('Failed to load config from all paths');
-                        return;
-                    }
-                    
-                    const script = document.createElement('script');
-                    script.src = paths[index];
-                    script.onload = function() {
-                        console.log('Successfully loaded config from', paths[index]);
-                    };
-                    script.onerror = function() {
-                        console.log('Failed to load config from', paths[index]);
-                        tryLoadConfig(index + 1);
-                    };
-                    document.head.appendChild(script);
-                }
-                
-                tryLoadConfig(0);
-            }
-        }, 500);
-    });
-    </script>
-    
-    <!-- Debug-skripti konfiguraation tarkistamiseen -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tarkistetaan konfiguraation tila 1 sekunnin kuluttua sivun lataamisesta
-        setTimeout(function() {
-            console.log('Debug: Tarkistetaan Supabase-konfiguraation tila');
-            console.log('window.SUPABASE_URL:', window.SUPABASE_URL);
-            console.log('window.SUPABASE_ANON_KEY:', window.SUPABASE_ANON_KEY);
-            console.log('window.CONFIG:', window.CONFIG);
-            console.log('window.INLINE_CONFIG:', window.INLINE_CONFIG);
-            
-            // Luodaan debug-elementti, jos se on tarpeen
-            if (window.location.search.includes('debug=true')) {
-                const debugElement = document.createElement('div');
-                debugElement.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                debugElement.style.color = '#00ff00';
-                debugElement.style.fontFamily = 'monospace';
-                debugElement.style.padding = '10px';
-                debugElement.style.margin = '20px 0';
-                debugElement.style.borderRadius = '5px';
-                debugElement.style.whiteSpace = 'pre-wrap';
-                
-                const SUPABASE_URL = window.SUPABASE_URL || window.CONFIG?.SUPABASE_URL || window.INLINE_CONFIG?.SUPABASE_URL || '';
-                const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || window.CONFIG?.SUPABASE_ANON_KEY || window.INLINE_CONFIG?.SUPABASE_ANON_KEY || '';
-                
-                const isConfigured = SUPABASE_URL && SUPABASE_ANON_KEY;
-                
-                debugElement.innerHTML = `
-                <div style="font-weight: bold; margin-bottom: 10px;">Supabase-konfiguraation tila:</div>
-                <div>SUPABASE_URL: ${SUPABASE_URL ? '✓ Määritelty' : '✗ Puuttuu'}</div>
-                <div>SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY ? '✓ Määritelty' : '✗ Puuttuu'}</div>
-                <div>Konfiguraation tila: ${isConfigured ? '✓ OK' : '✗ Puuttuu'}</div>
-                <div style="margin-top: 10px; font-size: 12px; color: #aaa;">Tämä debug-näkymä näkyy vain, kun URL:ssa on ?debug=true</div>
-                `;
-                
-                // Lisätään elementti lomakkeen yläpuolelle
-                const contactForm = document.querySelector('.contact-form');
-                if (contactForm) {
-                    contactForm.parentNode.insertBefore(debugElement, contactForm);
-                }
-            }
-        }, 1000);
-    });
-    </script>
     
     <style>
         /* Sosiaalisen median painikkeet ja kielenvaihto */
@@ -637,10 +511,6 @@ console.log("Inline Supabase configuration loaded");
             color: white;
         }
     </style>
-    <script src="../inline-config.js"></script>
-    <script src="./js/inline-config.js"></script>
-    <script src="/inline-config.js"></script>
-    <script src="/aipatrik/inline-config.js"></script>
 </head>
 <body>
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
