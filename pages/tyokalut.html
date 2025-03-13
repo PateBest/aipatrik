@@ -6,6 +6,8 @@
     <title>Työkalut - AI Patrik</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="../css/ai-character.css">
+    <link rel="stylesheet" href="../css/active-nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Sosiaalisen median painikkeet ja kielenvaihto */
@@ -14,8 +16,9 @@
             justify-content: flex-end;
             align-items: center;
             padding: 10px 0;
-            background-color: var(--dark-background);
+            background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9));
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .top-bar .container {
@@ -177,7 +180,7 @@
             display: flex;
             position: relative;
             margin: 0 auto 1.5rem;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             border-radius: 50px;
             background: linear-gradient(145deg, rgba(30, 30, 40, 0.8), rgba(20, 20, 30, 0.8));
@@ -222,26 +225,28 @@
             border: none;
             color: white;
             padding: 0;
-            width: 50px;
+            width: 100px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 50px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             margin-right: 5px;
+            gap: 8px;
         }
         
         .search-box button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         
         .search-box button:active {
-            transform: scale(0.95);
+            transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
         
         .filter-container {
@@ -420,19 +425,310 @@
                 font-size: 13px;
             }
         }
+        
+        /* Responsive title styles */
+        @media (max-width: 768px) {
+            .logo-link h1 {
+                font-size: 2.5rem !important;
+                letter-spacing: 2px !important;
+                padding: 0 10px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.9rem !important;
+            }
+            
+            /* Hampurilaisvalikon hover-efekti */
+            .mobile-nav-toggle:hover {
+                background: rgba(0, 40, 80, 0.8) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span {
+                width: 90% !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(1) {
+                transform: translateY(-1px) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(3) {
+                transform: translateY(1px) !important;
+            }
+            
+            /* Piilota otsikko kun valikko on auki */
+            body.nav-open .logo-link {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Piilota top bar painikkeet kun valikko on auki */
+            body.nav-open .top-bar {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Parannukset hampurilaisvalikon sisällä oleviin painikkeisiin */
+            nav ul li {
+                margin: 10px 0 !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a {
+                background: linear-gradient(135deg, rgba(0, 40, 80, 0.9), rgba(0, 60, 110, 0.9)) !important;
+                border: 1px solid rgba(0, 150, 255, 0.2) !important;
+                border-radius: 10px !important;
+                padding: 15px 25px !important;
+                font-weight: 500 !important;
+                letter-spacing: 0.5px !important;
+                text-transform: uppercase !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a:hover {
+                background: linear-gradient(135deg, rgba(0, 60, 110, 0.95), rgba(0, 100, 180, 0.95)) !important;
+                transform: translateY(-3px) !important;
+                box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3) !important;
+                color: white !important;
+                border-color: rgba(0, 200, 255, 0.4) !important;
+            }
+            
+            nav ul li.active a {
+                background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)) !important;
+                color: white !important;
+                font-weight: 600 !important;
+                box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4) !important;
+                border-color: rgba(0, 200, 255, 0.5) !important;
+            }
+            
+            /* Sulkemispainikkeen tyylit */
+            .nav-close-btn {
+                background: rgba(0, 40, 80, 0.9) !important;
+                border: 2px solid rgba(0, 150, 255, 0.3) !important;
+                color: white !important;
+                box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .nav-close-btn:hover {
+                background: rgba(0, 60, 110, 0.95) !important;
+                transform: scale(1.1) !important;
+                box-shadow: 0 6px 20px rgba(0, 150, 255, 0.4) !important;
+            }
+            
+            .nav-close-btn i {
+                text-shadow: 0 0 10px rgba(0, 200, 255, 0.5) !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-link h1 {
+                font-size: 2rem !important;
+                letter-spacing: 1px !important;
+                padding: 0 5px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* Työkalukorttien tyylit */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .tool-card.service-card {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7));
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .tool-card.service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(0, 150, 255, 0.15) inset;
+            border-color: rgba(0, 180, 255, 0.4);
+        }
+        
+        .tool-card.service-card h3 {
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5);
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        
+        .tool-card.service-card p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            flex-grow: 1;
+        }
+        
+        .tool-card.service-card .btn.btn-primary {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--accent-color), #0066cc);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+            align-self: flex-start;
+        }
+        
+        .tool-card.service-card .btn.btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 100, 255, 0.5);
+        }
+        
+        .tool-card.service-card .secondary-buttons {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tool-card.service-card .btn.btn-secondary {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card.service-card .btn.btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* Ei hakutuloksia -kortin tyylit */
+        .no-results {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7));
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .no-results h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5);
+            letter-spacing: 0.5px;
+        }
+        
+        .no-results p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .no-results button {
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--accent-color), #0066cc);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+        }
+        
+        .no-results button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 100, 255, 0.5);
+        }
+        
+        /* Hakutulosten grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        /* Responsiiviset tyylit */
+        @media (max-width: 992px) {
+            .grid, .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tool-card.service-card {
+                padding: 20px;
+            }
+            
+            .tool-card.service-card h3 {
+                font-size: 1.4rem;
+            }
+            
+            .tool-card.service-card p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .grid, .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .no-results {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
     <div class="top-bar">
-        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+        <div class="container">
             <div class="social-icons">
-                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
-                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/ai-patrik/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.tiktok.com/@ai.patrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/ai.patrik/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/aipatrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.youtube.com/channel/UCn6H3JoOIj_8h6CscQz5T7w" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitter.com/ai_patrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
             </div>
             <div class="language-selector">
                 <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
@@ -446,124 +742,211 @@
     </div>
 
     <header>
-        <div class="container">
-            <a href="../index.html" class="logo-link">
-                <h1>AI Patrik</h1>
-                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+        <div class="container" style="display: flex; justify-content: center; align-items: center; padding: 20px 0; position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%;">
+            <a href="../index.html" class="logo-link" style="display: block; text-decoration: none; position: relative; z-index: 100; text-align: center; padding: 0 40px;">
+                <h1 style="margin: 0 auto; font-size: 3rem; background: linear-gradient(135deg, var(--accent-color), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0, 200, 255, 0.3); white-space: nowrap; letter-spacing: 3px; display: inline-block; padding: 0 15px;">AI PATRIK</h1>
+                <p style="margin: 8px 0 0 0; font-size: 1.1rem; color: var(--text-light); opacity: 0.9; text-align: center;">Tekoälyn työkalut ja opastus</p>
             </a>
-            <button class="mobile-nav-toggle">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);"> <!-- Oikea puoli mobiilivalikkoa varten -->
+                <button class="mobile-nav-toggle" style="background: rgba(0, 30, 60, 0.6); border: 1px solid rgba(0, 200, 255, 0.3); border-radius: 8px; cursor: pointer; padding: 12px; z-index: 100; box-shadow: 0 2px 10px rgba(0, 100, 255, 0.2); transition: all 0.3s ease;">
+                    <div class="hamburger" style="position: relative; width: 26px; height: 20px;">
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 0; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 8px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 16px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
                 </div>
             </button>
+            </div>
         </div>
     </header>
     
-    <nav>
-        <ul>
-            <li><a href="../index.html">Koti</a></li>
-            <li class="active"><a href="tyokalut.html">Työkalut</a></li>
-            <li><a href="arvostelut.html">Arvostelut</a></li>
-            <li><a href="oppaat.html">Oppaat</a></li>
-            <li><a href="blogi.html">Blogi</a></li>
-            <li><a href="yhteystiedot.html">Ota Yhteyttä</a></li>
+    <nav style="background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9)); border-radius: 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); margin-bottom: 0px; position: relative; z-index: 5; padding: 10px 0; border-bottom: 1px solid rgba(0, 150, 255, 0.2);">
+        <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <ul style="display: flex; justify-content: center; list-style: none; margin: 0; padding: 0;">
+                <li style="position: relative; margin: 0 8px;"><a href="../index.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Koti</a></li>
+                <li class="active" style="position: relative; margin: 0 8px;"><a href="tyokalut.html" style="display: block; padding: 12px 22px; color: white; text-decoration: none; font-weight: 600; transition: all 0.3s ease; position: relative; background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)); border-radius: 30px; box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4); letter-spacing: 0.3px; border: 1px solid rgba(0, 200, 255, 0.5);">Työkalut</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="arvostelut.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Arvostelut</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="oppaat.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Oppaat</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="blogi.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Blogi</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="ukk.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">UKK</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="yhteystiedot.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Ota Yhteyttä</a></li>
         </ul>
+        </div>
     </nav>
     
-    <!-- Otsikko -->
-    <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
-        <div class="section-header" style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--accent-color), #0d6efd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">AI-työkalut</h2>
-            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
-                Tutustu tekoälytyökaluihin, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.
-            </p>
-        </div>
-    </div>
-    
     <!-- Hakukenttä ja filtterit -->
-    <div class="tools-search-container">
-        <div class="search-box">
-            <input type="text" id="tool-search" placeholder="Etsi työkaluja...">
-            <button id="search-button"><i class="fas fa-search"></i></button>
+    <section class="services-section" style="padding-top: 50px; padding-bottom: 80px; background: linear-gradient(135deg, rgba(0, 15, 40, 0.9), rgba(0, 30, 80, 0.85)); position: relative;">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: -100px; right: 10%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -50px; left: 15%; animation: float 12s infinite ease-in-out reverse;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, rgba(50, 150, 200, 0) 70%); top: 30%; right: 5%; animation: float 10s infinite ease-in-out 2s;"></div>
         </div>
         
-        <div class="filter-container">
-            <div class="filter-group">
-                <label><i class="fas fa-tags" style="color: var(--accent-color);"></i> Kategoria:</label>
-                <select id="category-filter">
-                    <option value="all">Kaikki kategoriat</option>
-                    <option value="keskustelurobotit">Keskustelurobotit</option>
-                    <option value="kuvanluonti">Kuvanluonti</option>
-                    <option value="videogenerointi">Videogenerointi</option>
-                    <option value="aani">Ääni ja puhe</option>
-                    <option value="tuottavuus">Tuottavuus</option>
-                    <option value="tiedonhaku">Tiedonhaku</option>
-                    <option value="luovat">Luovat työkalut</option>
-                    <option value="yleiset">Yleiset AI-mallit</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label><i class="fas fa-dollar-sign" style="color: var(--accent-color);"></i> Hinnoittelu:</label>
-                <select id="pricing-filter">
-                    <option value="all">Kaikki</option>
-                    <option value="ilmainen">Ilmainen</option>
-                    <option value="freemium">Freemium</option>
-                    <option value="maksullinen">Maksullinen</option>
-                </select>
-                <div class="tooltip">
-                    <i class="fas fa-question-circle"></i>
-                    <span class="tooltip-text">Freemium tarkoittaa hinnoittelumallia, jossa perusversio on ilmainen, mutta lisäominaisuudet tai laajempi käyttö on maksullista.</span>
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <label><i class="fas fa-bullseye" style="color: var(--accent-color);"></i> Käyttötarkoitus:</label>
-                <select id="purpose-filter">
-                    <option value="all">Kaikki</option>
-                    <option value="yritys">Yrityskäyttö</option>
-                    <option value="henkilokohtainen">Henkilökohtainen</option>
-                    <option value="luova">Luova työ</option>
-                    <option value="tutkimus">Tutkimus ja opiskelu</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    
-    <div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 2rem 0;">
-        <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0 20px; box-sizing: border-box;">
-            <div class="featured-tool" style="width: 100%; margin: 0 auto;">
-                <div class="featured-tool-header" style="background-color: rgba(0, 230, 184, 0.15); margin: -30px -30px 1.5rem -30px; padding: 1.2rem 2.5rem; border-bottom: 1px solid rgba(0, 230, 184, 0.3); text-align: center;">
-                    <h2 style="color: var(--accent-color); font-size: 2.2rem; margin: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">Viikon AI Työkalu</h2>
-                </div>
-                <h3>ElevenLabs</h3>
-                <p>
-                    ElevenLabs on huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
-                    Se tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
-                </p>
-                <p>
-                    <strong>Edut:</strong> Erittäin luonnollinen puhesynteesi, tukee useita kieliä, mahdollisuus luoda omia ääniä,
-                    helppokäyttöinen rajapinta, soveltuu podcasteihin, äänikirjoihin ja videoihin.
-                </p>
-                <a href="https://try.elevenlabs.io/keja882eenfs" class="btn btn-primary" target="_blank" style="display: block; margin: 20px auto 0; max-width: 300px;">Kokeile ElevenLabsia</a>
-            </div>
-        </div>
-    </div>
-    
-    <section id="tyokalut">
         <div class="container">
+            <h2 class="section-title">AI-työkalut</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px; font-size: 1.1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">
+                Löydä parhaat tekoälytyökalut eri tarpeisiin. Kaikki työkalut on testattu ja arvioitu puolestasi.
+            </p>
+            
+            <div class="tools-search-container">
+                <div class="search-box">
+                    <input type="text" id="tool-search" placeholder="Etsi työkaluja...">
+                    <button id="search-button"><i class="fas fa-search"></i> Hae</button>
+                </div>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label><i class="fas fa-tags" style="color: var(--accent-color);"></i> Kategoria:</label>
+                        <select id="category-filter">
+                            <option value="all">Kaikki kategoriat</option>
+                            <option value="keskustelurobotit">Keskustelurobotit</option>
+                            <option value="kuvanluonti">Kuvanluonti</option>
+                            <option value="videogenerointi">Videogenerointi</option>
+                            <option value="aani">Ääni ja puhe</option>
+                            <option value="tuottavuus">Tuottavuus</option>
+                            <option value="tiedonhaku">Tiedonhaku</option>
+                            <option value="luovat">Luovat työkalut</option>
+                            <option value="yleiset">Yleiset AI-mallit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label><i class="fas fa-dollar-sign" style="color: var(--accent-color);"></i> Hinnoittelu:</label>
+                        <select id="pricing-filter">
+                            <option value="all">Kaikki</option>
+                            <option value="ilmainen">Ilmainen</option>
+                            <option value="freemium">Freemium</option>
+                            <option value="maksullinen">Maksullinen</option>
+                        </select>
+                        <div class="tooltip">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-text">Freemium tarkoittaa hinnoittelumallia, jossa perusversio on ilmainen, mutta lisäominaisuudet tai laajempi käyttö on maksullista.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label><i class="fas fa-bullseye" style="color: var(--accent-color);"></i> Käyttötarkoitus:</label>
+                        <select id="purpose-filter">
+                            <option value="all">Kaikki</option>
+                            <option value="yritys">Yrityskäyttö</option>
+                            <option value="henkilokohtainen">Henkilökohtainen</option>
+                            <option value="luova">Luova työ</option>
+                            <option value="tutkimus">Tutkimus ja opiskelu</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Viikon AI Työkalu -->
+            <div class="services-grid" style="margin-top: 40px;">
+                <div class="service-card" style="grid-column: 1 / -1; max-width: 900px; margin: 0 auto; background: linear-gradient(135deg, rgba(0, 40, 80, 0.8), rgba(0, 80, 150, 0.8)); border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(0, 150, 255, 0.2) inset; border: 1px solid rgba(0, 180, 255, 0.4); overflow: hidden; position: relative; padding: 0;">
+                    <!-- Animoitu tausta -->
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+                        <div style="position: absolute; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 230, 184, 0.15) 0%, rgba(0, 150, 200, 0) 70%); top: -100px; right: -50px; animation: float 15s infinite ease-in-out;"></div>
+                        <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -80px; left: -50px; animation: float 12s infinite ease-in-out reverse;"></div>
+                    </div>
+                    
+                    <!-- Otsikko-osio -->
+                    <div style="background: linear-gradient(135deg, rgba(0, 230, 184, 0.2), rgba(0, 100, 200, 0.2)); padding: 1.5rem; border-bottom: 2px solid rgba(0, 230, 184, 0.4); text-align: center; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIxIiBmaWxsPSJyZ2JhKDAsIDIzMCwgMTg0LCAwLjA1KSIvPjwvc3ZnPg==') repeat; opacity: 0.5; z-index: 0;"></div>
+                        <div style="display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <div style="margin-right: 15px; background: linear-gradient(135deg, #0d6efd, var(--accent-color)); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4);">
+                                <i class="fas fa-award" style="font-size: 1.8rem; color: white; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);"></i>
+                            </div>
+                            <h2 style="color: white; font-size: 2.2rem; margin: 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); letter-spacing: 1px; font-weight: 700;">Viikon AI Työkalu</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Sisältö-osio -->
+                    <div style="padding: 2.5rem; position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 30px;">
+                        <!-- Työkalu-logo -->
+                        <div style="flex: 0 0 120px; text-align: center;">
+                            <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0d6efd, var(--accent-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); margin-bottom: 15px; transform: rotate(-5deg);">
+                                <i class="fas fa-microphone-alt" style="font-size: 3.5rem; color: white; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Työkalu-tiedot -->
+                        <div style="flex: 1; min-width: 300px;">
+                            <h3 style="font-size: 2rem; color: white; margin-top: 0; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5); letter-spacing: 0.5px; display: flex; align-items: center;">
+                                ElevenLabs
+                                <span style="margin-left: 15px; background: linear-gradient(135deg, rgba(0, 230, 184, 0.9), rgba(13, 110, 253, 0.9)); padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);">Freemium</span>
+                            </h3>
+                            <p style="font-size: 1.15rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">
+                        ElevenLabs on huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
+                        Se tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
+                    </p>
+                            
+                            <!-- Edut listana -->
+                            <div style="margin-bottom: 25px;">
+                                <h4 style="color: var(--accent-color); font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center;">
+                                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i> Tärkeimmät edut:
+                                </h4>
+                                <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 20px;">
+                                    <li style="display: flex; align-items: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+                                        <i class="fas fa-check" style="color: var(--accent-color); margin-right: 8px; font-size: 0.9rem;"></i> Erittäin luonnollinen puhesynteesi
+                                    </li>
+                                    <li style="display: flex; align-items: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+                                        <i class="fas fa-check" style="color: var(--accent-color); margin-right: 8px; font-size: 0.9rem;"></i> Tukee useita kieliä
+                                    </li>
+                                    <li style="display: flex; align-items: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+                                        <i class="fas fa-check" style="color: var(--accent-color); margin-right: 8px; font-size: 0.9rem;"></i> Mahdollisuus luoda omia ääniä
+                                    </li>
+                                    <li style="display: flex; align-items: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
+                                        <i class="fas fa-check" style="color: var(--accent-color); margin-right: 8px; font-size: 0.9rem;"></i> Helppokäyttöinen rajapinta
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Keskitetty painike-container -->
+                            <div style="text-align: center; width: 100%; margin-top: 10px;">
+                                <a href="https://try.elevenlabs.io/keja882eenfs" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, var(--accent-color), #0d6efd); color: white; font-weight: 700; font-size: 1.3rem; letter-spacing: 0.5px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; box-shadow: 0 10px 25px rgba(0, 100, 255, 0.4), 0 0 15px rgba(0, 230, 184, 0.2) inset; transition: all 0.3s ease; border: none; margin: 0 auto;">
+                                    <i class="fas fa-headphones" style="margin-right: 12px; font-size: 1.2rem;"></i>
+                                    Kokeile ElevenLabsia
+                                    <i class="fas fa-arrow-right" style="margin-left: 12px; font-size: 1rem;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="services-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <!-- Kaikki työkalut -->
+    <section id="tyokalut" style="padding-top: 50px; padding-bottom: 80px; background: linear-gradient(135deg, rgba(0, 15, 40, 0.9), rgba(0, 30, 80, 0.85)); position: relative;">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: -100px; right: 10%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -50px; left: 15%; animation: float 12s infinite ease-in-out reverse;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, rgba(50, 150, 200, 0) 70%); top: 30%; right: 5%; animation: float 10s infinite ease-in-out 2s;"></div>
+        </div>
+        
+        <div class="container">
+            <h2 class="section-title">Kaikki työkalut</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px; font-size: 1.1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.95); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);">
+                Selaa kaikkia tekoälytyökaluja ja löydä juuri sinun tarpeisiisi sopivat ratkaisut.
+            </p>
+            
             <div class="grid">
                 <!-- Keskustelurobotit -->
-                <div class="tool-card" data-category="keskustelurobotit" data-pricing="freemium" data-purpose="henkilokohtainen,yritys">
+                <div class="tool-card service-card" data-category="keskustelurobotit" data-pricing="freemium" data-purpose="henkilokohtainen,yritys">
                     <h3>ChatGPT</h3>
                     <p>
                         OpenAI:n kehittämä tekoälypohjainen keskustelurobotti, joka tuottaa ihmismäistä tekstiä ja vastaa kysymyksiin monipuolisesti. 
                         Soveltuu niin henkilökohtaiseen käyttöön kuin yritysten tarpeisiin.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Keskustelurobotti</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -578,13 +961,13 @@
                 </div>
                 
                 <!-- Kuvanluonti -->
-                <div class="tool-card" data-category="kuvanluonti" data-pricing="maksullinen" data-purpose="luova,yritys">
+                <div class="tool-card service-card" data-category="kuvanluonti" data-pricing="maksullinen" data-purpose="luova,yritys">
                     <h3>Midjourney</h3>
                     <p>
                         Tehokas AI-työkalu kuvien luomiseen tekstikuvauksista. Erityisen suosittu taiteilijoiden, suunnittelijoiden ja 
                         markkinoinnin ammattilaisten keskuudessa. Tuottaa korkealaatuisia ja visuaalisesti näyttäviä kuvia.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Kuvanluonti</span>
                         <span class="tool-tag">Maksullinen</span>
                     </div>
@@ -599,13 +982,13 @@
                 </div>
                 
                 <!-- Videogenerointi -->
-                <div class="tool-card" data-category="videogenerointi" data-pricing="maksullinen" data-purpose="luova,yritys">
+                <div class="tool-card service-card" data-category="videogenerointi" data-pricing="maksullinen" data-purpose="luova,yritys">
                     <h3>Runway</h3>
                     <p>
                         Monipuolinen AI-pohjainen videonmuokkaustyökalu, joka mahdollistaa ammattimaisen videosisällön luomisen ja muokkauksen. 
                         Sisältää useita tekoälyominaisuuksia kuten tyylinsiirto, objektien poisto ja generatiivinen täyttö.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Videogenerointi</span>
                         <span class="tool-tag">Maksullinen</span>
                     </div>
@@ -620,13 +1003,13 @@
                 </div>
                 
                 <!-- Ääni ja puhe -->
-                <div class="tool-card" data-category="aani" data-pricing="freemium" data-purpose="luova,yritys">
+                <div class="tool-card service-card" data-category="aani" data-pricing="freemium" data-purpose="luova,yritys">
                     <h3>ElevenLabs</h3>
                     <p>
                         Huippuluokan tekoälypohjainen äänisynteesityökalu, joka muuntaa tekstin luonnolliseksi puheeksi.
                         Tarjoaa realistisia ääniä useilla kielillä ja mahdollistaa omien äänimallien luomisen.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Ääni ja puhe</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -641,13 +1024,13 @@
                 </div>
 
                 <!-- Tuottavuus -->
-                <div class="tool-card" data-category="tuottavuus" data-pricing="freemium" data-purpose="yritys">
+                <div class="tool-card service-card" data-category="tuottavuus" data-pricing="freemium" data-purpose="yritys">
                     <h3>Fireflies</h3>
                     <p>
                         Tehokas AI-kokousavustaja, joka tallentaa, transkriboi ja tiivistää kokoukset automaattisesti. 
                         Mahdollistaa kokousten hakemisen, jakamisen ja analysoinnin, säästäen aikaa ja parantaen tuottavuutta.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Tuottavuus</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -662,13 +1045,13 @@
                 </div>
 
                 <!-- Tiedonhaku -->
-                <div class="tool-card" data-category="tiedonhaku" data-pricing="freemium" data-purpose="henkilokohtainen,tutkimus">
+                <div class="tool-card service-card" data-category="tiedonhaku" data-pricing="freemium" data-purpose="henkilokohtainen,tutkimus">
                     <h3>Perplexity AI</h3>
                     <p>
                         Älykäs AI-pohjainen hakukone, joka tarjoaa kattavia vastauksia webistä. Yhdistää tietoa useista lähteistä ja 
                         esittää vastaukset selkeässä muodossa viitteineen, tehden tiedonhausta tehokkaampaa ja luotettavampaa.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Tiedonhaku</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -683,13 +1066,13 @@
                 </div>
 
                 <!-- Luovat työkalut -->
-                <div class="tool-card" data-category="luovat" data-pricing="freemium" data-purpose="luova,yritys">
+                <div class="tool-card service-card" data-category="luovat" data-pricing="freemium" data-purpose="luova,yritys">
                     <h3>Tome</h3>
                     <p>
                         Innovatiivinen AI-pohjainen tarinankerrontaalusta, joka mahdollistaa visuaalisesti näyttävien ja interaktiivisten 
                         esitysten ja tarinoiden luomisen. Yhdistää tekstin, kuvat ja animaatiot saumattomasti.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Luova työkalu</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -704,13 +1087,13 @@
                 </div>
 
                 <!-- Yleiset AI-mallit -->
-                <div class="tool-card" data-category="yleiset" data-pricing="freemium" data-purpose="tutkimus,yritys">
+                <div class="tool-card service-card" data-category="yleiset" data-pricing="freemium" data-purpose="tutkimus,yritys">
                     <h3>DeepSeek AI</h3>
                     <p>
                         Kiinalainen AI-yritys, joka tarjoaa kustannustehokkaita ja tehokkaita tekoälymalleja. DeepSeek-R1-malli 
                         kilpailee länsimallien kanssa tarjoten monipuolisia tekoälyominaisuuksia eri käyttötarkoituksiin.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Yleinen AI-malli</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -725,13 +1108,13 @@
                 </div>
                 
                 <!-- Kuvanluonti -->
-                <div class="tool-card" data-category="kuvanluonti" data-pricing="freemium" data-purpose="luova,yritys">
+                <div class="tool-card service-card" data-category="kuvanluonti" data-pricing="freemium" data-purpose="luova,yritys">
                     <h3>DALL-E</h3>
                     <p>
                         OpenAI:n kehittämä tekoälypohjainen kuvageneraattori, joka luo kuvia tekstikuvausten perusteella.
                         DALL-E 3 on integroitu ChatGPT:hen, mikä tekee siitä helppokäyttöisen työkalun visuaalisen sisällön luomiseen.
                     </p>
-                    <div class="tool-tags">
+                    <div class="tool-tags" style="margin-bottom: 15px;">
                         <span class="tool-tag">Kuvanluonti</span>
                         <span class="tool-tag">Freemium</span>
                     </div>
@@ -746,23 +1129,55 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="services-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
     </section>
     
-    <section class="newsletter">
+    <section class="newsletter-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
         <div class="container">
-            <h2>Tilaa uutiskirjeemme</h2>
+            <h2 class="section-title">Tilaa uutiskirjeemme</h2>
             <p>
                 Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
             </p>
             <div class="newsletter-form">
-                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <p class="newsletter-coming-soon">Uutiskirjeen tilaus tulossa pian!</p>
                 <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
                 <button type="submit">Tilaa</button> -->
             </div>
         </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="newsletter-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,40 C250,70 350,20 720,40 C1080,60 1190,10 1440,30 L1440,100 L0,100 Z"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
     </section>
     
-    <footer>
+    <footer class="footer-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
         <div class="container">
             <p>
                 &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
@@ -772,9 +1187,20 @@
                 <a href="tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
                 <a href="affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
             </p>
+            
+            <!-- Sosiaalisen median linkit footerissa -->
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
+    <script src="../js/active-nav.js"></script>
 </body>
 </html> 

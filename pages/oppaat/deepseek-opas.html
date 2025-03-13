@@ -7,7 +7,9 @@
     <meta name="description" content="Kattava opas DeepSeek AI:n käyttöön - Opi hyödyntämään kiinalaista tekoälymallia tehokkaasti erilaisissa tehtävissä.">
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/mobile-nav.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/ai-character.css">
+    <link rel="stylesheet" href="../../css/active-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Sosiaalisen median painikkeet ja kielenvaihto */
         .top-bar {
@@ -15,8 +17,9 @@
             justify-content: flex-end;
             align-items: center;
             padding: 10px 0;
-            background-color: var(--dark-background);
+            background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9));
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .top-bar .container {
@@ -179,12 +182,156 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Responsive title styles */
+        @media (max-width: 768px) {
+            .logo-link h1 {
+                font-size: 2.5rem !important;
+                letter-spacing: 2px !important;
+                padding: 0 10px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.9rem !important;
+            }
+            
+            /* Hampurilaisvalikon hover-efekti */
+            .mobile-nav-toggle:hover {
+                background: rgba(0, 40, 80, 0.8) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span {
+                width: 90% !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(1) {
+                transform: translateY(-1px) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(3) {
+                transform: translateY(1px) !important;
+            }
+            
+            /* Piilota otsikko kun valikko on auki */
+            body.nav-open .logo-link {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Piilota top bar painikkeet kun valikko on auki */
+            body.nav-open .top-bar {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Parannukset hampurilaisvalikon sisällä oleviin painikkeisiin */
+            nav ul li {
+                margin: 10px 0 !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a {
+                background: linear-gradient(135deg, rgba(0, 40, 80, 0.9), rgba(0, 60, 120, 0.9)) !important;
+                border: 1px solid rgba(0, 150, 255, 0.2) !important;
+                border-radius: 10px !important;
+                padding: 15px 25px !important;
+                font-weight: 500 !important;
+                letter-spacing: 0.5px !important;
+                text-transform: uppercase !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a:hover {
+                background: linear-gradient(135deg, rgba(0, 60, 120, 0.95), rgba(0, 100, 180, 0.95)) !important;
+                transform: translateY(-3px) !important;
+                box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3) !important;
+                color: white !important;
+                border-color: rgba(0, 200, 255, 0.4) !important;
+            }
+            
+            nav ul li.active a {
+                background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)) !important;
+                color: white !important;
+                font-weight: 600 !important;
+                box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4) !important;
+                border-color: rgba(0, 200, 255, 0.5) !important;
+            }
+            
+            /* Sulkemispainikkeen tyylit */
+            .nav-close-btn {
+                background: rgba(0, 40, 80, 0.9) !important;
+                border: 2px solid rgba(0, 150, 255, 0.3) !important;
+                color: white !important;
+                box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .nav-close-btn:hover {
+                background: rgba(0, 60, 120, 0.95) !important;
+                transform: scale(1.1) !important;
+                box-shadow: 0 6px 20px rgba(0, 150, 255, 0.4) !important;
+            }
+            
+            .nav-close-btn i {
+                text-shadow: 0 0 10px rgba(0, 200, 255, 0.5) !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-link h1 {
+                font-size: 2rem !important;
+                letter-spacing: 1px !important;
+                padding: 0 5px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* Mobiiliresponsiivisuus top barille */
+        @media (max-width: 576px) {
+            .top-bar .social-icons {
+                gap: 10px;
+                margin-right: 15px;
+            }
+            
+            .top-bar .social-icons a {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .top-bar .social-icons {
+                gap: 8px;
+                margin-right: 10px;
+            }
+            
+            .top-bar .social-icons a {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .top-bar .language-selector button {
+                padding: 5px 10px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
     <div class="top-bar">
-        <div style="width: 100%; display: flex; justify-content: flex-end; padding-right: 20px;">
+        <div class="container">
             <div class="social-icons">
                 <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
                 <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
@@ -205,45 +352,55 @@
     </div>
 
     <header>
-        <div class="container">
-            <a href="../../index.html" class="logo-link">
-                <h1>AI Patrik</h1>
-                <p>Tekoälyn työkalut ja opastus aloittelijoille</p>
+        <div class="container" style="display: flex; justify-content: center; align-items: center; padding: 20px 0; position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%;">
+            <a href="../../index.html" class="logo-link" style="display: block; text-decoration: none; position: relative; z-index: 100; text-align: center; padding: 0 40px;">
+                <h1 style="margin: 0 auto; font-size: 3rem; background: linear-gradient(135deg, var(--accent-color), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0, 200, 255, 0.3); white-space: nowrap; letter-spacing: 3px; display: inline-block; padding: 0 15px;">AI PATRIK</h1>
+                <p style="margin: 8px 0 0 0; font-size: 1.1rem; color: var(--text-light); opacity: 0.9; text-align: center;">Tekoälyn työkalut ja opastus</p>
             </a>
-            <button class="mobile-nav-toggle">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);"> <!-- Oikea puoli mobiilivalikkoa varten -->
+                <button class="mobile-nav-toggle" style="background: rgba(0, 30, 60, 0.6); border: 1px solid rgba(0, 200, 255, 0.3); border-radius: 8px; cursor: pointer; padding: 12px; z-index: 100; box-shadow: 0 2px 10px rgba(0, 100, 255, 0.2); transition: all 0.3s ease;">
+                    <div class="hamburger" style="position: relative; width: 26px; height: 20px;">
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 0; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 8px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 16px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
                 </div>
             </button>
+            </div>
         </div>
     </header>
     
-    <nav>
-        <ul>
-            <li><a href="../../index.html">Koti</a></li>
-            <li><a href="../tyokalut.html">Työkalut</a></li>
-            <li><a href="../arvostelut.html">Arvostelut</a></li>
-            <li class="active"><a href="../oppaat.html">Oppaat</a></li>
-            <li><a href="../blogi.html">Blogi</a></li>
-            <li><a href="../yhteystiedot.html">Ota Yhteyttä</a></li>
+    <nav style="background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9)); border-radius: 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); margin-bottom: 0px; position: relative; z-index: 5; padding: 10px 0; border-bottom: 1px solid rgba(0, 150, 255, 0.2);">
+        <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <ul style="display: flex; justify-content: center; list-style: none; margin: 0; padding: 0;">
+                <li style="position: relative; margin: 0 8px;"><a href="../../index.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Koti</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="../tyokalut.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Työkalut</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="../arvostelut.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Arvostelut</a></li>
+                <li class="active" style="position: relative; margin: 0 8px;"><a href="../oppaat.html" style="display: block; padding: 12px 22px; color: white; text-decoration: none; font-weight: 600; transition: all 0.3s ease; position: relative; background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)); border-radius: 30px; box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4); letter-spacing: 0.3px; border: 1px solid rgba(0, 200, 255, 0.5);">Oppaat</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="../blogi.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Blogi</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="../ukk.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">UKK</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="../yhteystiedot.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Ota Yhteyttä</a></li>
         </ul>
+        </div>
     </nav>
 
-    <div class="guide-header">
-        <div class="container">
-            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #1e88e5, #42a5f5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">DeepSeek AI: Kattava opas tekoälymallien käyttöön</h1>
-            <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">Opi hyödyntämään kiinalaista tekoälymallia tehokkaasti erilaisissa tehtävissä</p>
-            <div style="width: 80px; height: 4px; background: linear-gradient(135deg, #1e88e5, #42a5f5); margin: 1.5rem auto;"></div>
-        </div>
+    <section style="padding-top: 50px; padding-bottom: 80px; background: linear-gradient(135deg, rgba(0, 15, 40, 0.9), rgba(0, 30, 80, 0.85)); position: relative;">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: -100px; right: 10%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -50px; left: 15%; animation: float 12s infinite ease-in-out reverse;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, rgba(50, 150, 200, 0) 70%); top: 30%; right: 5%; animation: float 10s infinite ease-in-out 2s;"></div>
     </div>
     
-    <div class="guide-content">
         <div class="container">
-            <div class="guide-section">
-                <h2>Mikä on DeepSeek AI?</h2>
+            <div class="section-header" style="text-align: center; margin-bottom: 40px; position: relative; z-index: 1;">
+                <h2 class="section-title">DeepSeek AI: Kattava opas tekoälymallien käyttöön</h2>
+                <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
+                    Opi hyödyntämään kiinalaista tekoälymallia tehokkaasti erilaisissa tehtävissä
+                </p>
+            </div>
+            
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Mikä on DeepSeek AI?</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
                     <img src="https://placehold.co/800x400/1e88e5/FFFFFF/png?text=DeepSeek+AI" alt="DeepSeek AI yleiskatsaus" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -275,8 +432,8 @@
                 </p>
             </div>
             
-            <div class="guide-section">
-                <h2>Aloittaminen DeepSeek AI:n käytössä</h2>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI:n historia ja kehitys</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
                     <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=Aloittaminen+DeepSeek+AI:n+käytössä" alt="DeepSeek AI aloittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -340,8 +497,8 @@
                 </div>
             </div>
             
-            <div class="guide-section">
-                <h2>DeepSeek AI:n mallit</h2>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI:n mallit ja ominaisuudet</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
                     <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=DeepSeek+AI:n+mallit" alt="DeepSeek AI:n mallit" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -527,174 +684,316 @@ if __name__ == "__main__":
                 </p>
             </div>
             
-            <div class="guide-section">
-                <h2>Hinnoittelu ja saatavuus</h2>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI:n käyttöönotto</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
-                    <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=DeepSeek+AI:n+hinnoittelu" alt="DeepSeek AI:n hinnoittelu" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">DeepSeek AI tarjoaa sekä ilmaisia että maksullisia vaihtoehtoja eri käyttötarpeisiin</p>
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=DeepSeek+käyttötapaukset" alt="DeepSeek AI käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">DeepSeek AI soveltuu monenlaisiin käyttötarkoituksiin eri aloilla</p>
                 </div>
                 
                 <p>
-                    DeepSeek AI tarjoaa joustavan hinnoittelumallin, joka sisältävät sekä ilmaisia että maksullisia vaihtoehtoja. 
-                    Tässä osiossa käymme läpi DeepSeek AI:n eri hinnoitteluvaihtoehdot ja saatavuuden eri alustoilla.
+                    DeepSeek AI:n mallit soveltuvat monenlaisiin käyttötarkoituksiin eri aloilla. Tässä osiossa esittelemme 
+                    konkreettisia käyttötapauksia, jotka auttavat sinua ymmärtämään, miten DeepSeek AI:n malleja voi 
+                    hyödyntää käytännössä.
                 </p>
                 
-                <h3>Ilmainen käyttö</h3>
+                <h3>Ohjelmistokehitys ja koodaus</h3>
                 
-                <p>
-                    DeepSeek AI tarjoaa ilmaisen käyttömahdollisuuden, joka on erinomainen tapa tutustua palveluun ja 
-                    sen ominaisuuksiin. Ilmainen käyttö sisältää:
-                </p>
-                
-                <ul>
-                    <li><strong>DeepSeek Chat:</strong> Pääsy DeepSeek Chat -alustaan rajoitetulla käytöllä</li>
-                    <li><strong>Avoimet mallit:</strong> Pääsy avoimen lähdekoodin malleihin, kuten DeepSeek Coder ja DeepSeek Math</li>
-                    <li><strong>Rajoitettu API-käyttö:</strong> Rajallinen määrä API-kutsuja kuukaudessa</li>
-                    <li><strong>Yhteisötuki:</strong> Pääsy yhteisöfoorumeihin ja dokumentaatioon</li>
-                </ul>
-                
-                <div class="guide-note">
-                    <h4>Huomio ilmaisesta käytöstä</h4>
+                <div class="use-case-box">
+                    <h4>Koodin generointi ja refaktorointi</h4>
                     <p>
-                        Ilmainen käyttö sisältää käyttörajoituksia, kuten rajallisen määrän viestejä päivässä ja 
-                        mahdollisesti pidemmät vasteajat ruuhka-aikoina. Ilmainen käyttö soveltuu parhaiten 
-                        henkilökohtaiseen käyttöön, opiskeluun ja pienimuotoisiin projekteihin.
+                        DeepSeek Coder on erinomainen työkalu ohjelmistokehittäjille koodin generointiin, refaktorointiin 
+                        ja optimointiin. Se tukee useita ohjelmointikieliä ja ymmärtää monimutkaisia koodirakenteita.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo REST API Python Flaskilla, joka hallinnoi kirjastotietokantaa. API:n tulisi tukea kirjojen lisäämistä, hakemista, päivittämistä ja poistamista."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Koodin selittäminen ja dokumentointi</h4>
+                    <p>
+                        DeepSeek Coder voi auttaa ymmärtämään monimutkaista koodia selittämällä sen toimintaa ja 
+                        generoimalla kattavaa dokumentaatiota.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä tämän React-komponentin toiminta ja miten se käsittelee tilamuutoksia. Lisää myös JSDoc-dokumentaatio tärkeimmille funktioille."</p>
+                    </div>
+                </div>
+                
+                <h3>Tieteellinen tutkimus ja matematiikka</h3>
+                
+                <div class="use-case-box">
+                    <h4>Matemaattisten ongelmien ratkaisu</h4>
+                    <p>
+                        DeepSeek Math on tehokas työkalu matemaattisten ongelmien ratkaisuun, yhtälöiden manipulointiin 
+                        ja matemaattiseen päättelyyn.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Ratkaise seuraava differentiaaliyhtälö vaihe vaiheelta ja selitä jokainen vaihe: dy/dx + 2y = x^2, kun y(0) = 1."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Tieteellisten konseptien selittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi selittää monimutkaisia tieteellisiä konsepteja selkeästi ja ymmärrettävästi, 
+                        mikä tekee siitä hyödyllisen työkalun tutkijoille ja opiskelijoille.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä kvanttitietokoneiden toimintaperiaate ja miten ne eroavat perinteisistä tietokoneista. Käytä analogioita, jotka auttavat ymmärtämään konseptia."</p>
+                    </div>
+                </div>
+                
+                <h3>Sisällöntuotanto ja markkinointi</h3>
+                
+                <div class="use-case-box">
+                    <h4>Monipuolinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1 on erinomainen työkalu erilaisen sisällön tuottamiseen, kuten artikkelit, blogitekstit, 
+                        sosiaalisen median julkaisut ja markkinointimateriaalit.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo sosiaalisen median julkaisukalenteri uudelle verkkokaupalle, joka myy ekologisia keittiötuotteita. Sisällytä julkaisuideat ja aikataulutus seuraavalle kuukaudelle."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Monikielinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1:n vahva monikielinen tuki mahdollistaa sisällön tuottamisen ja kääntämisen eri kielille, 
+                        erityisesti englannin ja kiinan välillä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Käännä tämä tuotekuvaus englannista kiinaksi, säilyttäen alkuperäisen viestin markkinointisävyn ja tekniset yksityiskohdat."</p>
+                    </div>
+                </div>
+                
+                <h3>Koulutus ja oppiminen</h3>
+                
+                <div class="use-case-box">
+                    <h4>Oppimateriaalien luominen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat hyödyllisiä oppimateriaalien luomisessa, mukaan lukien kurssisisällöt, 
+                        harjoitustehtävät ja selitykset monimutkaisista käsitteistä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo oppituntisuunnitelma lukion fysiikan kurssille aiheesta 'Sähkömagnetismi'. Sisällytä oppimistavoitteet, teoriaosio, käytännön demonstraatiot ja arviointimenetelmät."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Ohjelmoinnin oppiminen</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmoinnin oppimiseen ja opettamiseen, tarjoten selkeitä 
+                        selityksiä ja esimerkkejä ohjelmointikonsepteista.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä rekursion konsepti ohjelmoinnissa aloittelijalle. Anna esimerkkejä Python-kielellä ja vertaa sitä iteratiivisiin ratkaisuihin."</p>
+                    </div>
+                </div>
+                
+                <h3>Liiketoiminta ja päätöksenteko</h3>
+                
+                <div class="use-case-box">
+                    <h4>Tiedon analysointi ja tiivistäminen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat erinomaisia työkaluja tiedon analysointiin, tiivistämiseen ja 
+                        johtopäätösten tekemiseen suurista tietomääristä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Analysoi tämä markkinatutkimusraportti ja tiivistä tärkeimmät löydökset, trendit ja suositukset. Esitä tulokset selkeässä, johtajille suunnatussa muodossa."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Liiketoimintastrategian kehittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi auttaa liiketoimintastrategian kehittämisessä analysoimalla markkinatrendejä, 
+                        kilpailutilannetta ja mahdollisia liiketoimintamalleja.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Auta minua kehittämään kansainvälistymisstrategia pienelle ohjelmistoyritykselle, joka erikoistuu terveydenhuollon sovelluksiin. Huomioi markkinoille pääsyn esteet, sääntelyvaatimukset ja kilpailutilanne."</p>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Parhaan tuloksen saamiseksi kokeile eri DeepSeek AI -malleja eri käyttötarkoituksiin. 
+                        Esimerkiksi koodaustehtävissä DeepSeek Coder on optimaalinen valinta, kun taas yleisemmissä 
+                        tehtävissä DeepSeek-R1 tarjoaa monipuolisempia vastauksia.
                     </p>
                 </div>
-                
-                <h3>Pro-tilaus</h3>
-                
-                <p>
-                    DeepSeek AI:n Pro-tilaus on suunnattu aktiivisille käyttäjille, jotka tarvitsevat enemmän 
-                    kapasiteettia ja ominaisuuksia. Pro-tilaus sisältää:
-                </p>
-                
-                <ul>
-                    <li><strong>Korkeammat käyttörajat:</strong> Enemmän viestejä ja API-kutsuja</li>
-                    <li><strong>Prioriteettipääsy:</strong> Nopeammat vasteajat ja vähemmän jonottamista</li>
-                    <li><strong>Pääsy edistyneisiin malleihin:</strong> Täysi pääsy DeepSeek-R1 ja DeepSeek MoE -malleihin</li>
-                    <li><strong>Pidempi konteksti:</strong> Mahdollisuus käyttää pidempää kontekstia keskusteluissa</li>
-                    <li><strong>Tekninen tuki:</strong> Henkilökohtainen asiakastuki</li>
-                </ul>
-                
-                <p>
-                    Pro-tilauksen hinta on noin 20 USD kuukaudessa, mutta hinnat voivat vaihdella alueittain ja 
-                    kampanjoiden mukaan. Vuositilauksesta saa tyypillisesti alennusta.
-                </p>
-                
-                <h3>Enterprise-ratkaisu</h3>
-                
-                <p>
-                    Suuremmille organisaatioille ja yrityksille DeepSeek AI tarjoaa räätälöityjä Enterprise-ratkaisuja, 
-                    jotka sisältävät:
-                </p>
-                
-                <ul>
-                    <li><strong>Räätälöidyt mallit:</strong> Mahdollisuus hienosäätää malleja organisaation tarpeisiin</li>
-                    <li><strong>Yksityiset instanssit:</strong> Dedikoidut palvelimet ja yksityiset mallit</li>
-                    <li><strong>Integraatiot:</strong> Saumaton integraatio olemassa oleviin järjestelmiin</li>
-                    <li><strong>Tietoturva ja yksityisyys:</strong> Edistyneet tietoturvaominaisuudet ja datan hallinta</li>
-                    <li><strong>SLA-sopimukset:</strong> Palvelutasosopimukset ja taattu käytettävyys</li>
-                    <li><strong>Dedikoidut tiimit:</strong> Nimetyt yhteyshenkilöt ja tekninen tuki</li>
-                </ul>
-                
-                <p>
-                    Enterprise-ratkaisujen hinnoittelu on tapauskohtaista ja perustuu organisaation tarpeisiin, 
-                    käyttövolyymiin ja tarvittaviin ominaisuuksiin. Hinnoittelu alkaa tyypillisesti useista tuhansista 
-                    dollareista kuukaudessa.
-                </p>
-                
-                <h3>API-hinnoittelu</h3>
-                
-                <p>
-                    DeepSeek AI:n API-käyttö hinnoitellaan käytön mukaan (pay-as-you-go). Hinnoittelu perustuu 
-                    käytettyihin tokeneihin, jotka ovat tekstin perusyksiköitä. Hinnoittelu vaihtelee malleittain:
-                </p>
-                
-                <div class="pricing-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Malli</th>
-                                <th>Syötetokenit (1000 kpl)</th>
-                                <th>Tulostokenit (1000 kpl)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>DeepSeek-R1</td>
-                                <td>$0.50</td>
-                                <td>$1.50</td>
-                            </tr>
-                            <tr>
-                                <td>DeepSeek MoE</td>
-                                <td>$0.60</td>
-                                <td>$1.80</td>
-                            </tr>
-                            <tr>
-                                <td>DeepSeek Coder (33B)</td>
-                                <td>$0.30</td>
-                                <td>$0.90</td>
-                            </tr>
-                            <tr>
-                                <td>DeepSeek Coder (6.7B)</td>
-                                <td>$0.10</td>
-                                <td>$0.30</td>
-                            </tr>
-                            <tr>
-                                <td>DeepSeek Math</td>
-                                <td>$0.20</td>
-                                <td>$0.60</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="guide-tip">
-                    <h4>Vinkki API-käyttöön</h4>
-                    <p>
-                        API-käytössä kannattaa optimoida tokenien käyttöä valitsemalla sopiva malli kuhunkin 
-                        käyttötarkoitukseen. Esimerkiksi yksinkertaisempiin koodaustehtäviin DeepSeek Coder (6.7B) 
-                        voi olla kustannustehokkaampi vaihtoehto kuin suurempi malli.
-                    </p>
-                </div>
-                
-                <h3>Saatavuus eri alustoilla</h3>
-                
-                <p>
-                    DeepSeek AI on saatavilla useilla eri alustoilla ja käyttöliittymillä:
-                </p>
-                
-                <ul>
-                    <li>
-                        <strong>Verkkoalusta:</strong> DeepSeek Chat on saatavilla verkkoselaimessa osoitteessa 
-                        <a href="https://chat.deepseek.com" target="_blank">chat.deepseek.com</a>
-                    </li>
-                    <li>
-                        <strong>API:</strong> RESTful API kehittäjille ja integraatioihin
-                    </li>
-                    <li>
-                        <strong>Hugging Face:</strong> Avoimet mallit ovat saatavilla Hugging Face -alustalla
-                    </li>
-                    <li>
-                        <strong>GitHub:</strong> Avoimen lähdekoodin mallit ja työkalut ovat saatavilla GitHubissa
-                    </li>
-                    <li>
-                        <strong>Mobiilisovellukset:</strong> iOS- ja Android-sovellukset (beta-vaiheessa)
-                    </li>
-                </ul>
-                
-                <p>
-                    DeepSeek AI:n hinnoittelumalli tarjoaa joustavia vaihtoehtoja eri käyttäjäryhmille yksityishenkilöistä 
-                    suuryrityksiin. Ilmainen käyttö mahdollistaa palveluun tutustumisen, kun taas maksulliset vaihtoehdot 
-                    tarjoavat enemmän kapasiteettia ja ominaisuuksia vaativampaan käyttöön. API-hinnoittelu puolestaan 
-                    mahdollistaa kustannustehokkaan käytön sovelluskehityksessä ja integraatioissa.
-                </p>
             </div>
             
-            <div class="guide-section">
-                <h2>Vinkkejä tehokkaaseen käyttöön</h2>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI:n käyttökohteet</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=DeepSeek+käyttötapaukset" alt="DeepSeek AI käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">DeepSeek AI soveltuu monenlaisiin käyttötarkoituksiin eri aloilla</p>
+                </div>
+                
+                <p>
+                    DeepSeek AI:n mallit soveltuvat monenlaisiin käyttötarkoituksiin eri aloilla. Tässä osiossa esittelemme 
+                    konkreettisia käyttötapauksia, jotka auttavat sinua ymmärtämään, miten DeepSeek AI:n malleja voi 
+                    hyödyntää käytännössä.
+                </p>
+                
+                <h3>Ohjelmistokehitys ja koodaus</h3>
+                
+                <div class="use-case-box">
+                    <h4>Koodin generointi ja refaktorointi</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmistokehittäjille koodin generointiin, refaktorointiin 
+                        ja optimointiin. Se tukee useita ohjelmointikieliä ja ymmärtää monimutkaisia koodirakenteita.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo REST API Python Flaskilla, joka hallinnoi kirjastotietokantaa. API:n tulisi tukea kirjojen lisäämistä, hakemista, päivittämistä ja poistamista."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Koodin selittäminen ja dokumentointi</h4>
+                    <p>
+                        DeepSeek Coder voi auttaa ymmärtämään monimutkaista koodia selittämällä sen toimintaa ja 
+                        generoimalla kattavaa dokumentaatiota.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä tämän React-komponentin toiminta ja miten se käsittelee tilamuutoksia. Lisää myös JSDoc-dokumentaatio tärkeimmille funktioille."</p>
+                    </div>
+                </div>
+                
+                <h3>Tieteellinen tutkimus ja matematiikka</h3>
+                
+                <div class="use-case-box">
+                    <h4>Matemaattisten ongelmien ratkaisu</h4>
+                    <p>
+                        DeepSeek Math on tehokas työkalu matemaattisten ongelmien ratkaisuun, yhtälöiden manipulointiin 
+                        ja matemaattiseen päättelyyn.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Ratkaise seuraava differentiaaliyhtälö vaihe vaiheelta ja selitä jokainen vaihe: dy/dx + 2y = x^2, kun y(0) = 1."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Tieteellisten konseptien selittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi selittää monimutkaisia tieteellisiä konsepteja selkeästi ja ymmärrettävästi, 
+                        mikä tekee siitä hyödyllisen työkalun tutkijoille ja opiskelijoille.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä kvanttitietokoneiden toimintaperiaate ja miten ne eroavat perinteisistä tietokoneista. Käytä analogioita, jotka auttavat ymmärtämään konseptia."</p>
+                    </div>
+                </div>
+                
+                <h3>Sisällöntuotanto ja markkinointi</h3>
+                
+                <div class="use-case-box">
+                    <h4>Monipuolinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1 on erinomainen työkalu erilaisen sisällön tuottamiseen, kuten artikkelit, blogitekstit, 
+                        sosiaalisen median julkaisut ja markkinointimateriaalit.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo sosiaalisen median julkaisukalenteri uudelle verkkokaupalle, joka myy ekologisia keittiötuotteita. Sisällytä julkaisuideat ja aikataulutus seuraavalle kuukaudelle."</p>
+                    </div>
+            </div>
+            
+                <div class="use-case-box">
+                    <h4>Monikielinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1:n vahva monikielinen tuki mahdollistaa sisällön tuottamisen ja kääntämisen eri kielille, 
+                        erityisesti englannin ja kiinan välillä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Käännä tämä tuotekuvaus englannista kiinaksi, säilyttäen alkuperäisen viestin markkinointisävyn ja tekniset yksityiskohdat."</p>
+                    </div>
+                </div>
+                
+                <h3>Koulutus ja oppiminen</h3>
+                
+                <div class="use-case-box">
+                    <h4>Oppimateriaalien luominen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat hyödyllisiä oppimateriaalien luomisessa, mukaan lukien kurssisisällöt, 
+                        harjoitustehtävät ja selitykset monimutkaisista käsitteistä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo oppituntisuunnitelma lukion fysiikan kurssille aiheesta 'Sähkömagnetismi'. Sisällytä oppimistavoitteet, teoriaosio, käytännön demonstraatiot ja arviointimenetelmät."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Ohjelmoinnin oppiminen</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmoinnin oppimiseen ja opettamiseen, tarjoten selkeitä 
+                        selityksiä ja esimerkkejä ohjelmointikonsepteista.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä rekursion konsepti ohjelmoinnissa aloittelijalle. Anna esimerkkejä Python-kielellä ja vertaa sitä iteratiivisiin ratkaisuihin."</p>
+                    </div>
+                </div>
+                
+                <h3>Liiketoiminta ja päätöksenteko</h3>
+                
+                <div class="use-case-box">
+                    <h4>Tiedon analysointi ja tiivistäminen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat erinomaisia työkaluja tiedon analysointiin, tiivistämiseen ja 
+                        johtopäätösten tekemiseen suurista tietomääristä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Analysoi tämä markkinatutkimusraportti ja tiivistä tärkeimmät löydökset, trendit ja suositukset. Esitä tulokset selkeässä, johtajille suunnatussa muodossa."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Liiketoimintastrategian kehittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi auttaa liiketoimintastrategian kehittämisessä analysoimalla markkinatrendejä, 
+                        kilpailutilannetta ja mahdollisia liiketoimintamalleja.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Auta minua kehittämään kansainvälistymisstrategia pienelle ohjelmistoyritykselle, joka erikoistuu terveydenhuollon sovelluksiin. Huomioi markkinoille pääsyn esteet, sääntelyvaatimukset ja kilpailutilanne."</p>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Parhaan tuloksen saamiseksi kokeile eri DeepSeek AI -malleja eri käyttötarkoituksiin. 
+                        Esimerkiksi koodaustehtävissä DeepSeek Coder on optimaalinen valinta, kun taas yleisemmissä 
+                        tehtävissä DeepSeek-R1 tarjoaa monipuolisempia vastauksia.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI:n vahvuudet ja heikkoudet</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
                     <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=Tehokasta+käyttöä" alt="DeepSeek AI:n tehokas käyttö" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -1007,8 +1306,8 @@ print(result["choices"][0]["message"]["content"])
                 </p>
             </div>
             
-            <div class="guide-section">
-                <h2>Käyttötapaukset</h2>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Esimerkkejä ja vinkkejä DeepSeek AI:n käyttöön</h2>
                 
                 <div class="image-container" style="text-align: center; margin: 30px 0;">
                     <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=DeepSeek+käyttötapaukset" alt="DeepSeek AI käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -1161,65 +1460,390 @@ print(result["choices"][0]["message"]["content"])
                 </div>
             </div>
             
-            <div class="guide-cta">
-                <h3>Aloita DeepSeek AI:n käyttö tänään</h3>
-                <p>Kokeile DeepSeek AI:ta ja näe, miten se voi tehostaa työskentelyäsi ja auttaa erilaisissa tehtävissä!</p>
-                <a href="https://chat.deepseek.com/" class="btn btn-primary" target="_blank" style="background: linear-gradient(135deg, #1e88e5, #42a5f5); color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(30, 136, 229, 0.3); border: none; border-radius: 50px; padding: 14px 32px; transition: all 0.3s ease; display: inline-block; margin-top: 20px; position: relative;">
-                    <span style="display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-robot" style="margin-right: 10px; font-size: 1.1em;"></i>
-                        Siirry DeepSeek AI:hin
-                    </span>
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">DeepSeek AI vs. muut tekoälymallit</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=DeepSeek+käyttötapaukset" alt="DeepSeek AI käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">DeepSeek AI soveltuu monenlaisiin käyttötarkoituksiin eri aloilla</p>
+                </div>
+                
+                <p>
+                    DeepSeek AI:n mallit soveltuvat monenlaisiin käyttötarkoituksiin eri aloilla. Tässä osiossa esittelemme 
+                    konkreettisia käyttötapauksia, jotka auttavat sinua ymmärtämään, miten DeepSeek AI:n malleja voi 
+                    hyödyntää käytännössä.
+                </p>
+                
+                <h3>Ohjelmistokehitys ja koodaus</h3>
+                
+                <div class="use-case-box">
+                    <h4>Koodin generointi ja refaktorointi</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmistokehittäjille koodin generointiin, refaktorointiin 
+                        ja optimointiin. Se tukee useita ohjelmointikieliä ja ymmärtää monimutkaisia koodirakenteita.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo REST API Python Flaskilla, joka hallinnoi kirjastotietokantaa. API:n tulisi tukea kirjojen lisäämistä, hakemista, päivittämistä ja poistamista."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Koodin selittäminen ja dokumentointi</h4>
+                    <p>
+                        DeepSeek Coder voi auttaa ymmärtämään monimutkaista koodia selittämällä sen toimintaa ja 
+                        generoimalla kattavaa dokumentaatiota.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä tämän React-komponentin toiminta ja miten se käsittelee tilamuutoksia. Lisää myös JSDoc-dokumentaatio tärkeimmille funktioille."</p>
+                    </div>
+                </div>
+                
+                <h3>Tieteellinen tutkimus ja matematiikka</h3>
+                
+                <div class="use-case-box">
+                    <h4>Matemaattisten ongelmien ratkaisu</h4>
+                    <p>
+                        DeepSeek Math on tehokas työkalu matemaattisten ongelmien ratkaisuun, yhtälöiden manipulointiin 
+                        ja matemaattiseen päättelyyn.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Ratkaise seuraava differentiaaliyhtälö vaihe vaiheelta ja selitä jokainen vaihe: dy/dx + 2y = x^2, kun y(0) = 1."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Tieteellisten konseptien selittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi selittää monimutkaisia tieteellisiä konsepteja selkeästi ja ymmärrettävästi, 
+                        mikä tekee siitä hyödyllisen työkalun tutkijoille ja opiskelijoille.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä kvanttitietokoneiden toimintaperiaate ja miten ne eroavat perinteisistä tietokoneista. Käytä analogioita, jotka auttavat ymmärtämään konseptia."</p>
+                    </div>
+                </div>
+                
+                <h3>Sisällöntuotanto ja markkinointi</h3>
+                
+                <div class="use-case-box">
+                    <h4>Monipuolinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1 on erinomainen työkalu erilaisen sisällön tuottamiseen, kuten artikkelit, blogitekstit, 
+                        sosiaalisen median julkaisut ja markkinointimateriaalit.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo sosiaalisen median julkaisukalenteri uudelle verkkokaupalle, joka myy ekologisia keittiötuotteita. Sisällytä julkaisuideat ja aikataulutus seuraavalle kuukaudelle."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Monikielinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1:n vahva monikielinen tuki mahdollistaa sisällön tuottamisen ja kääntämisen eri kielille, 
+                        erityisesti englannin ja kiinan välillä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Käännä tämä tuotekuvaus englannista kiinaksi, säilyttäen alkuperäisen viestin markkinointisävyn ja tekniset yksityiskohdat."</p>
+                    </div>
+                </div>
+                
+                <h3>Koulutus ja oppiminen</h3>
+                
+                <div class="use-case-box">
+                    <h4>Oppimateriaalien luominen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat hyödyllisiä oppimateriaalien luomisessa, mukaan lukien kurssisisällöt, 
+                        harjoitustehtävät ja selitykset monimutkaisista käsitteistä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo oppituntisuunnitelma lukion fysiikan kurssille aiheesta 'Sähkömagnetismi'. Sisällytä oppimistavoitteet, teoriaosio, käytännön demonstraatiot ja arviointimenetelmät."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Ohjelmoinnin oppiminen</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmoinnin oppimiseen ja opettamiseen, tarjoten selkeitä 
+                        selityksiä ja esimerkkejä ohjelmointikonsepteista.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä rekursion konsepti ohjelmoinnissa aloittelijalle. Anna esimerkkejä Python-kielellä ja vertaa sitä iteratiivisiin ratkaisuihin."</p>
+                    </div>
+                </div>
+                
+                <h3>Liiketoiminta ja päätöksenteko</h3>
+                
+                <div class="use-case-box">
+                    <h4>Tiedon analysointi ja tiivistäminen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat erinomaisia työkaluja tiedon analysointiin, tiivistämiseen ja 
+                        johtopäätösten tekemiseen suurista tietomääristä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Analysoi tämä markkinatutkimusraportti ja tiivistä tärkeimmät löydökset, trendit ja suositukset. Esitä tulokset selkeässä, johtajille suunnatussa muodossa."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Liiketoimintastrategian kehittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi auttaa liiketoimintastrategian kehittämisessä analysoimalla markkinatrendejä, 
+                        kilpailutilannetta ja mahdollisia liiketoimintamalleja.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Auta minua kehittämään kansainvälistymisstrategia pienelle ohjelmistoyritykselle, joka erikoistuu terveydenhuollon sovelluksiin. Huomioi markkinoille pääsyn esteet, sääntelyvaatimukset ja kilpailutilanne."</p>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Parhaan tuloksen saamiseksi kokeile eri DeepSeek AI -malleja eri käyttötarkoituksiin. 
+                        Esimerkiksi koodaustehtävissä DeepSeek Coder on optimaalinen valinta, kun taas yleisemmissä 
+                        tehtävissä DeepSeek-R1 tarjoaa monipuolisempia vastauksia.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden; margin-top: 40px;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Yhteenveto ja tulevaisuuden näkymät</h2>
+                
+                <div class="image-container" style="text-align: center; margin: 30px 0;">
+                    <img src="https://placehold.co/800x400/28a745/FFFFFF/png?text=DeepSeek+käyttötapaukset" alt="DeepSeek AI käyttötapaukset" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">DeepSeek AI soveltuu monenlaisiin käyttötarkoituksiin eri aloilla</p>
+                </div>
+                
+                <p>
+                    DeepSeek AI:n mallit soveltuvat monenlaisiin käyttötarkoituksiin eri aloilla. Tässä osiossa esittelemme 
+                    konkreettisia käyttötapauksia, jotka auttavat sinua ymmärtämään, miten DeepSeek AI:n malleja voi 
+                    hyödyntää käytännössä.
+                </p>
+                
+                <h3>Ohjelmistokehitys ja koodaus</h3>
+                
+                <div class="use-case-box">
+                    <h4>Koodin generointi ja refaktorointi</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmistokehittäjille koodin generointiin, refaktorointiin 
+                        ja optimointiin. Se tukee useita ohjelmointikieliä ja ymmärtää monimutkaisia koodirakenteita.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo REST API Python Flaskilla, joka hallinnoi kirjastotietokantaa. API:n tulisi tukea kirjojen lisäämistä, hakemista, päivittämistä ja poistamista."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Koodin selittäminen ja dokumentointi</h4>
+                    <p>
+                        DeepSeek Coder voi auttaa ymmärtämään monimutkaista koodia selittämällä sen toimintaa ja 
+                        generoimalla kattavaa dokumentaatiota.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä tämän React-komponentin toiminta ja miten se käsittelee tilamuutoksia. Lisää myös JSDoc-dokumentaatio tärkeimmille funktioille."</p>
+                    </div>
+                </div>
+                
+                <h3>Tieteellinen tutkimus ja matematiikka</h3>
+                
+                <div class="use-case-box">
+                    <h4>Matemaattisten ongelmien ratkaisu</h4>
+                    <p>
+                        DeepSeek Math on tehokas työkalu matemaattisten ongelmien ratkaisuun, yhtälöiden manipulointiin 
+                        ja matemaattiseen päättelyyn.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Ratkaise seuraava differentiaaliyhtälö vaihe vaiheelta ja selitä jokainen vaihe: dy/dx + 2y = x^2, kun y(0) = 1."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Tieteellisten konseptien selittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi selittää monimutkaisia tieteellisiä konsepteja selkeästi ja ymmärrettävästi, 
+                        mikä tekee siitä hyödyllisen työkalun tutkijoille ja opiskelijoille.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä kvanttitietokoneiden toimintaperiaate ja miten ne eroavat perinteisistä tietokoneista. Käytä analogioita, jotka auttavat ymmärtämään konseptia."</p>
+                    </div>
+                </div>
+                
+                <h3>Sisällöntuotanto ja markkinointi</h3>
+                
+                <div class="use-case-box">
+                    <h4>Monipuolinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1 on erinomainen työkalu erilaisen sisällön tuottamiseen, kuten artikkelit, blogitekstit, 
+                        sosiaalisen median julkaisut ja markkinointimateriaalit.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo sosiaalisen median julkaisukalenteri uudelle verkkokaupalle, joka myy ekologisia keittiötuotteita. Sisällytä julkaisuideat ja aikataulutus seuraavalle kuukaudelle."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Monikielinen sisällöntuotanto</h4>
+                    <p>
+                        DeepSeek-R1:n vahva monikielinen tuki mahdollistaa sisällön tuottamisen ja kääntämisen eri kielille, 
+                        erityisesti englannin ja kiinan välillä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Käännä tämä tuotekuvaus englannista kiinaksi, säilyttäen alkuperäisen viestin markkinointisävyn ja tekniset yksityiskohdat."</p>
+                    </div>
+                </div>
+                
+                <h3>Koulutus ja oppiminen</h3>
+                
+                <div class="use-case-box">
+                    <h4>Oppimateriaalien luominen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat hyödyllisiä oppimateriaalien luomisessa, mukaan lukien kurssisisällöt, 
+                        harjoitustehtävät ja selitykset monimutkaisista käsitteistä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Luo oppituntisuunnitelma lukion fysiikan kurssille aiheesta 'Sähkömagnetismi'. Sisällytä oppimistavoitteet, teoriaosio, käytännön demonstraatiot ja arviointimenetelmät."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Ohjelmoinnin oppiminen</h4>
+                    <p>
+                        DeepSeek Coder on erinomainen työkalu ohjelmoinnin oppimiseen ja opettamiseen, tarjoten selkeitä 
+                        selityksiä ja esimerkkejä ohjelmointikonsepteista.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Selitä rekursion konsepti ohjelmoinnissa aloittelijalle. Anna esimerkkejä Python-kielellä ja vertaa sitä iteratiivisiin ratkaisuihin."</p>
+                    </div>
+                </div>
+                
+                <h3>Liiketoiminta ja päätöksenteko</h3>
+                
+                <div class="use-case-box">
+                    <h4>Tiedon analysointi ja tiivistäminen</h4>
+                    <p>
+                        DeepSeek AI:n mallit ovat erinomaisia työkaluja tiedon analysointiin, tiivistämiseen ja 
+                        johtopäätösten tekemiseen suurista tietomääristä.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Analysoi tämä markkinatutkimusraportti ja tiivistä tärkeimmät löydökset, trendit ja suositukset. Esitä tulokset selkeässä, johtajille suunnatussa muodossa."</p>
+                    </div>
+                </div>
+                
+                <div class="use-case-box">
+                    <h4>Liiketoimintastrategian kehittäminen</h4>
+                    <p>
+                        DeepSeek-R1 voi auttaa liiketoimintastrategian kehittämisessä analysoimalla markkinatrendejä, 
+                        kilpailutilannetta ja mahdollisia liiketoimintamalleja.
+                    </p>
+                    <div class="guide-example">
+                        <h5>Esimerkki</h5>
+                        <p><strong>Pyyntö:</strong> "Auta minua kehittämään kansainvälistymisstrategia pienelle ohjelmistoyritykselle, joka erikoistuu terveydenhuollon sovelluksiin. Huomioi markkinoille pääsyn esteet, sääntelyvaatimukset ja kilpailutilanne."</p>
+                    </div>
+                </div>
+                
+                <div class="guide-tips">
+                    <h4>Vinkki</h4>
+                    <p>
+                        Parhaan tuloksen saamiseksi kokeile eri DeepSeek AI -malleja eri käyttötarkoituksiin. 
+                        Esimerkiksi koodaustehtävissä DeepSeek Coder on optimaalinen valinta, kun taas yleisemmissä 
+                        tehtävissä DeepSeek-R1 tarjoaa monipuolisempia vastauksia.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 3rem 0;">
+                <h3 style="font-size: 2rem; margin-bottom: 1rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Aloita DeepSeek AI:n käyttö tänään</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #e0e0e0; text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); max-width: 800px; margin-left: auto; margin-right: auto;">Kokeile DeepSeek AI:ta ja näe, miten se voi tehostaa työskentelyäsi ja auttaa erilaisissa tehtävissä!</p>
+                <a href="https://chat.deepseek.com/" class="btn" target="_blank" style="background: linear-gradient(135deg, #ffffff, #f0f0f0); color: var(--primary-color); border: none; padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); text-decoration: none; position: relative; overflow: hidden;">
+                    <i class="fas fa-robot" style="margin-right: 10px;"></i> Siirry DeepSeek AI:hin
                 </a>
             </div>
             
-            <div class="guide-section">
-                <h3>Lue lisää aiheesta</h3>
-                <div style="display: flex; justify-content: center; margin-top: 25px;">
-                    <div class="related-cards-grid">
-                        <a href="../arvostelut/deepseek-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(30, 136, 229, 0.1), rgba(30, 136, 229, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(30, 136, 229, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
-                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #1e88e5; text-align: center;">
+            <div class="guide-section" style="background: linear-gradient(135deg, rgba(0, 40, 80, 0.7), rgba(0, 60, 120, 0.7)); padding: 3rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 150, 255, 0.2); margin-bottom: 2rem; position: relative; overflow: hidden;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Lue lisää aiheesta</h3>
+                <div class="related-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 25px;">
+                    <a href="../arvostelut/deepseek-arvostelu.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">DeepSeek AI Arvostelu 2025</h4>
-                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Kattava arvostelu DeepSeek AI:sta - vahvuudet, heikkoudet ja käyttökohteet.</p>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">DeepSeek AI Arvostelu 2025</h4>
+                        <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Kattava arvostelu DeepSeek AI:sta - vahvuudet, heikkoudet ja käyttökohteet.</p>
                         </a>
                         
-                        <a href="../blogi/tekoaly-kiina.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(30, 136, 229, 0.1), rgba(30, 136, 229, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(30, 136, 229, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
-                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #1e88e5; text-align: center;">
+                    <a href="../blogi/tekoaly-kiina.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
                                 <i class="fas fa-newspaper"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Kiinan tekoälymarkkinat</h4>
-                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Artikkeli Kiinan tekoälymarkkinoiden kehityksestä ja merkittävimmistä toimijoista.</p>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">Kiinan tekoälymarkkinat</h4>
+                        <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Artikkeli Kiinan tekoälymarkkinoiden kehityksestä ja merkittävimmistä toimijoista.</p>
                         </a>
                         
-                        <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(to bottom, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)); border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(13, 110, 253, 0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
-                            <div style="font-size: 2.2rem; margin-bottom: 15px; color: #0d6efd; text-align: center;">
+                    <a href="../tyokalut.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%;">
+                        <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
                                 <i class="fas fa-tools"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: var(--text-color); font-size: 1.2rem; text-align: center;">Tutustu muihin AI-työkaluihin</h4>
-                            <p style="margin-bottom: 0; opacity: 0.8; font-size: 0.95rem; text-align: center;">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
+                        <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">Tutustu muihin AI-työkaluihin</h4>
+                        <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Löydä lisää tekoälytyökaluja, jotka voivat tehostaa työskentelyäsi ja luovuuttasi.</p>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+    </section>
     
-    <section class="newsletter">
+    <section class="newsletter-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
         <div class="container">
-            <h2>Tilaa uutiskirjeemme</h2>
+            <h2 class="section-title">Tilaa uutiskirjeemme</h2>
             <p>
                 Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
             </p>
             <div class="newsletter-form">
-                <p style="text-align: center; font-style: italic; color: var(--accent-color);">Uutiskirjeen tilaus tulossa pian!</p>
+                <p class="newsletter-coming-soon">Uutiskirjeen tilaus tulossa pian!</p>
                 <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
                 <button type="submit">Tilaa</button> -->
             </div>
         </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="newsletter-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
     </section>
     
-    <footer>
+    <footer class="footer-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
         <div class="container">
             <p>
                 &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
@@ -1229,9 +1853,20 @@ print(result["choices"][0]["message"]["content"])
                 <a href="../tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
                 <a href="../affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
             </p>
+            
+            <!-- Sosiaalisen median linkit footerissa -->
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
         </div>
     </footer>
 
     <script src="../../js/main.js"></script>
+    <script src="../../js/active-nav.js"></script>
 </body>
 </html> 

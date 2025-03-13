@@ -225,78 +225,60 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Poistetaan scroll-tapahtumankäsittelijä, koska hakukentän ei tarvitse pysyä näkyvissä koko ajan
         
-        // Siirretään työkalukortit hakukentän alle
+        // Siirtää työkalukortit hakukentän alle
         function moveToolsUnderSearch() {
-            // Tarkistetaan, onko siirto jo tehty
+            // Tarkistetaan, onko hakutulokset jo luotu
             if (document.querySelector('.search-results-container')) {
                 return;
             }
             
-            // Varmistetaan, että hakukenttä on näkyvissä hakua suoritettaessa
-            if (toolsContainer) {
-                toolsContainer.style.display = 'block';
+            // Haetaan työkalut-osio
+            const toolsSection = document.getElementById('tyokalut');
+            if (!toolsSection) {
+                return;
             }
             
-            // Luodaan uusi container hakutuloksille
+            // Haetaan työkalukortit
+            const toolCards = toolsSection.querySelectorAll('.tool-card');
+            if (toolCards.length === 0) {
+                return;
+            }
+            
+            // Luodaan hakutulosten container
             const searchResultsContainer = document.createElement('div');
             searchResultsContainer.className = 'search-results-container';
-            searchResultsContainer.style.textAlign = 'center';
-            searchResultsContainer.style.display = 'flex';
-            searchResultsContainer.style.flexDirection = 'column';
-            searchResultsContainer.style.alignItems = 'center';
             searchResultsContainer.style.width = '100%';
-            searchResultsContainer.style.maxWidth = '100%';
+            searchResultsContainer.style.maxWidth = '1200px';
+            searchResultsContainer.style.margin = '30px auto';
+            searchResultsContainer.style.padding = '0 20px';
             searchResultsContainer.style.boxSizing = 'border-box';
-            searchResultsContainer.style.padding = '0';
-            searchResultsContainer.style.marginTop = '1rem';
             
-            // Luodaan otsikko ja tulosten määrä
-            const resultsHeader = document.createElement('div');
-            resultsHeader.className = 'results-header';
-            
+            // Luodaan hakutulosten otsikko
             const resultsTitle = document.createElement('h2');
+            resultsTitle.className = 'section-title';
             resultsTitle.textContent = 'Hakutulokset';
-            resultsHeader.appendChild(resultsTitle);
+            resultsTitle.style.display = 'none';
+            searchResultsContainer.appendChild(resultsTitle);
             
+            // Luodaan hakutulosten määrä -elementti
             const resultsCount = document.createElement('div');
             resultsCount.id = 'results-count';
-            resultsCount.className = 'results-count';
-            
-            // Lisätään otsikko ja tulosten määrä hakutuloksiin
-            searchResultsContainer.appendChild(resultsHeader);
+            resultsCount.style.display = 'none';
             searchResultsContainer.appendChild(resultsCount);
             
-            // Luodaan uusi div hakutulosten korteille
+            // Luodaan uusi grid hakutuloksille
             const resultsGrid = document.createElement('div');
             resultsGrid.className = 'results-grid';
-            resultsGrid.style.display = 'flex';
-            resultsGrid.style.flexWrap = 'wrap';
-            resultsGrid.style.justifyContent = 'center';
-            resultsGrid.style.gap = '2rem';
-            resultsGrid.style.width = '100%';
-            resultsGrid.style.maxWidth = '1200px';
-            resultsGrid.style.margin = '0 auto';
-            resultsGrid.style.padding = '0';
             
-            // Siirretään kortit alkuperäisestä gridistä uuteen
-            const originalGrid = document.querySelector('.grid');
-            if (originalGrid) {
-                const cards = originalGrid.querySelectorAll('.tool-card');
-                cards.forEach(card => {
-                    // Kopioidaan kortti
-                    const cardClone = card.cloneNode(true);
-                    cardClone.style.width = '300px';
-                    cardClone.style.margin = '1rem';
-                    cardClone.style.display = 'flex';
-                    cardClone.style.flexDirection = 'column';
-                    
-                    // Lisätään kopio uuteen gridiin
-                    resultsGrid.appendChild(cardClone);
-                });
-                
-                // Piilotetaan alkuperäinen grid
-                originalGrid.style.display = 'none';
-            }
+            // Kopioidaan työkalukortit hakutuloksiin
+            toolCards.forEach(card => {
+                const cardClone = card.cloneNode(true);
+                // Lisätään service-card-luokka, jotta kortit vastaavat etusivun tyyliä
+                if (!cardClone.classList.contains('service-card')) {
+                    cardClone.classList.add('service-card');
+                }
+                resultsGrid.appendChild(cardClone);
+            });
             
             // Lisätään uusi grid hakutuloksiin
             searchResultsContainer.appendChild(resultsGrid);
@@ -307,9 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Luodaan "ei tuloksia" -viesti
             const noResultsElement = document.createElement('div');
             noResultsElement.id = 'no-results-message';
-            noResultsElement.className = 'no-results';
-            noResultsElement.innerHTML = 'Ei hakutuloksia. Kokeile eri hakuehtoja.<br><button id="reset-search" class="btn btn-small">Tyhjennä haku</button>';
-            noResultsElement.style.textAlign = 'center';
+            noResultsElement.className = 'no-results service-card';
+            noResultsElement.innerHTML = '<h3>Ei hakutuloksia</h3><p>Hakuehdoillasi ei löytynyt työkaluja. Kokeile eri hakuehtoja tai laajenna hakua.</p><button id="reset-search" class="btn btn-primary">Tyhjennä haku</button>';
             searchResultsContainer.appendChild(noResultsElement);
             
             // Lisätään tapahtumankäsittelijä reset-napille
@@ -494,7 +475,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Näytetään tai piilotetaan viesti
             if (noResultsElement) {
                 if (visibleCards === 0) {
-                    noResultsElement.style.display = 'block';
+                    noResultsElement.style.display = 'flex';
+                    noResultsElement.style.flexDirection = 'column';
+                    noResultsElement.style.alignItems = 'center';
+                    noResultsElement.style.justifyContent = 'center';
+                    noResultsElement.style.margin = '30px auto';
                 } else {
                     noResultsElement.style.display = 'none';
                 }

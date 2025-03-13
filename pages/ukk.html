@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usein kysytyt kysymykset - AI Patrik</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/mobile-nav.css">
+    <link rel="stylesheet" href="../css/ai-character.css">
+    <link rel="stylesheet" href="../css/active-nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Sosiaalisen median painikkeet ja kielenvaihto */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 0;
+            background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .top-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding-right: 20px;
+            max-width: 100%;
+            margin-right: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 20px;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform: scale(1.1);
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: translateY(0);
+        }
+        
+        .social-icons a.linkedin:hover:before {
+            background-color: #0077B5;
+        }
+        
+        .social-icons a.tiktok:hover:before {
+            background-color: #000000;
+        }
+        
+        .social-icons a.instagram:hover:before {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icons a.facebook:hover:before {
+            background-color: #1877F2;
+        }
+        
+        .social-icons a.youtube:hover:before {
+            background-color: #FF0000;
+        }
+        
+        .social-icons a.twitter:hover:before {
+            background-color: #1DA1F2;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-selector button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-selector .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-surface);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover .dropdown-content {
+            display: block;
+            transform: translateY(0);
+        }
+        
+        .language-selector .dropdown-content a {
+            color: var(--text-light);
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .language-selector .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        
+        .language-selector .dropdown-content a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            padding-left: 20px;
+        }
+        
+        /* Responsive title styles */
+        @media (max-width: 768px) {
+            .logo-link h1 {
+                font-size: 2.5rem !important;
+                letter-spacing: 2px !important;
+                padding: 0 10px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.9rem !important;
+            }
+            
+            /* Hampurilaisvalikon hover-efekti */
+            .mobile-nav-toggle:hover {
+                background: rgba(0, 40, 80, 0.8) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 15px rgba(0, 150, 255, 0.3) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span {
+                width: 90% !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(1) {
+                transform: translateY(-1px) !important;
+            }
+            
+            .mobile-nav-toggle:hover .hamburger span:nth-child(3) {
+                transform: translateY(1px) !important;
+            }
+            
+            /* Piilota otsikko kun valikko on auki */
+            body.nav-open .logo-link {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Piilota top bar painikkeet kun valikko on auki */
+            body.nav-open .top-bar {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            /* Parannukset hampurilaisvalikon sisällä oleviin painikkeisiin */
+            nav ul li {
+                margin: 10px 0 !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a {
+                background: linear-gradient(135deg, rgba(0, 40, 80, 0.9), rgba(0, 60, 120, 0.9)) !important;
+                border: 1px solid rgba(0, 150, 255, 0.2) !important;
+                border-radius: 10px !important;
+                padding: 15px 25px !important;
+                font-weight: 500 !important;
+                letter-spacing: 0.5px !important;
+                text-transform: uppercase !important;
+                font-size: 1.1rem !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            nav ul li a:hover {
+                background: linear-gradient(135deg, rgba(0, 60, 120, 0.95), rgba(0, 100, 180, 0.95)) !important;
+                transform: translateY(-3px) !important;
+                box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3) !important;
+                color: white !important;
+                border-color: rgba(0, 200, 255, 0.4) !important;
+            }
+            
+            nav ul li.active a {
+                background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)) !important;
+                color: white !important;
+                font-weight: 600 !important;
+                box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4) !important;
+                border-color: rgba(0, 200, 255, 0.5) !important;
+            }
+            
+            /* Sulkemispainikkeen tyylit */
+            .nav-close-btn {
+                background: rgba(0, 40, 80, 0.9) !important;
+                border: 2px solid rgba(0, 150, 255, 0.3) !important;
+                color: white !important;
+                box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3) !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            .nav-close-btn:hover {
+                background: rgba(0, 60, 120, 0.95) !important;
+                transform: scale(1.1) !important;
+                box-shadow: 0 6px 20px rgba(0, 150, 255, 0.4) !important;
+            }
+            
+            .nav-close-btn i {
+                text-shadow: 0 0 10px rgba(0, 200, 255, 0.5) !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-link h1 {
+                font-size: 2rem !important;
+                letter-spacing: 1px !important;
+                padding: 0 5px !important;
+            }
+            
+            .logo-link p {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* Float-animaatio */
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+        
+        /* Aaltoileva siirtymä */
+        .services-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 1;
+        }
+        
+        .services-wave svg {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100px;
+            fill: #001f3f;
+        }
+        
+        .desktop-wave {
+            display: block;
+        }
+        
+        .mobile-wave {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-wave {
+                display: none;
+            }
+            
+            .mobile-wave {
+                display: block;
+            }
+        }
+        
+        /* Section-title tyyli */
+        .section-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6);
+            letter-spacing: 0.5px;
+        }
+        
+        /* Korttien tyylit samanlaisiksi kuin blogi.html-sivulla */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), #0d6efd);
+            opacity: 0.7;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 230, 184, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), #0d6efd);
+            border-radius: 3px;
+        }
+        
+        .card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .card .btn {
+            background: linear-gradient(135deg, rgba(0, 230, 184, 0.1), rgba(13, 110, 253, 0.1));
+            color: var(--accent-color);
+            border: 1px solid rgba(0, 230, 184, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+        
+        .card .btn:hover {
+            background: linear-gradient(135deg, rgba(0, 230, 184, 0.2), rgba(13, 110, 253, 0.2));
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 230, 184, 0.2);
+        }
+        
+        .card .btn i {
+            margin-right: 8px;
+        }
+        
+        .card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px rgba(0, 230, 184, 0.3);
+        }
+        
+        /* FAQ-tyylit */
+        .faq-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 40px;
+        }
+        
+        .faq-item {
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 25px;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .faq-question i {
+            margin-right: 15px;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--accent-color);
+        }
+        
+        .faq-question:hover i {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            padding-left: 35px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.5s ease, margin 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(90deg);
+            color: #0099ff;
+        }
+        
+        .faq-item.active .faq-question {
+            color: #0099ff;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .faq-answer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px dotted var(--accent-color);
+        }
+        
+        .faq-answer a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+        
+        /* Responsiivisuus */
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .faq-container {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .faq-container {
+                padding: 25px;
+            }
+            
+            .faq-question {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-container {
+                padding: 20px;
+            }
+            
+            .faq-question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sosiaalisen median painikkeet ja kielenvaihto -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/company/ai-patrik/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.tiktok.com/@ai.patrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/ai.patrik/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/aipatrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.youtube.com/channel/UCn6H3JoOIj_8h6CscQz5T7w" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitter.com/ai_patrik" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn"><i class="fas fa-globe"></i> FI</button>
+                <div class="dropdown-content">
+                    <a href="#" class="active">Suomi</a>
+                    <a href="#" class="disabled">English (tulossa pian)</a>
+                    <a href="#" class="disabled">Svenska (tulossa pian)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header-osio -->
+    <header>
+        <div class="container" style="display: flex; justify-content: center; align-items: center; padding: 20px 0; position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%;">
+            <a href="../index.html" class="logo-link" style="display: block; text-decoration: none; position: relative; z-index: 100; text-align: center; padding: 0 40px;">
+                <h1 style="margin: 0 auto; font-size: 3rem; background: linear-gradient(135deg, var(--accent-color), #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0, 200, 255, 0.3); white-space: nowrap; letter-spacing: 3px; display: inline-block; padding: 0 15px;">AI PATRIK</h1>
+                <p style="margin: 8px 0 0 0; font-size: 1.1rem; color: var(--text-light); opacity: 0.9; text-align: center;">Tekoälyn työkalut ja opastus</p>
+            </a>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);"> <!-- Oikea puoli mobiilivalikkoa varten -->
+                <button class="mobile-nav-toggle" style="background: rgba(0, 30, 60, 0.6); border: 1px solid rgba(0, 200, 255, 0.3); border-radius: 8px; cursor: pointer; padding: 12px; z-index: 100; box-shadow: 0 2px 10px rgba(0, 100, 255, 0.2); transition: all 0.3s ease;">
+                    <div class="hamburger" style="position: relative; width: 26px; height: 20px;">
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 0; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 8px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                        <span style="position: absolute; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-color), #0099ff); border-radius: 3px; top: 16px; left: 0; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigaatio -->
+    <nav style="background: linear-gradient(90deg, rgba(0, 30, 60, 0.95), rgba(0, 60, 120, 0.9)); border-radius: 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); margin-bottom: 0px; position: relative; z-index: 5; padding: 10px 0; border-bottom: 1px solid rgba(0, 150, 255, 0.2);">
+        <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <ul style="display: flex; justify-content: center; list-style: none; margin: 0; padding: 0;">
+                <li style="position: relative; margin: 0 8px;"><a href="../index.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Koti</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="tyokalut.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Työkalut</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="arvostelut.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Arvostelut</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="oppaat.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Oppaat</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="blogi.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Blogi</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="ukk.html" style="display: block; padding: 12px 22px; color: white; text-decoration: none; font-weight: 600; transition: all 0.3s ease; position: relative; background: linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95)); border-radius: 30px; box-shadow: 0 5px 15px rgba(0, 150, 255, 0.4); letter-spacing: 0.3px; border: 1px solid rgba(0, 200, 255, 0.5);" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 120, 220, 0.95), rgba(0, 170, 255, 0.95))'; this.style.boxShadow='0 6px 18px rgba(0, 150, 255, 0.5)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.95), rgba(0, 150, 255, 0.95))'; this.style.boxShadow='0 5px 15px rgba(0, 150, 255, 0.4)';">UKK</a></li>
+                <li style="position: relative; margin: 0 8px;"><a href="yhteystiedot.html" style="display: block; padding: 12px 22px; color: var(--text-light); text-decoration: none; font-weight: 500; transition: all 0.3s ease; position: relative; background: rgba(255, 255, 255, 0.08); border-radius: 30px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); letter-spacing: 0.3px;" onmouseover="this.style.background='linear-gradient(135deg, rgba(0, 100, 200, 0.4), rgba(0, 70, 150, 0.4))'; this.style.color='white'; this.style.boxShadow='0 4px 12px rgba(0, 100, 200, 0.3)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='var(--text-light)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.15)';">Ota Yhteyttä</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- UKK-osio -->
+    <section id="ukk" style="padding-top: 50px; padding-bottom: 80px; background: linear-gradient(135deg, rgba(0, 15, 40, 0.9), rgba(0, 30, 80, 0.85)); position: relative;">
+        <!-- Tausta-animaatio -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 0;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%); top: -100px; right: 10%; animation: float 15s infinite ease-in-out;"></div>
+            <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%); bottom: -50px; left: 15%; animation: float 12s infinite ease-in-out reverse;"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, rgba(50, 150, 200, 0) 70%); top: 30%; right: 5%; animation: float 10s infinite ease-in-out 2s;"></div>
+        </div>
+        
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 40px; position: relative; z-index: 1;">
+                <h2 class="section-title">Usein kysytyt kysymykset</h2>
+                <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
+                    Löydät tältä sivulta vastauksia yleisimpiin tekoälyyn liittyviin kysymyksiin.
+                </p>
+            </div>
+            
+            <!-- UKK-kategoriat -->
+            <div class="grid">
+                <div class="card">
+                    <div class="icon"><i class="fas fa-robot"></i></div>
+                    <h3>Tekoälyn perusteet</h3>
+                    <p>Perustietoa tekoälystä, sen toiminnasta ja käyttötarkoituksista.</p>
+                    <a href="#perusteet" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+                
+                <div class="card">
+                    <div class="icon"><i class="fas fa-tools"></i></div>
+                    <h3>Työkalut ja käyttö</h3>
+                    <p>Tietoa erilaisista tekoälytyökaluista ja niiden käytöstä.</p>
+                    <a href="#tyokalut" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+                
+                <div class="card">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Turvallisuus ja etiikka</h3>
+                    <p>Vastauksia tekoälyn turvallisuuteen ja eettisiin kysymyksiin.</p>
+                    <a href="#turvallisuus" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+                
+                <div class="card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Tekoäly ja liiketoiminta</h3>
+                    <p>Miten tekoäly voi tehostaa liiketoimintaa ja luoda kilpailuetua.</p>
+                    <a href="#liiketoiminta" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+                
+                <div class="card">
+                    <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Tekoäly ja koulutus</h3>
+                    <p>Tekoälyn hyödyntäminen oppimisessa ja opetuksessa.</p>
+                    <a href="#koulutus" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+                
+                <div class="card">
+                    <div class="icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Tekoäly ja tulevaisuus</h3>
+                    <p>Tekoälyn tulevaisuudennäkymät ja vaikutukset yhteiskuntaan.</p>
+                    <a href="#tulevaisuus" class="btn"><i class="fas fa-arrow-right"></i> Lue lisää</a>
+                </div>
+            </div>
+            
+            <!-- UKK-sisältö -->
+            <div class="faq-container">
+                <div id="perusteet">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Tekoälyn perusteet</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä tekoäly oikeastaan on?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly (AI, Artificial Intelligence) on tietojenkäsittelytieteen ala, joka pyrkii luomaan järjestelmiä, jotka pystyvät suorittamaan tehtäviä, jotka tyypillisesti vaativat ihmisen älykkyyttä. Näitä tehtäviä ovat esimerkiksi visuaalinen havainnointi, puheentunnistus, päätöksenteko ja kielten kääntäminen.</p>
+                            <p>Nykyaikaiset tekoälyjärjestelmät perustuvat usein koneoppimiseen ja erityisesti syväoppimiseen, jossa neuroverkot oppivat suurista datamääristä. Tekoäly voidaan jakaa kapeaan tekoälyyn (narrow AI), joka on erikoistunut tiettyyn tehtävään, ja yleiseen tekoälyyn (general AI), joka pystyisi suoriutumaan kaikista älyllisistä tehtävistä ihmisen tavoin.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly eroaa tavallisesta tietokoneohjelmasta?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Perinteinen tietokoneohjelma noudattaa tarkkoja, ennalta määritettyjä ohjeita (algoritmeja) ja toimii täsmälleen kuten se on ohjelmoitu. Se ei pysty sopeutumaan uusiin tilanteisiin ilman, että ohjelmoija muuttaa koodia.</p>
+                            <p>Tekoäly sen sijaan pystyy oppimaan datasta, sopeutumaan uusiin tilanteisiin ja parantamaan suorituskykyään kokemuksen myötä. Tekoälyjärjestelmät voivat tunnistaa kaavoja, tehdä päätöksiä epävarmuuden vallitessa ja jopa luoda uutta sisältöä, kuten tekstiä, kuvia tai musiikkia.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä ovat koneoppiminen ja syväoppiminen?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Koneoppiminen on tekoälyn osa-alue, jossa tietokoneet oppivat datasta ilman, että niitä on erikseen ohjelmoitu tiettyyn tehtävään. Koneoppimisalgoritmit parantavat suorituskykyään automaattisesti, kun ne altistuvat uudelle datalle.</p>
+                            <p>Syväoppiminen on koneoppimisen osa-alue, joka käyttää monimutkaisia neuroverkkoja, joissa on useita kerroksia (syviä neuroverkkoja). Nämä verkot pystyvät oppimaan monimutkaisempia kaavoja ja ominaisuuksia datasta. Syväoppiminen on mahdollistanut merkittäviä edistysaskeleita esimerkiksi kuvantunnistuksessa, luonnollisen kielen käsittelyssä ja pelien pelaamisessa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä ovat suuret kielimallit (LLM) kuten ChatGPT?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Suuret kielimallit (Large Language Models, LLM) ovat tekoälymalleja, jotka on koulutettu valtavilla tekstimäärillä ymmärtämään ja tuottamaan ihmisen kaltaista tekstiä. Ne perustuvat syväoppimiseen ja erityisesti transformer-arkkitehtuuriin.</p>
+                            <p>ChatGPT on OpenAI:n kehittämä suuri kielimalli, joka on hienosäädetty keskustelukäyttöön. Se pystyy vastaamaan kysymyksiin, kirjoittamaan erilaisia tekstejä, tiivistämään tietoa ja jopa luomaan koodia. Muita tunnettuja suuria kielimalleja ovat esimerkiksi Google Bard (nyk. Gemini), Anthropic Claude ja Meta Llama.</p>
+                            <p>Suuret kielimallit oppivat ennustamaan seuraavaa sanaa tai merkkiä annetussa kontekstissa, mikä mahdollistaa koherenttien ja kontekstiin sopivien vastausten tuottamisen. Ne eivät kuitenkaan "ymmärrä" tekstiä samalla tavalla kuin ihmiset, vaan ne tunnistavat tilastollisia kaavoja kielessä.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tyokalut" style="margin-top: 50px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Työkalut ja käyttö</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä tekoälytyökaluja on saatavilla tavallisille käyttäjille?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Nykyään on saatavilla lukuisia tekoälytyökaluja, joita kuka tahansa voi käyttää:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Tekstin tuottaminen:</strong> ChatGPT, Google Gemini, Claude, Bing Chat</li>
+                                <li><strong>Kuvien luominen:</strong> DALL-E, Midjourney, Stable Diffusion</li>
+                                <li><strong>Äänen ja musiikin tuottaminen:</strong> Mubert, AIVA, Soundraw</li>
+                                <li><strong>Videon tuottaminen:</strong> Runway, Synthesia, D-ID</li>
+                                <li><strong>Koodin kirjoittaminen:</strong> GitHub Copilot, Tabnine, CodeWhisperer</li>
+                                <li><strong>Kielenkääntäminen:</strong> DeepL, Google Translate</li>
+                            </ul>
+                            <p>Monet näistä työkaluista tarjoavat ilmaisen perusversion, mutta laajemmat ominaisuudet ovat usein maksullisia.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten voin käyttää tekoälyä tehokkaasti työssäni?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn tehokas käyttö työssä riippuu alasta, mutta tässä yleisiä vinkkejä:</p>
+                            <ol style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Tunnista toistuvat tehtävät:</strong> Tekoäly soveltuu parhaiten rutiinitehtävien automatisointiin.</li>
+                                <li><strong>Käytä tekoälyä ideointiin:</strong> Tekoäly voi auttaa luovassa prosessissa tarjoamalla uusia näkökulmia.</li>
+                                <li><strong>Tarkista tekoälyn tuottama sisältö:</strong> Tekoäly voi tehdä virheitä, joten tarkista aina tulokset.</li>
+                                <li><strong>Opettele hyvät promptit:</strong> Tekoälyn ohjeistaminen selkeästi ja tarkasti parantaa tuloksia merkittävästi.</li>
+                                <li><strong>Yhdistele eri työkaluja:</strong> Eri tekoälytyökaluilla on erilaisia vahvuuksia, joten käytä niitä yhdessä.</li>
+                            </ol>
+                            <p>Muista, että tekoäly on työkalu, joka täydentää osaamistasi, ei korvaa sitä. Parhaat tulokset syntyvät, kun ihminen ja tekoäly työskentelevät yhdessä.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä ovat promptit ja miten kirjoitan hyviä prompteja?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Promptit ovat ohjeita tai kysymyksiä, joita annetaan tekoälylle halutun vastauksen saamiseksi. Hyvän promptin kirjoittaminen on taito, jota kutsutaan prompt engineeringiksi.</p>
+                            <p>Vinkkejä hyvien promptien kirjoittamiseen:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Ole tarkka ja yksityiskohtainen:</strong> Kerro selkeästi, mitä haluat tekoälyn tekevän.</li>
+                                <li><strong>Anna kontekstia:</strong> Selitä tausta ja tarkoitus, jotta tekoäly ymmärtää tehtävän paremmin.</li>
+                                <li><strong>Määritä formaatti:</strong> Kerro, missä muodossa haluat vastauksen (esim. luettelo, taulukko, essee).</li>
+                                <li><strong>Käytä esimerkkejä:</strong> Anna esimerkkejä haluamastasi lopputuloksesta.</li>
+                                <li><strong>Iteroi:</strong> Jos et saa haluamaasi vastausta, muokkaa promptia ja kokeile uudelleen.</li>
+                            </ul>
+                            <p>Esimerkki heikosta promptista: "Kerro tekoälystä."</p>
+                            <p>Esimerkki paremmasta promptista: "Kirjoita 300-400 sanan tiivistelmä tekoälyn viimeaikaisesta kehityksestä ja sen vaikutuksista työmarkkinoihin. Sisällytä 3-4 konkreettista esimerkkiä aloilta, joilla tekoäly on jo muuttanut työnkuvia. Kohderyhmä on korkeakouluopiskelijat, jotka eivät ole teknologia-alan asiantuntijoita."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly voi auttaa sisällöntuotannossa?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly voi auttaa sisällöntuotannossa monin tavoin:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Ideointi:</strong> Tekoäly voi ehdottaa aiheita, otsikoita ja näkökulmia sisältöön.</li>
+                                <li><strong>Tekstin tuottaminen:</strong> Tekoäly voi kirjoittaa artikkeleita, blogitekstejä, sosiaalisen median julkaisuja ja sähköposteja.</li>
+                                <li><strong>Editointi:</strong> Tekoäly voi tarkistaa kieliopin, parantaa luettavuutta ja tiivistää tekstiä.</li>
+                                <li><strong>Kuvien luominen:</strong> Tekoäly voi luoda kuvituskuvia, bannereita ja infografiikkaa.</li>
+                                <li><strong>Käännökset:</strong> Tekoäly voi kääntää sisältöä eri kielille.</li>
+                                <li><strong>Personointi:</strong> Tekoäly voi auttaa sisällön räätälöinnissä eri kohderyhmille.</li>
+                            </ul>
+                            <p>Tekoälyn avulla voit tuottaa sisältöä nopeammin ja monipuolisemmin, mutta muista aina tarkistaa ja muokata tekoälyn tuottamaa sisältöä, jotta se vastaa brändiäsi ja tavoitteitasi.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="turvallisuus" style="margin-top: 50px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Turvallisuus ja etiikka</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Onko tekoälyn käyttö turvallista?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn käyttö on yleisesti ottaen turvallista, mutta siihen liittyy tiettyjä riskejä ja huomioitavia asioita:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Yksityisyys:</strong> Tekoälypalvelut voivat kerätä ja käyttää syöttämääsi dataa. Tarkista aina palvelun tietosuojakäytännöt.</li>
+                                <li><strong>Tietoturva:</strong> Älä syötä arkaluontoista tai salassapidettävää tietoa julkisiin tekoälypalveluihin.</li>
+                                <li><strong>Virheellinen tieto:</strong> Tekoäly voi tuottaa virheellistä tietoa (hallusinaatioita), joten tarkista aina kriittinen tieto.</li>
+                                <li><strong>Tekijänoikeudet:</strong> Tekoälyn tuottaman sisällön tekijänoikeudet ovat vielä osittain harmaata aluetta.</li>
+                            </ul>
+                            <p>Suurimmat tekoälypalveluiden tarjoajat panostavat jatkuvasti turvallisuuteen ja eettisiin kysymyksiin. Käyttämällä tunnettuja palveluita ja noudattamalla hyviä käytäntöjä voit minimoida riskit.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä eettisiä kysymyksiä tekoälyyn liittyy?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyyn liittyy useita eettisiä kysymyksiä:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Työpaikkojen muutos:</strong> Tekoäly muuttaa työmarkkinoita ja voi korvata tiettyjä työtehtäviä.</li>
+                                <li><strong>Syrjintä ja puolueellisuus:</strong> Tekoälyjärjestelmät voivat toistaa ja vahvistaa yhteiskunnallisia ennakkoluuloja, jos niitä koulutetaan puolueellisella datalla.</li>
+                                <li><strong>Läpinäkyvyys:</strong> Tekoälyjärjestelmien päätöksentekoprosessit voivat olla vaikeasti ymmärrettäviä (ns. musta laatikko -ongelma).</li>
+                                <li><strong>Vastuukysymykset:</strong> Kuka on vastuussa, jos tekoäly tekee virheitä tai aiheuttaa vahinkoa?</li>
+                                <li><strong>Yksityisyys ja valvonta:</strong> Tekoälyä voidaan käyttää laajamittaiseen valvontaan ja yksityisyyden loukkaamiseen.</li>
+                                <li><strong>Autonomiset asejärjestelmät:</strong> Tekoälyn käyttö sodankäynnissä herättää vakavia eettisiä kysymyksiä.</li>
+                            </ul>
+                            <p>Näiden kysymysten ratkaisemiseksi tarvitaan laajaa yhteiskunnallista keskustelua, sääntelyä ja eettisiä ohjeistuksia.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly vaikuttaa työpaikkoihin?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn vaikutus työpaikkoihin on monitahoinen:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Automaatio:</strong> Tekoäly voi automatisoida rutiinitehtäviä, mikä voi vähentää tiettyjen työpaikkojen määrää.</li>
+                                <li><strong>Uudet työpaikat:</strong> Samalla tekoäly luo uusia työpaikkoja ja ammatteja, kuten prompt engineer, AI trainer tai AI ethics specialist.</li>
+                                <li><strong>Työn muutos:</strong> Useimmissa tapauksissa tekoäly ei korvaa kokonaisia ammatteja, vaan muuttaa työnkuvia ja automatisoi tiettyjä tehtäviä.</li>
+                                <li><strong>Tuottavuuden kasvu:</strong> Tekoäly voi parantaa tuottavuutta ja mahdollistaa keskittymisen luovempiin ja strategisempiin tehtäviin.</li>
+                            </ul>
+                            <p>Parhaiten tekoälyn aikakauteen sopeutuvat ne, jotka oppivat hyödyntämään tekoälyä työnsä tukena ja kehittävät taitoja, joissa ihmiset ovat edelleen ylivoimaisia: luovuus, empatia, kriittinen ajattelu ja monimutkainen ongelmanratkaisu.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tunnistan tekoälyn tuottaman sisällön?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn tuottaman sisällön tunnistaminen on yhä vaikeampaa, mutta joitakin merkkejä voi etsiä:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Geneerinen tyyli:</strong> Tekoälyn tuottama teksti voi olla neutraalia ja varovaista, ilman vahvaa persoonallista ääntä.</li>
+                                <li><strong>Epäjohdonmukaisuudet:</strong> Tekoäly voi tehdä faktavirheitä tai olla epäjohdonmukainen yksityiskohdissa.</li>
+                                <li><strong>Kuvissa pienet virheet:</strong> Tekoälyn luomissa kuvissa voi olla outoja yksityiskohtia, kuten vääristyneitä sormia tai epäloogisia varjoja.</li>
+                                <li><strong>Liian täydellinen kieli:</strong> Tekoälyn tuottama teksti voi olla kieliopillisesti liian täydellistä verrattuna ihmisen kirjoittamaan.</li>
+                            </ul>
+                            <p>On kuitenkin huomattava, että tekoälyteknologia kehittyy nopeasti, ja tulevaisuudessa tekoälyn ja ihmisen tuottaman sisällön erottaminen toisistaan voi olla lähes mahdotonta. Tämän vuoksi läpinäkyvyys sisällön alkuperästä on tärkeää.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="liiketoiminta" style="margin-top: 50px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Tekoäly ja liiketoiminta</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly voi hyödyttää yritystäni?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly voi tuoda yrityksellesi monenlaisia hyötyjä riippumatta toimialasta tai yrityksen koosta:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Tehokkuuden parantaminen:</strong> Tekoäly voi automatisoida toistuvia tehtäviä, kuten asiakaspalvelua, tiedonhakua ja raportointia, vapauttaen työntekijöiden aikaa arvoa tuottaviin tehtäviin.</li>
+                                <li><strong>Kustannussäästöt:</strong> Automatisointi ja prosessien optimointi tekoälyn avulla voi vähentää operatiivisia kustannuksia merkittävästi.</li>
+                                <li><strong>Asiakaskokemuksen parantaminen:</strong> Tekoälypohjaiset chatbotit, personoidut suositukset ja ennakoiva asiakaspalvelu voivat parantaa asiakastyytyväisyyttä.</li>
+                                <li><strong>Päätöksenteon tukeminen:</strong> Tekoäly voi analysoida suuria datamääriä ja tarjota näkemyksiä, jotka auttavat tekemään tietoon perustuvia päätöksiä.</li>
+                                <li><strong>Innovaatioiden edistäminen:</strong> Tekoäly voi auttaa tunnistamaan uusia mahdollisuuksia, kehittämään tuotteita ja palveluita sekä luomaan uusia liiketoimintamalleja.</li>
+                            </ul>
+                            <p>Tekoälyn käyttöönotto kannattaa aloittaa tunnistamalla selkeät liiketoimintaongelmat, joihin tekoäly voisi tuoda ratkaisun, ja etenemällä pienin askelin kohti laajempaa käyttöönottoa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä tekoälyn käyttöönotto maksaa?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn käyttöönoton kustannukset vaihtelevat suuresti riippuen toteutuksen laajuudesta, monimutkaisuudesta ja käytettävistä ratkaisuista:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Valmiit SaaS-ratkaisut:</strong> Monet tekoälypalvelut tarjoavat kuukausimaksupohjaisia ratkaisuja, joiden hinnat vaihtelevat muutamista kymmenistä euroista tuhansiin euroihin kuukaudessa käytön laajuuden mukaan.</li>
+                                <li><strong>Räätälöidyt ratkaisut:</strong> Yritykselle räätälöidyn tekoälyratkaisun kehittäminen voi maksaa kymmenistä tuhansista satoihin tuhansiin euroihin.</li>
+                                <li><strong>Infrastruktuuri ja ylläpito:</strong> Tekoälyjärjestelmien ylläpito, päivittäminen ja infrastruktuuri aiheuttavat jatkuvia kustannuksia.</li>
+                                <li><strong>Henkilöstö ja koulutus:</strong> Tekoälyn käyttöönotto vaatii usein henkilöstön kouluttamista tai uusien osaajien palkkaamista.</li>
+                            </ul>
+                            <p>Kustannustehokas lähestymistapa on aloittaa pienistä pilottiprojekteista, jotka ratkaisevat selkeitä liiketoimintaongelmia, ja laajentaa käyttöä asteittain tulosten perusteella. Monille pienille ja keskisuurille yrityksille valmiit tekoälypalvelut tarjoavat kustannustehokkaan tavan hyödyntää tekoälyä ilman suuria alkuinvestointeja.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten aloittaa tekoälyn käyttöönotto yrityksessä?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn käyttöönotto yrityksessä kannattaa tehdä suunnitelmallisesti seuraavien vaiheiden kautta:</p>
+                            <ol style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Tunnista liiketoimintaongelmat:</strong> Määrittele selkeät ongelmat tai mahdollisuudet, joihin tekoäly voisi tuoda ratkaisun. Keskity alueisiin, joilla on suurin potentiaalinen vaikutus liiketoimintaan.</li>
+                                <li><strong>Arvioi valmiudet:</strong> Arvioi yrityksesi tekninen infrastruktuuri, data ja osaaminen. Tekoäly tarvitsee laadukasta dataa toimiakseen tehokkaasti.</li>
+                                <li><strong>Kehitä strategia:</strong> Luo tekoälystrategia, joka on linjassa liiketoimintatavoitteidesi kanssa. Määrittele selkeät tavoitteet, mittarit ja aikataulu.</li>
+                                <li><strong>Aloita pienesti:</strong> Käynnistä pilottiprojekteja, jotka ovat helposti toteutettavissa ja tarjoavat nopeita tuloksia. Tämä auttaa osoittamaan tekoälyn arvon ja rakentamaan tukea laajemmalle käyttöönotolle.</li>
+                                <li><strong>Valitse oikeat työkalut:</strong> Arvioi erilaisia tekoälyratkaisuja ja valitse ne, jotka parhaiten vastaavat tarpeitasi. Harkitse valmiita palveluita, jos yrityksessäsi ei ole vahvaa teknistä osaamista.</li>
+                                <li><strong>Kehitä osaamista:</strong> Kouluta henkilöstöä tekoälyn perusteista ja sen käytöstä. Harkitse tekoälyasiantuntijoiden palkkaamista tai yhteistyötä konsulttien kanssa.</li>
+                                <li><strong>Mittaa ja optimoi:</strong> Seuraa tekoälyprojektien tuloksia ja tee jatkuvia parannuksia. Käytä opittua tietoa laajentaaksesi tekoälyn käyttöä muille alueille.</li>
+                            </ol>
+                            <p>Muista, että tekoälyn käyttöönotto on matka, ei yksittäinen projekti. Onnistuminen vaatii jatkuvaa oppimista, sopeutumista ja kehittämistä.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä tekoälyyn liittyviä trendejä yritysten tulisi seurata?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yritysten kannattaa seurata seuraavia tekoälyyn liittyviä trendejä ja kehityssuuntia:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Generatiivinen tekoäly:</strong> ChatGPT:n kaltaiset suuret kielimallit ja kuvia luovat tekoälyt mullistavat sisällöntuotantoa, asiakaspalvelua ja luovaa työtä.</li>
+                                <li><strong>Tekoälyn demokratisoituminen:</strong> Yhä useammat tekoälytyökalut ovat saatavilla ilman syvällistä teknistä osaamista, mikä mahdollistaa tekoälyn käytön laajemmalle joukolle yrityksiä.</li>
+                                <li><strong>Multimodaaliset mallit:</strong> Tekoälyt, jotka ymmärtävät ja tuottavat useita mediamuotoja (teksti, kuva, ääni, video) samanaikaisesti, yleistyvät.</li>
+                                <li><strong>Tekoälyn vastuullisuus:</strong> Läpinäkyvyys, selitettävyys ja eettiset kysymykset nousevat yhä tärkeämmiksi tekoälyn käytössä.</li>
+                                <li><strong>Tekoäly ja kestävä kehitys:</strong> Tekoälyn hyödyntäminen ilmastonmuutoksen torjunnassa ja resurssitehokkuuden parantamisessa kasvaa.</li>
+                                <li><strong>Tekoäly ja kyberturvallisuus:</strong> Tekoälyä hyödynnetään sekä kyberuhkien tunnistamisessa että niiden luomisessa, mikä korostaa turvallisuuden merkitystä.</li>
+                                <li><strong>Tekoälyn sääntely:</strong> EU:n tekoälyasetus ja muut sääntelykehykset vaikuttavat siihen, miten tekoälyä voidaan käyttää liiketoiminnassa.</li>
+                            </ul>
+                            <p>Näiden trendien seuraaminen auttaa yrityksiä tunnistamaan uusia mahdollisuuksia ja varautumaan tuleviin muutoksiin. Tekoälyteknologiat kehittyvät nopeasti, joten jatkuva oppiminen ja sopeutuminen ovat avainasemassa kilpailuedun säilyttämisessä.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly muuttaa markkinointia ja myyntiä?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly mullistaa markkinointia ja myyntiä monin tavoin:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Hyperpersonointi:</strong> Tekoäly mahdollistaa markkinoinnin räätälöinnin yksittäisille asiakkaille heidän käyttäytymisensä, mieltymystensä ja ostohistoriansa perusteella.</li>
+                                <li><strong>Sisällöntuotannon automatisointi:</strong> Generatiivinen tekoäly voi luoda markkinointisisältöä, kuten blogitekstejä, sosiaalisen median julkaisuja, sähköposteja ja jopa kuvia ja videoita.</li>
+                                <li><strong>Asiakaspolkujen optimointi:</strong> Tekoäly voi analysoida asiakaspolkuja ja tunnistaa pullonkauloja tai mahdollisuuksia parantaa konversiota.</li>
+                                <li><strong>Ennustavat analytiikkamallit:</strong> Tekoäly voi ennustaa, mitkä liidit todennäköisimmin konvertoituvat asiakkaiksi, mikä auttaa kohdistamaan myyntiresursseja tehokkaammin.</li>
+                                <li><strong>Chatbotit ja virtuaaliset assistentit:</strong> Tekoälypohjaiset chatbotit voivat palvella asiakkaita ympäri vuorokauden, vastata kysymyksiin ja ohjata potentiaalisia asiakkaita myyntiprosessissa.</li>
+                                <li><strong>Hinnoittelun optimointi:</strong> Tekoäly voi analysoida markkinatrendejä, kilpailijoiden hinnoittelua ja asiakkaiden maksuhalukkuutta optimaalisen hinnoittelun määrittämiseksi.</li>
+                                <li><strong>Asiakaspoistuman ennustaminen:</strong> Tekoäly voi tunnistaa merkkejä siitä, että asiakas saattaa lopettaa palvelun käytön, mikä mahdollistaa ennakoivat toimenpiteet.</li>
+                            </ul>
+                            <p>Tekoälyn hyödyntäminen markkinoinnissa ja myynnissä voi johtaa parempaan asiakaskokemukseen, korkeampiin konversioasteisiin ja kustannustehokkaampaan toimintaan. Samalla on tärkeää säilyttää inhimillinen kosketus ja varmistaa, että tekoälyn käyttö on läpinäkyvää ja asiakkaiden yksityisyyttä kunnioittavaa.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="koulutus" style="margin-top: 50px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Tekoäly ja koulutus</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly muuttaa oppimista ja opetusta?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly muuttaa oppimista ja opetusta monin merkittävin tavoin:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Personoitu oppiminen:</strong> Tekoäly voi mukautua jokaisen opiskelijan yksilöllisiin tarpeisiin, oppimistyyliin ja -tahtiin, tarjoten räätälöityjä oppimispolkuja.</li>
+                                <li><strong>Automaattinen arviointi:</strong> Tekoäly voi arvioida tehtäviä ja kokeita automaattisesti, vapauttaen opettajien aikaa henkilökohtaiseen ohjaukseen.</li>
+                                <li><strong>Älykkäät tutorointijärjestelmät:</strong> Tekoälypohjaiset tutorit voivat tarjota välitöntä palautetta ja ohjausta opiskelijoille ympäri vuorokauden.</li>
+                                <li><strong>Oppimisanalytiikka:</strong> Tekoäly voi analysoida opiskelijoiden edistymistä ja tunnistaa varhaisessa vaiheessa opiskelijat, jotka tarvitsevat lisätukea.</li>
+                                <li><strong>Sisällöntuotannon automatisointi:</strong> Tekoäly voi auttaa luomaan oppimateriaaleja, harjoituksia ja testejä nopeammin ja monipuolisemmin.</li>
+                                <li><strong>Kielimuurien ylittäminen:</strong> Tekoälykäännökset ja -tulkkaus mahdollistavat globaalin oppimisen ja monikulttuurisen yhteistyön.</li>
+                                <li><strong>Hallinnollisten tehtävien automatisointi:</strong> Tekoäly voi hoitaa rutiinitehtäviä, kuten aikataulutusta ja viestintää, vapauttaen opettajien aikaa opetukseen.</li>
+                            </ul>
+                            <p>Tekoälyn rooli koulutuksessa on toimia opettajien apuvälineenä, ei korvata heitä. Parhaimmillaan tekoäly vapauttaa opettajien aikaa siihen, missä he ovat korvaamattomia: inhimilliseen vuorovaikutukseen, motivointiin ja kriittisen ajattelun opettamiseen.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Onko tekoälyn käyttö opiskelussa huijaamista?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn käyttö opiskelussa ei ole yksiselitteisesti huijaamista tai ei-huijaamista – kyse on siitä, miten ja mihin tarkoitukseen sitä käytetään:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Hyväksyttävä käyttö:</strong> Tekoälyn käyttö oppimisen tukena, kuten käsitteiden selittämiseen, ideointiin, palautteen saamiseen omasta työstä tai opiskelustrategioiden kehittämiseen on yleensä hyväksyttävää.</li>
+                                <li><strong>Kyseenalainen käyttö:</strong> Tekoälyn käyttö tehtävien kokonaan tekemiseen ilman omaa panosta tai ymmärrystä voidaan nähdä huijaamisena, erityisesti jos tehtävän tarkoitus on arvioida opiskelijan omaa osaamista.</li>
+                            </ul>
+                            <p>Monet oppilaitokset ovat alkaneet päivittää ohjeistuksiaan tekoälyn käytöstä. Yleinen suuntaus on kohti tekoälyn vastuullisen käytön opettamista sen sijaan, että sen käyttö kiellettäisiin kokonaan. Tämä heijastaa sitä tosiasiaa, että tekoäly on yhä enemmän läsnä työelämässä, ja sen käyttötaitojen oppiminen on tärkeä osa tulevaisuuden osaamista.</p>
+                            <p>Opiskelijoiden kannattaa aina tarkistaa oman oppilaitoksensa ohjeistukset tekoälyn käytöstä ja keskustella opettajien kanssa, jos on epävarma siitä, onko tekoälyn käyttö sallittua tietyssä tehtävässä. Läpinäkyvyys tekoälyn käytöstä on tärkeää – jos käytät tekoälyä apuna, kerro siitä avoimesti.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä tekoälytyökaluja opiskelijat voivat hyödyntää?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Opiskelijat voivat hyödyntää monenlaisia tekoälytyökaluja opiskelunsa tukena:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Kirjoittamisen apuvälineet:</strong> ChatGPT, Claude tai Google Gemini voivat auttaa esseiden ideoinnissa, rakenteen suunnittelussa ja tekstin muokkaamisessa.</li>
+                                <li><strong>Tutkimuksen apuvälineet:</strong> Perplexity, Elicit tai You.com voivat auttaa tiedonhaussa ja tutkimuslähteiden löytämisessä.</li>
+                                <li><strong>Muistiinpanojen tehostaminen:</strong> Notion AI, Mem.ai tai Otter.ai voivat auttaa muistiinpanojen järjestämisessä, tiivistämisessä ja jäsentelyssä.</li>
+                                <li><strong>Matematiikan ja ohjelmoinnin apuvälineet:</strong> Photomath, Mathway tai GitHub Copilot voivat auttaa matemaattisten ongelmien ratkaisussa ja koodin kirjoittamisessa.</li>
+                                <li><strong>Kielten oppiminen:</strong> Duolingo, Babbel tai DeepL Write voivat auttaa kielten opiskelussa ja kirjoittamisessa vieraalla kielellä.</li>
+                                <li><strong>Visuaalinen oppiminen:</strong> Midjourney, DALL-E tai Canva AI voivat auttaa visuaalisten materiaalien luomisessa esityksiä varten.</li>
+                                <li><strong>Opiskelun organisointi:</strong> Todoist, Motion tai Sunsama voivat auttaa ajanhallinnassa ja opiskelun suunnittelussa.</li>
+                            </ul>
+                            <p>Näitä työkaluja käyttäessä on tärkeää muistaa, että tekoäly on apuväline, ei korvike omalle ajattelulle. Parhaat tulokset syntyvät, kun tekoälyä käytetään oman oppimisprosessin tukena, ei oikotienä. Kriittinen ajattelu ja tekoälyn tuottaman sisällön arviointi on olennainen osa tekoälyn vastuullista käyttöä opiskelussa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten opettajat voivat hyödyntää tekoälyä työssään?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Opettajat voivat hyödyntää tekoälyä monin tavoin työnsä tehostamiseen ja opetuksen laadun parantamiseen:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Oppimateriaalien luominen:</strong> Tekoäly voi auttaa luomaan monipuolisia oppimateriaaleja, tehtäviä, kokeita ja visuaalisia esityksiä eri tasoisia oppijoita varten.</li>
+                                <li><strong>Arvioinnin automatisointi:</strong> Tekoäly voi auttaa arvioimaan monivalintatehtäviä, esseitä ja jopa koodaustehtäviä, säästäen opettajan aikaa.</li>
+                                <li><strong>Yksilöllinen ohjaus:</strong> Tekoäly voi tunnistaa opiskelijoiden vahvuuksia ja heikkouksia, auttaen opettajaa kohdentamaan ohjausta sitä eniten tarvitseville.</li>
+                                <li><strong>Hallinnolliset tehtävät:</strong> Tekoäly voi automatisoida rutiinitehtäviä kuten sähköposteihin vastaamista, aikataulutusta ja raporttien laatimista.</li>
+                                <li><strong>Ammatillinen kehittyminen:</strong> Tekoäly voi tarjota opettajille personoituja suosituksia ammatilliseen kehittymiseen ja uusimpien opetustrendien seuraamiseen.</li>
+                                <li><strong>Monikielinen opetus:</strong> Tekoäly voi auttaa materiaalien kääntämisessä ja monikielisten oppijoiden tukemisessa.</li>
+                                <li><strong>Erityisoppijoiden tukeminen:</strong> Tekoäly voi tarjota työkaluja, jotka auttavat erityisoppijoita, kuten tekstistä puheeksi -sovellukset tai visuaaliset oppimistyökalut.</li>
+                            </ul>
+                            <p>Tekoälyn käyttö opetuksessa vaatii kuitenkin kriittistä suhtautumista ja pedagogista harkintaa. Opettajan rooli inhimillisen vuorovaikutuksen, motivaation ja kriittisen ajattelun edistäjänä on edelleen korvaamaton. Tekoäly toimii parhaiten opettajan työkaluna, joka vapauttaa aikaa siihen, missä ihminen on korvaamaton.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä taitoja tekoälyn aikakaudella kannattaa opiskella?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn aikakaudella korostuvat erityisesti taidot, joissa ihmiset ovat edelleen ylivoimaisia tekoälyyn verrattuna:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Kriittinen ajattelu:</strong> Kyky arvioida tietoa, tunnistaa virheitä ja tehdä perusteltuja johtopäätöksiä on entistä tärkeämpää maailmassa, jossa tietoa on runsaasti saatavilla.</li>
+                                <li><strong>Luovuus ja innovaatio:</strong> Kyky ajatella laatikon ulkopuolelta, yhdistää ideoita uusilla tavoilla ja luoda jotain aidosti uutta on arvokas taito.</li>
+                                <li><strong>Tunneäly ja sosiaalinen älykkyys:</strong> Kyky ymmärtää ja hallita omia ja muiden tunteita, kommunikoida tehokkaasti ja työskennellä tiimeissä on keskeistä.</li>
+                                <li><strong>Sopeutumiskyky ja jatkuva oppiminen:</strong> Valmius oppia uutta, mukautua muutoksiin ja omaksua uusia taitoja läpi elämän on välttämätöntä nopeasti muuttuvassa maailmassa.</li>
+                                <li><strong>Tekoälyn lukutaito:</strong> Kyky ymmärtää tekoälyn toimintaperiaatteita, mahdollisuuksia ja rajoituksia sekä käyttää tekoälytyökaluja tehokkaasti.</li>
+                                <li><strong>Eettinen harkintakyky:</strong> Kyky pohtia teknologian eettisiä vaikutuksia ja tehdä vastuullisia päätöksiä.</li>
+                                <li><strong>Monimutkainen ongelmanratkaisu:</strong> Kyky ratkaista monimutkaisia, epämääräisiä ongelmia, joihin ei ole selkeitä vastauksia.</li>
+                                <li><strong>Systeeminen ajattelu:</strong> Kyky ymmärtää monimutkaisia järjestelmiä ja niiden välisiä yhteyksiä.</li>
+                            </ul>
+                            <p>Lisäksi on hyödyllistä hankkia perustason ymmärrys tekoälyn teknisistä perusteista, datatieteestä ja ohjelmoinnista, vaikka ei työskentelisikään teknisellä alalla. Tämä auttaa ymmärtämään tekoälyn mahdollisuuksia ja rajoituksia sekä kommunikoimaan tehokkaasti teknisten asiantuntijoiden kanssa.</p>
+                            <p>Tärkeintä on kuitenkin säilyttää uteliaisuus, avoin mieli ja halu oppia jatkuvasti uutta. Tekoälyn aikakaudella menestyvät ne, jotka osaavat hyödyntää tekoälyä työkaluna oman osaamisensa täydentämisessä ja laajentamisessa.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tulevaisuus" style="margin-top: 50px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 25px; color: white; position: relative; display: inline-block;">Tekoäly ja tulevaisuus</h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten tekoäly kehittyy seuraavien 5-10 vuoden aikana?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn kehitys seuraavien 5-10 vuoden aikana tulee todennäköisesti olemaan nopeaa ja mullistavaa:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Multimodaaliset mallit:</strong> Tekoälyt, jotka ymmärtävät ja tuottavat saumattomasti tekstiä, kuvia, ääntä ja videota, tulevat yleistymään ja parantumaan merkittävästi.</li>
+                                <li><strong>Tekoälyn personointi:</strong> Henkilökohtaiset tekoälyassistentit, jotka oppivat käyttäjän mieltymyksistä ja tarpeista, tulevat osaksi arkea.</li>
+                                <li><strong>Tekoäly ja fyysinen maailma:</strong> Tekoälyn ja robotiikan yhdistelmät mahdollistavat älykkäämmät kodit, tehtaat ja kaupungit.</li>
+                                <li><strong>Erikoistuneet tekoälyt:</strong> Eri aloille kehitetään yhä erikoistuneempia tekoälyratkaisuja, jotka ylittävät ihmisen suorituskyvyn tietyissä tehtävissä.</li>
+                                <li><strong>Tekoälyn demokratisoituminen:</strong> Tekoälytyökalujen käyttö tulee helpommaksi ja saavutettavammaksi yhä useammille ihmisille ja yrityksille.</li>
+                            </ul>
+                            <p>Kehityksen nopeus riippuu teknologisista läpimurroista, laskentakapasiteetin kasvusta, datan saatavuudesta sekä sääntelystä ja eettisistä rajoitteista. On myös mahdollista, että näemme merkittäviä edistysaskeleita kohti yleistä tekoälyä (AGI), joka pystyy suoriutumaan lähes kaikista älyllisistä tehtävistä ihmisen tasolla tai paremmin.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Tuleeko tekoäly korvaamaan ihmistyöntekijät?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoäly ei todennäköisesti korvaa ihmistyöntekijöitä kokonaan, mutta se tulee muuttamaan työmarkkinoita merkittävästi:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Automaatio ja täydentäminen:</strong> Tekoäly automatisoi rutiinitehtäviä ja täydentää ihmisten työtä monilla aloilla, mikä johtaa tuottavuuden kasvuun.</li>
+                                <li><strong>Työtehtävien muutos:</strong> Monet ammatit muuttuvat sen sijaan että katoaisivat kokonaan. Työntekijät keskittyvät tehtäviin, joissa ihmiset ovat edelleen ylivoimaisia.</li>
+                                <li><strong>Uudet työpaikat:</strong> Tekoäly luo uusia ammatteja ja työpaikkoja, joita emme vielä osaa kuvitella.</li>
+                                <li><strong>Siirtymähaasteet:</strong> Lyhyellä aikavälillä työmarkkinoiden sopeutuminen voi aiheuttaa haasteita ja vaatii uudelleenkoulutusta.</li>
+                            </ul>
+                            <p>Historiallisesti teknologiset vallankumoukset ovat lopulta luoneet enemmän työpaikkoja kuin hävittäneet, mutta siirtymävaihe voi olla haastava. Ihmisten vahvuudet kuten luovuus, empatia, eettinen harkinta ja monimutkainen ongelmanratkaisu pysyvät arvokkaina. Todennäköisin tulevaisuudenkuva on ihmisten ja tekoälyn yhteistyö, jossa kumpikin keskittyy vahvuuksiinsa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä on kvanttitekoäly ja miten se muuttaa alaa?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Kvanttitekoäly viittaa kvanttitietokoneiden käyttöön tekoälyalgoritmien suorittamisessa. Tämä yhdistelmä voi potentiaalisesti mullistaa tekoälyalan seuraavilla tavoilla:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Laskentateho:</strong> Kvanttitietokoneet voivat ratkaista tiettyjä ongelmia eksponentiaalisesti nopeammin kuin perinteiset tietokoneet, mikä mahdollistaa monimutkaisempien tekoälymallien kehittämisen.</li>
+                                <li><strong>Optimointiongelmat:</strong> Monet koneoppimisalgoritmit perustuvat optimointiongelmiin, joissa kvanttitietokoneet voivat tarjota merkittäviä etuja.</li>
+                                <li><strong>Kvanttikoneoppimisalgoritmit:</strong> Uudet, erityisesti kvanttitietokoneille suunnitellut algoritmit voivat avata täysin uusia mahdollisuuksia tekoälyn kehityksessä.</li>
+                                <li><strong>Simulaatiot:</strong> Kvanttitietokoneet voivat simuloida kvanttimekaanisia järjestelmiä tehokkaasti, mikä voi edistää materiaalitiedettä, lääkekehitystä ja muita aloja.</li>
+                            </ul>
+                            <p>Kvanttitekoäly on kuitenkin vielä varhaisessa kehitysvaiheessa. Käytännön sovellukset vaativat kvanttitietokoneiden kehittymistä nykyistä vakaammiksi ja skaalautuvammiksi. Asiantuntijat arvioivat, että merkittäviä läpimurtoja kvanttitekoälyssä voidaan nähdä seuraavien 10-20 vuoden aikana, mutta tarkkaa aikataulua on vaikea ennustaa teknologian kehityksen epävarmuuden vuoksi.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Miten valmistautua tekoälyn muuttamaan tulevaisuuteen?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn muuttamaan tulevaisuuteen valmistautuminen vaatii ennakoivaa lähestymistapaa sekä yksilöiltä että organisaatioilta:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Jatkuva oppiminen:</strong> Omaksu elinikäisen oppimisen asenne ja päivitä osaamistasi säännöllisesti. Opiskele perustietoja tekoälystä ja sen sovelluksista omalla alallasi.</li>
+                                <li><strong>Kehitä ihmisille ominaisia taitoja:</strong> Keskity taitoihin, joissa ihmiset ovat edelleen ylivoimaisia: luovuus, kriittinen ajattelu, tunneäly, eettinen harkinta ja monimutkainen ongelmanratkaisu.</li>
+                                <li><strong>Opettele käyttämään tekoälytyökaluja:</strong> Tutustu eri tekoälytyökaluihin ja opettele käyttämään niitä tehokkaasti työsi tukena. Tekoälyn lukutaito on tulevaisuuden perustaitoja.</li>
+                                <li><strong>Mukaudu muutokseen:</strong> Kehitä kykyäsi sopeutua muutoksiin ja epävarmuuteen. Joustavuus ja resilienssi ovat arvokkaita ominaisuuksia nopeasti muuttuvassa maailmassa.</li>
+                                <li><strong>Verkostoidu ja tee yhteistyötä:</strong> Rakenna monipuolisia verkostoja ja kehitä yhteistyötaitojasi. Ihmisten välinen yhteistyö pysyy arvokkaana tekoälyn aikakaudellakin.</li>
+                            </ul>
+                            <p>Organisaatioiden kannattaa laatia tekoälystrategia, investoida työntekijöiden koulutukseen ja luoda kulttuuri, joka tukee innovaatiota ja sopeutumista. Yhteiskunnallisella tasolla tarvitaan keskustelua tekoälyn sääntelystä, etiikasta ja siitä, miten varmistetaan tekoälyn hyötyjen jakautuminen tasaisesti.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-chevron-right"></i>
+                            Mitä ovat tekoälyn suurimmat riskit tulevaisuudessa?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tekoälyn kehitykseen liittyy useita potentiaalisia riskejä, joihin on syytä varautua:</p>
+                            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                                <li><strong>Työmarkkinoiden murros:</strong> Tekoäly voi aiheuttaa merkittäviä muutoksia työmarkkinoilla, mikä voi johtaa työttömyyteen ja eriarvoisuuden kasvuun, jos siirtymää ei hallita hyvin.</li>
+                                <li><strong>Yksityisyyden heikkeneminen:</strong> Kehittyneet tekoälyjärjestelmät voivat mahdollistaa ennennäkemättömän valvonnan ja yksityisyyden loukkaukset.</li>
+                                <li><strong>Autonomiset asejärjestelmät:</strong> Tekoälypohjaiset asejärjestelmät herättävät vakavia eettisiä kysymyksiä ja voivat muuttaa sodankäyntiä perustavanlaatuisesti.</li>
+                                <li><strong>Algoritminen syrjintä:</strong> Tekoälyjärjestelmät voivat vahvistaa ja jopa pahentaa yhteiskunnallisia ennakkoluuloja ja syrjintää, jos niitä ei suunnitella huolellisesti.</li>
+                                <li><strong>Turvallisuusriskit:</strong> Kehittyneet tekoälyjärjestelmät voivat aiheuttaa odottamattomia haittoja, jos niiden tavoitteet eivät ole täysin linjassa ihmisten arvojen kanssa.</li>
+                                <li><strong>Vallan keskittyminen:</strong> Tekoälyteknologian hallinta voi keskittyä muutamille suurille yrityksille tai valtioille, mikä voi johtaa vallan epätasapainoon.</li>
+                                <li><strong>Disinformaatio:</strong> Tekoäly voi mahdollistaa entistä vakuuttavampien deepfake-videoiden ja valeuutisten luomisen, mikä voi heikentää luottamusta mediaan ja instituutioihin.</li>
+                            </ul>
+                            <p>Näiden riskien hallinta vaatii kansainvälistä yhteistyötä, vastuullista kehitystä, läpinäkyvyyttä ja tehokasta sääntelyä. Monet tutkijat ja organisaatiot työskentelevät tekoälyn turvallisuuden ja eettisen kehityksen parissa varmistaakseen, että tekoälyn edut ylittävät sen riskit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="services-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z" fill="#001f3f"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z" fill="#001f3f"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Uutiskirje-osio -->
+    <section class="newsletter-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
+        <div class="container">
+            <h2 class="section-title">Tilaa uutiskirjeemme</h2>
+            <p>
+                Saat viikoittain tietoa uusista työkaluista, vinkeistä ja erikoistarjouksista suoraan sähköpostiisi.
+            </p>
+            <div class="newsletter-form">
+                <p class="newsletter-coming-soon">Uutiskirjeen tilaus tulossa pian!</p>
+                <!-- <input type="email" placeholder="Sähköpostiosoitteesi" required>
+                <button type="submit">Tilaa</button> -->
+            </div>
+        </div>
+        
+        <!-- Aaltoileva siirtymä -->
+        <div class="newsletter-wave">
+            <svg class="desktop-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,30 C250,60 350,10 720,30 C1080,50 1190,20 1440,40 L1440,100 L0,100 Z" fill="#001f3f"></path>
+            </svg>
+            <svg class="mobile-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,70 C250,80 350,60 720,70 C1080,80 1190,60 1440,70 L1440,100 L0,100 Z" fill="#001f3f"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <!-- Footer-osio -->
+    <footer class="footer-section">
+        <!-- Tausta-animaatio -->
+        <div class="background-animation">
+            <div class="animation-bubble bubble-1"></div>
+            <div class="animation-bubble bubble-2"></div>
+        </div>
+        
+        <div class="container">
+            <p>
+                &copy; 2025 AI Patrik. Kaikki oikeudet pidätetään.
+            </p>
+            <p>
+                <a href="tietoa-meista.html">Tietoa meistä</a> | 
+                <a href="tietosuojakaytanto.html">Tietosuojakäytäntö</a> | 
+                <a href="affiliate-ilmoitus.html">Affiliate-ilmoitus</a>
+            </p>
+            
+            <!-- Sosiaalisen median linkit footerissa -->
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/patrik-juuti-47777b354" target="_blank" title="LinkedIn" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.tiktok.com/@ai_patrik?_t=ZN-8uPcAu0qmEI&_r=1" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/aipatrik?igsh=MW8xbGVwdnhoMmdj" target="_blank" title="Instagram" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/152FjoPGba/" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://youtube.com/@aipatrik?si=1wh6UwMo9cIe5P-L" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/ai_patrik?t=tghvw8DbEglhrmC2-Xi5aw&s=09" target="_blank" title="X (Twitter)" class="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript-tiedostot -->
+    <script src="../js/main.js"></script>
+    <script src="../js/active-nav.js"></script>
+    
+    <!-- FAQ JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Haetaan kaikki FAQ-kysymykset
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            // Varmistetaan, että kaikki vastaukset ovat aluksi piilossa
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Parannetaan kysymysten klikattavuutta ja visuaalista palautetta
+            faqQuestions.forEach(question => {
+                // Poistetaan aiempi klikkausohje ja lisätään selkeämpi visuaalinen vihje
+                question.style.position = "relative";
+                question.style.padding = "15px";
+                question.style.borderRadius = "8px";
+                question.style.background = "rgba(255, 255, 255, 0.05)";
+                question.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                question.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+                
+                // Korostetaan nuoli-ikonia
+                const icon = question.querySelector('i');
+                if (icon) {
+                    icon.style.fontSize = "1.3rem";
+                    icon.style.transition = "transform 0.3s ease, color 0.3s ease";
+                }
+                
+                // Lisätään hover-efekti
+                question.addEventListener('mouseenter', function() {
+                    this.style.background = "rgba(255, 255, 255, 0.1)";
+                    this.style.boxShadow = "0 4px 15px rgba(0, 150, 255, 0.2)";
+                });
+                
+                question.addEventListener('mouseleave', function() {
+                    if (!this.parentElement.classList.contains('active')) {
+                        this.style.background = "rgba(255, 255, 255, 0.05)";
+                        this.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+                    } else {
+                        this.style.background = "rgba(0, 150, 255, 0.1)";
+                        this.style.boxShadow = "0 4px 15px rgba(0, 150, 255, 0.2)";
+                    }
+                });
+                
+                // Lisätään click-tapahtumankäsittelijä
+                question.addEventListener('click', function() {
+                    // Haetaan kysymyksen parent-elementti (faq-item)
+                    const faqItem = this.parentElement;
+                    
+                    // Vaihdetaan tämän kysymyksen tila (avaa/sulje)
+                    if (faqItem.classList.contains('active')) {
+                        faqItem.classList.remove('active');
+                        this.style.background = "rgba(255, 255, 255, 0.05)";
+                        this.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+                    } else {
+                        faqItem.classList.add('active');
+                        this.style.background = "rgba(0, 150, 255, 0.1)";
+                        this.style.boxShadow = "0 4px 15px rgba(0, 150, 255, 0.2)";
+                    }
+                });
+            });
+            
+            // Lisätään myös CSS-korjaus, jotta vastaukset näkyvät oikein
+            const style = document.createElement('style');
+            style.textContent = `
+                .faq-item.active .faq-answer {
+                    max-height: 2000px !important;
+                    opacity: 1 !important;
+                    margin-top: 15px !important;
+                    margin-bottom: 15px !important;
+                }
+                
+                .faq-item.active .faq-question i {
+                    transform: rotate(90deg) !important;
+                    color: #0099ff !important;
+                }
+                
+                .faq-item.active .faq-question {
+                    color: #0099ff !important;
+                }
+                
+                .faq-question {
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                }
+                
+                .faq-question::after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    right: 15px;
+                    transform: translateY(-50%);
+                    width: 24px;
+                    height: 24px;
+                    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230099ff"><path d="M7 10l5 5 5-5z"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    opacity: 0.7;
+                    transition: transform 0.3s ease;
+                }
+                
+                .faq-item.active .faq-question::after {
+                    transform: translateY(-50%) rotate(180deg);
+                    opacity: 1;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 

@@ -802,7 +802,7 @@ footer a:hover {
     position: relative;
     z-index: 1;
     margin-top: 0;
-    padding-top: 50px;
+    padding-top: 0px;
     padding-bottom: 80px;
     background: linear-gradient(135deg, rgba(0, 30, 70, 0.9), rgba(0, 50, 100, 0.85));
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -812,7 +812,7 @@ footer a:hover {
 .services-section::before {
     content: '';
     position: absolute;
-    top: 50px;
+    top: 0px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -824,7 +824,7 @@ footer a:hover {
 .services-section::after {
     content: '';
     position: absolute;
-    top: 50px;
+    top: 0px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -836,11 +836,117 @@ footer a:hover {
 .services-section .container {
     position: relative;
     z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 30px 20px 0 20px;
+    box-sizing: border-box;
 }
 
 .services-section h2 {
     position: relative;
     z-index: 1;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 100, 255, 0.6);
+    letter-spacing: 0.5px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.service-card {
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.7), rgba(0, 60, 120, 0.7));
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 150, 255, 0.1) inset;
+    border: 1px solid rgba(0, 150, 255, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.service-card h3 {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 8px rgba(0, 100, 255, 0.5);
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.service-card p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    flex-grow: 1;
+}
+
+.service-card .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--accent-color), #0066cc);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 100, 255, 0.4);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+    align-self: flex-start;
+}
+
+.service-card .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 100, 255, 0.5);
+}
+
+/* Responsiiviset tyylit services-section -osiolle */
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.9rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-card {
+        padding: 20px;
+    }
+    
+    .service-card h3 {
+        font-size: 1.4rem;
+    }
+    
+    .service-card p {
+        font-size: 1rem;
+    }
 }
 
 /* Aaltoileva siirtymä services-section -osion ja seuraavan osion välillä */
@@ -863,6 +969,15 @@ footer a:hover {
     transform: translateY(1px); /* Varmistaa, ettei jää rakoa */
 }
 
+/* Desktop and mobile wave display */
+.mobile-wave {
+    display: none;
+}
+
+.desktop-wave {
+    display: block;
+}
+
 /* Responsiiviset tyylit siirtymille */
 @media (max-width: 992px) {
     .about-patrik {
@@ -875,11 +990,19 @@ footer a:hover {
     
     .services-section {
         padding-top: 40px;
-        padding-bottom: 60px;
+        padding-bottom: 70px; /* Increased padding to prevent overlap */
     }
     
     .services-wave {
         height: 30px;
+    }
+    
+    .mobile-wave {
+        display: block;
+    }
+    
+    .desktop-wave {
+        display: none;
     }
 }
 
@@ -894,7 +1017,7 @@ footer a:hover {
     
     .services-section {
         padding-top: 30px;
-        padding-bottom: 50px;
+        padding-bottom: 60px; /* Increased padding to prevent overlap */
     }
     
     .services-wave {
@@ -2081,35 +2204,44 @@ footer a:hover {
     position: relative;
     z-index: 1;
     margin-top: 0;
-    padding-top: 50px;
+    padding-top: 60px; /* Increased padding to prevent overlap with wave */
     padding-bottom: 80px;
     background: linear-gradient(135deg, rgba(0, 40, 80, 0.9), rgba(0, 60, 110, 0.85));
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.newsletter-section::before {
-    content: '';
+.newsletter-section .background-animation {
     position: absolute;
-    top: 50px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     overflow: hidden;
     z-index: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%);
 }
 
-.newsletter-section::after {
-    content: '';
+.animation-bubble {
     position: absolute;
-    top: 50px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    z-index: 0;
-    background: radial-gradient(circle at 70% 70%, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%);
+    border-radius: 50%;
+}
+
+.bubble-1 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(0, 150, 255, 0.1) 0%, rgba(0, 100, 200, 0) 70%);
+    top: 20%;
+    left: 15%;
+    animation: float 15s infinite ease-in-out;
+}
+
+.bubble-2 {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.1) 0%, rgba(0, 150, 200, 0) 70%);
+    bottom: 10%;
+    right: 10%;
+    animation: float 12s infinite ease-in-out reverse;
 }
 
 .newsletter-section .container {
@@ -2117,7 +2249,7 @@ footer a:hover {
     z-index: 1;
 }
 
-.newsletter-section h2 {
+.newsletter-section .section-title {
     position: relative;
     z-index: 1;
     font-size: 2.5rem;
@@ -2150,6 +2282,32 @@ footer a:hover {
     border: 1px solid rgba(0, 150, 255, 0.3);
 }
 
+.newsletter-coming-soon {
+    text-align: center;
+    font-style: italic;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-15px) translateX(15px);
+    }
+    50% {
+        transform: translateY(0) translateX(0);
+    }
+    75% {
+        transform: translateY(15px) translateX(-15px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+}
+
 /* Aaltoileva siirtymä newsletter-section -osion ja footer-section -osion välillä */
 .newsletter-wave {
     position: absolute;
@@ -2170,108 +2328,104 @@ footer a:hover {
     transform: translateY(1px); /* Varmistaa, ettei jää rakoa */
 }
 
+/* Responsiiviset tyylit newsletter-section -osiolle */
+@media (max-width: 992px) {
+    .newsletter-section {
+        padding-top: 50px;
+        padding-bottom: 60px;
+    }
+    
+    .newsletter-section .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .bubble-1 {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .bubble-2 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .newsletter-coming-soon {
+        font-size: 1rem;
+    }
+    
+    .newsletter-wave {
+        height: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .newsletter-section {
+        padding-top: 40px;
+        padding-bottom: 50px;
+    }
+    
+    .newsletter-section .section-title {
+        font-size: 2rem;
+    }
+    
+    .newsletter-section p {
+        font-size: 1rem;
+    }
+    
+    .bubble-1 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .bubble-2 {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .newsletter-coming-soon {
+        font-size: 0.95rem;
+    }
+    
+    .newsletter-wave {
+        height: 20px;
+    }
+}
+
 /* Footer-section -osion tyylit */
 .footer-section {
     position: relative;
     z-index: 1;
-    margin-top: 0;
-    padding-top: 50px;
-    padding-bottom: 30px;
-    background: linear-gradient(135deg, rgba(0, 50, 90, 0.9), rgba(0, 70, 120, 0.85));
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.footer-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    z-index: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(0, 150, 255, 0.05) 0%, rgba(0, 100, 200, 0) 70%);
-}
-
-.footer-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    z-index: 0;
-    background: radial-gradient(circle at 70% 70%, rgba(0, 200, 255, 0.05) 0%, rgba(0, 150, 200, 0) 70%);
-}
-
-.footer-section .container {
-    position: relative;
-    z-index: 1;
+    padding-top: 40px;
+    padding-bottom: 60px;
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.95), rgba(0, 50, 90, 0.9));
+    color: var(--text-light);
     text-align: center;
+    border-top: 1px solid rgba(0, 150, 255, 0.1);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.footer-section p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    margin-bottom: 15px;
-}
-
-.footer-section a {
+.footer-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
     color: var(--accent-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin: 0 10px;
-    position: relative;
-}
-
-.footer-section a:hover {
-    color: white;
-    text-shadow: 0 0 10px rgba(0, 150, 255, 0.7);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .footer-social {
-    margin-top: 25px;
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 2rem;
+    margin-top: 20px;
 }
 
 .footer-social a {
-    color: var(--text-light);
-    font-size: 18px;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.05);
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-}
-
-.footer-social a:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--accent-color);
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-    z-index: -1;
-    opacity: 0.8;
-    border-radius: 50%;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 .footer-social a:hover {
-    color: #fff;
+    color: #00c9a0;
     transform: translateY(-3px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
@@ -2304,40 +2458,14 @@ footer a:hover {
     background-color: #1DA1F2;
 }
 
-/* Responsiiviset tyylit newsletter ja footer osioille */
+/* Responsiiviset tyylit footer-section -osiolle */
 @media (max-width: 992px) {
-    .newsletter-section {
-        padding-top: 40px;
-        padding-bottom: 60px;
-    }
-    
-    .newsletter-wave {
-        height: 30px;
-    }
-    
     .footer-section {
         padding-top: 40px;
     }
 }
 
 @media (max-width: 576px) {
-    .newsletter-section {
-        padding-top: 30px;
-        padding-bottom: 50px;
-    }
-    
-    .newsletter-section h2 {
-        font-size: 2rem;
-    }
-    
-    .newsletter-section p {
-        font-size: 1rem;
-    }
-    
-    .newsletter-wave {
-        height: 20px;
-    }
-    
     .footer-section {
         padding-top: 30px;
     }
@@ -2348,5 +2476,223 @@ footer a:hover {
     
     .footer-social {
         flex-wrap: wrap;
+    }
+}
+
+/* Footer background animation */
+.footer-section {
+    position: relative;
+    z-index: 1;
+}
+
+.footer-section .background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.footer-section .bubble-1 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 150, 255, 0.05) 0%, rgba(0, 100, 200, 0) 70%);
+    top: 30%;
+    left: 5%;
+    animation: float 18s infinite ease-in-out;
+}
+
+.footer-section .bubble-2 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.05) 0%, rgba(0, 150, 200, 0) 70%);
+    bottom: 20%;
+    right: 8%;
+    animation: float 15s infinite ease-in-out reverse;
+}
+
+.footer-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Koodiesimerkkien tyylit */
+pre, code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-x: auto;
+    max-width: 100%;
+    display: block;
+    background-color: rgba(30, 30, 30, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    margin: 15px 0;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e0e0e0;
+}
+
+pre code {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.guide-example pre, .code-example pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Mobiiliresponsiivisuus koodiesimerkeille */
+@media (max-width: 768px) {
+    pre, code {
+        font-size: 13px;
+        padding: 12px;
+    }
+    
+    .guide-example, .code-example {
+        padding: 15px;
+    }
+    
+    .guide-example pre, .code-example pre {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    pre, code {
+        font-size: 12px;
+        padding: 10px;
+        line-height: 1.4;
+    }
+    
+    .guide-example, .code-example {
+        padding: 12px;
+    }
+}
+
+/* Pricing table responsiivisuus */
+.pricing-table, .comparison-table {
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 20px 0;
+    display: block;
+    -webkit-overflow-scrolling: touch; /* Parempi vieritys iOS-laitteilla */
+}
+
+.pricing-table table, .comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Varmistaa että taulukko ei puristu liian pieneksi */
+    table-layout: fixed; /* Estää sarakkeiden automaattisen leveyden muuttumisen */
+}
+
+.pricing-table th, .pricing-table td, .comparison-table th, .comparison-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    word-wrap: break-word; /* Sallii pitkien sanojen rivittymisen */
+    overflow-wrap: break-word;
+}
+
+.pricing-table th, .comparison-table th {
+    background-color: rgba(0, 100, 200, 0.1);
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.pricing-table tr:hover, .comparison-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobiiliresponsiivisuus taulukoille */
+@media (max-width: 768px) {
+    .pricing-table, .comparison-table {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-size: 14px;
+        width: 100%;
+        position: relative; /* Varmistaa että vieritys toimii oikein */
+    }
+    
+    /* Lisää visuaalinen vihje vierittämisestä */
+    .pricing-table::after, .comparison-table::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 15px;
+        background: linear-gradient(to right, rgba(30, 30, 30, 0), rgba(0, 100, 200, 0.1));
+        pointer-events: none; /* Ei estä vieritystä */
+        opacity: 0.7;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+    
+    .pricing-table th, .pricing-table td, .comparison-table th, .comparison-table td {
+        padding: 10px 12px;
+        white-space: normal; /* Sallii tekstin rivittymisen */
+    }
+    
+    /* Paranna tekstin luettavuutta mobiilissa */
+    .guide-content p, .guide-section p, .review-section p {
+        font-size: 16px;
+        line-height: 1.6;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .guide-content h2, .guide-section h2, .review-section h2 {
+        font-size: 1.8rem;
+        margin-top: 1.5rem;
+    }
+    
+    .guide-content h3, .guide-section h3, .review-section h3 {
+        font-size: 1.5rem;
+        margin-top: 1.2rem;
+    }
+    
+    .guide-content h4, .guide-section h4, .review-section h4 {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+    
+    .guide-content ul, .guide-section ul, .review-section ul,
+    .guide-content ol, .guide-section ol, .review-section ol {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-table, .comparison-table {
+        font-size: 13px;
+    }
+    
+    .pricing-table th, .pricing-table td, .comparison-table th, .comparison-table td {
+        padding: 8px 10px;
+    }
+    
+    /* Vielä pienemmät näytöt */
+    .guide-content p, .guide-section p, .review-section p {
+        font-size: 15px;
+    }
+    
+    .guide-content h2, .guide-section h2, .review-section h2 {
+        font-size: 1.6rem;
+    }
+    
+    .guide-content h3, .guide-section h3, .review-section h3 {
+        font-size: 1.3rem;
+    }
+    
+    .guide-content h4, .guide-section h4, .review-section h4 {
+        font-size: 1.1rem;
     }
 }
