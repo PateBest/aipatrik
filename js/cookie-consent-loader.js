@@ -85,6 +85,10 @@
     const urlParams = new URLSearchParams(window.location.search);
     const forceBanner = urlParams.get('force_cookie_banner') === 'true';
     
+    // Check if Google Tag is already loaded
+    const isGoogleTagLoaded = typeof gtag === 'function';
+    console.log("Is Google Tag already loaded:", isGoogleTagLoaded);
+    
     // Function to create the banner directly if needed
     function createBannerDirectly() {
         console.log("Creating banner directly");
@@ -103,7 +107,18 @@
         console.log("cookieReject:", localStorage.getItem('cookieReject'));
         console.log("Banner already exists:", !!document.querySelector('.cookie-consent'));
         
-        if (!localStorage.getItem('cookieConsent') && !localStorage.getItem('cookieReject') && !document.querySelector('.cookie-consent')) {
+        // Check if we should show the banner
+        // We show it if:
+        // 1. User hasn't given consent or rejected cookies
+        // 2. Banner doesn't already exist
+        // 3. Force parameter is true OR we're not in a situation where Google Tag is loaded without consent
+        const shouldShowBanner = 
+            (!localStorage.getItem('cookieConsent') && !localStorage.getItem('cookieReject') && !document.querySelector('.cookie-consent')) ||
+            (forceBanner && !document.querySelector('.cookie-consent'));
+        
+        console.log("Should show banner:", shouldShowBanner);
+        
+        if (shouldShowBanner) {
             console.log("Conditions met, creating banner");
             
             // Create the banner element
@@ -137,205 +152,214 @@
                 </div>
             `;
             
-            // Add the banner to the body
-            document.body.appendChild(banner);
-            console.log("Banner added to body");
-            
-            // Add animation class after a small delay to trigger animation
-            setTimeout(() => {
-                banner.style.bottom = '0';
-                banner.style.opacity = '1';
-                console.log("Banner made visible");
-            }, 100);
-            
-            // Add event listeners to buttons
-            const acceptButton = banner.querySelector('.cookie-accept');
-            const rejectButton = banner.querySelector('.cookie-reject');
-            const moreInfoButton = banner.querySelector('.cookie-more-info');
-            
-            acceptButton.addEventListener('click', function() {
-                console.log("Accept button clicked");
-                // Save consent to localStorage
-                localStorage.setItem('cookieConsent', 'true');
-                localStorage.setItem('cookieConsentDate', new Date().toISOString());
+            try {
+                // Add the banner to the body
+                document.body.appendChild(banner);
+                console.log("Banner added to body");
                 
-                // Hide banner
-                banner.style.bottom = '-100px';
-                banner.style.opacity = '0';
+                // Add animation class after a small delay to trigger animation
                 setTimeout(() => {
-                    if (banner && banner.parentNode) {
-                        banner.parentNode.removeChild(banner);
-                    }
-                }, 500);
-                
-                // Load Google Analytics
-                (function() {
-                    var ga = document.createElement('script');
-                    ga.type = 'text/javascript';
-                    ga.async = true;
-                    ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-9QDDPLJZ9P';
-                    var s = document.getElementsByTagName('script')[0];
-                    s.parentNode.insertBefore(ga, s);
-                    
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', 'G-9QDDPLJZ9P');
-                })();
-                
-                // Show thank you message
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.right = '20px';
-                notification.style.background = 'linear-gradient(135deg, #00ccaa, #0066cc)';
-                notification.style.color = 'white';
-                notification.style.padding = '15px 20px';
-                notification.style.borderRadius = '10px';
-                notification.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
-                notification.style.zIndex = '1000';
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(20px)';
-                notification.style.transition = 'all 0.3s ease';
-                notification.innerHTML = '<i class="fas fa-check-circle"></i> Kiitos! Evästeasetukset tallennettu.';
-                
-                document.body.appendChild(notification);
-                
-                // Show notification
-                setTimeout(() => {
-                    notification.style.opacity = '1';
-                    notification.style.transform = 'translateY(0)';
+                    banner.style.bottom = '0';
+                    banner.style.opacity = '1';
+                    console.log("Banner made visible");
                 }, 100);
                 
-                // Hide and remove notification after 3 seconds
-                setTimeout(() => {
+                // Add event listeners to buttons
+                const acceptButton = banner.querySelector('.cookie-accept');
+                const rejectButton = banner.querySelector('.cookie-reject');
+                const moreInfoButton = banner.querySelector('.cookie-more-info');
+                
+                acceptButton.addEventListener('click', function() {
+                    console.log("Accept button clicked");
+                    // Save consent to localStorage
+                    localStorage.setItem('cookieConsent', 'true');
+                    localStorage.setItem('cookieConsentDate', new Date().toISOString());
+                    
+                    // Hide banner
+                    banner.style.bottom = '-100px';
+                    banner.style.opacity = '0';
+                    setTimeout(() => {
+                        if (banner && banner.parentNode) {
+                            banner.parentNode.removeChild(banner);
+                        }
+                    }, 500);
+                    
+                    // Load Google Analytics
+                    (function() {
+                        var ga = document.createElement('script');
+                        ga.type = 'text/javascript';
+                        ga.async = true;
+                        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-9QDDPLJZ9P';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(ga, s);
+                        
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-9QDDPLJZ9P');
+                    })();
+                    
+                    // Show thank you message
+                    const notification = document.createElement('div');
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '20px';
+                    notification.style.right = '20px';
+                    notification.style.background = 'linear-gradient(135deg, #00ccaa, #0066cc)';
+                    notification.style.color = 'white';
+                    notification.style.padding = '15px 20px';
+                    notification.style.borderRadius = '10px';
+                    notification.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                    notification.style.zIndex = '1000';
                     notification.style.opacity = '0';
                     notification.style.transform = 'translateY(20px)';
+                    notification.style.transition = 'all 0.3s ease';
+                    notification.innerHTML = '<i class="fas fa-check-circle"></i> Kiitos! Evästeasetukset tallennettu.';
                     
+                    document.body.appendChild(notification);
+                    
+                    // Show notification
                     setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
+                        notification.style.opacity = '1';
+                        notification.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    // Hide and remove notification after 3 seconds
+                    setTimeout(() => {
+                        notification.style.opacity = '0';
+                        notification.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.parentNode.removeChild(notification);
+                            }
+                        }, 300);
+                    }, 3000);
+                    
+                    // Reload the page to apply Google Analytics
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                });
+                
+                rejectButton.addEventListener('click', function() {
+                    console.log("Reject button clicked");
+                    // Save rejection to localStorage
+                    localStorage.setItem('cookieReject', 'true');
+                    localStorage.setItem('cookieRejectDate', new Date().toISOString());
+                    
+                    // Hide banner
+                    banner.style.bottom = '-100px';
+                    banner.style.opacity = '0';
+                    setTimeout(() => {
+                        if (banner && banner.parentNode) {
+                            banner.parentNode.removeChild(banner);
                         }
-                    }, 300);
-                }, 3000);
-            });
-            
-            rejectButton.addEventListener('click', function() {
-                console.log("Reject button clicked");
-                // Save rejection to localStorage
-                localStorage.setItem('cookieReject', 'true');
-                localStorage.setItem('cookieRejectDate', new Date().toISOString());
-                
-                // Hide banner
-                banner.style.bottom = '-100px';
-                banner.style.opacity = '0';
-                setTimeout(() => {
-                    if (banner && banner.parentNode) {
-                        banner.parentNode.removeChild(banner);
-                    }
-                }, 500);
-                
-                // Show notification
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.right = '20px';
-                notification.style.background = 'linear-gradient(135deg, #555555, #333333)';
-                notification.style.color = 'white';
-                notification.style.padding = '15px 20px';
-                notification.style.borderRadius = '10px';
-                notification.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
-                notification.style.zIndex = '1000';
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(20px)';
-                notification.style.transition = 'all 0.3s ease';
-                notification.innerHTML = '<i class="fas fa-ban"></i> Evästeet on estetty. Jotkin toiminnot saattavat olla rajoitettuja.';
-                
-                document.body.appendChild(notification);
-                
-                // Show notification
-                setTimeout(() => {
-                    notification.style.opacity = '1';
-                    notification.style.transform = 'translateY(0)';
-                }, 100);
-                
-                // Hide and remove notification after 3 seconds
-                setTimeout(() => {
+                    }, 500);
+                    
+                    // Show notification
+                    const notification = document.createElement('div');
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '20px';
+                    notification.style.right = '20px';
+                    notification.style.background = 'linear-gradient(135deg, #555555, #333333)';
+                    notification.style.color = 'white';
+                    notification.style.padding = '15px 20px';
+                    notification.style.borderRadius = '10px';
+                    notification.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+                    notification.style.zIndex = '1000';
                     notification.style.opacity = '0';
                     notification.style.transform = 'translateY(20px)';
+                    notification.style.transition = 'all 0.3s ease';
+                    notification.innerHTML = '<i class="fas fa-ban"></i> Evästeet on estetty. Jotkin toiminnot saattavat olla rajoitettuja.';
                     
+                    document.body.appendChild(notification);
+                    
+                    // Show notification
                     setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
+                        notification.style.opacity = '1';
+                        notification.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    // Hide and remove notification after 3 seconds
+                    setTimeout(() => {
+                        notification.style.opacity = '0';
+                        notification.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.parentNode.removeChild(notification);
+                            }
+                        }, 300);
+                    }, 3000);
+                });
+                
+                moreInfoButton.addEventListener('click', function() {
+                    console.log("More info button clicked");
+                    
+                    // Get the current URL for debugging
+                    const currentUrl = window.location.href;
+                    console.log("Current URL:", currentUrl);
+                    
+                    // Check if we're in a local environment
+                    const isLocalEnvironment = window.location.hostname === 'localhost' || 
+                                              window.location.hostname === '127.0.0.1' || 
+                                              window.location.protocol === 'file:';
+                    
+                    console.log("Is local environment:", isLocalEnvironment);
+                    
+                    // Determine the correct path to the privacy policy page
+                    let privacyPolicyPath;
+                    
+                    // For file:// protocol, we need to use absolute paths
+                    if (window.location.protocol === 'file:') {
+                        console.log("Using file:// protocol");
+                        
+                        // Extract the root path of the project
+                        const rootPath = currentUrl.split('/pages/')[0];
+                        console.log("Root path:", rootPath);
+                        
+                        // Create absolute path to the privacy policy
+                        privacyPolicyPath = rootPath + '/pages/tietosuojakaytanto.html';
+                        console.log("Using absolute file path for file protocol");
+                    } 
+                    // For http/https in local environment
+                    else if (isLocalEnvironment) {
+                        // Get the base URL (protocol + hostname + port)
+                        const baseUrl = window.location.protocol + '//' + window.location.host;
+                        console.log("Base URL:", baseUrl);
+                        
+                        // Always use absolute path in local environment
+                        privacyPolicyPath = baseUrl + '/pages/tietosuojakaytanto.html';
+                        console.log("Using absolute path in local environment");
+                    } 
+                    // Production environment
+                    else {
+                        // Determine the correct path based on the current location
+                        if (path.includes('/pages/oppaat/') || 
+                            path.includes('/pages/arvostelut/') || 
+                            path.includes('/pages/blogi/')) {
+                            // We're in a deeper subdirectory (two levels deep)
+                            privacyPolicyPath = '../../tietosuojakaytanto.html';
+                            console.log("Deep subdirectory detected in production, using relative path: ../../tietosuojakaytanto.html");
+                        } else if (path.includes('/pages/')) {
+                            // We're directly in the pages directory (one level deep)
+                            privacyPolicyPath = 'tietosuojakaytanto.html';
+                            console.log("Pages directory detected in production, using relative path: tietosuojakaytanto.html");
+                        } else {
+                            // We're at the root
+                            privacyPolicyPath = 'pages/tietosuojakaytanto.html';
+                            console.log("Root directory detected in production, using path: pages/tietosuojakaytanto.html");
                         }
-                    }, 300);
-                }, 3000);
-            });
-            
-            moreInfoButton.addEventListener('click', function() {
-                console.log("More info button clicked");
-                
-                // Get the current URL for debugging
-                const currentUrl = window.location.href;
-                console.log("Current URL:", currentUrl);
-                
-                // Check if we're in a local environment
-                const isLocalEnvironment = window.location.hostname === 'localhost' || 
-                                          window.location.hostname === '127.0.0.1' || 
-                                          window.location.protocol === 'file:';
-                
-                console.log("Is local environment:", isLocalEnvironment);
-                
-                // Determine the correct path to the privacy policy page
-                let privacyPolicyPath;
-                
-                // For file:// protocol, we need to use absolute paths
-                if (window.location.protocol === 'file:') {
-                    console.log("Using file:// protocol");
-                    
-                    // Extract the root path of the project
-                    const rootPath = currentUrl.split('/pages/')[0];
-                    console.log("Root path:", rootPath);
-                    
-                    // Create absolute path to the privacy policy
-                    privacyPolicyPath = rootPath + '/pages/tietosuojakaytanto.html';
-                    console.log("Using absolute file path for file protocol");
-                } 
-                // For http/https in local environment
-                else if (isLocalEnvironment) {
-                    // Get the base URL (protocol + hostname + port)
-                    const baseUrl = window.location.protocol + '//' + window.location.host;
-                    console.log("Base URL:", baseUrl);
-                    
-                    // Always use absolute path in local environment
-                    privacyPolicyPath = baseUrl + '/pages/tietosuojakaytanto.html';
-                    console.log("Using absolute path in local environment");
-                } 
-                // Production environment
-                else {
-                    // Determine the correct path based on the current location
-                    if (path.includes('/pages/oppaat/') || 
-                        path.includes('/pages/arvostelut/') || 
-                        path.includes('/pages/blogi/')) {
-                        // We're in a deeper subdirectory (two levels deep)
-                        privacyPolicyPath = '../../tietosuojakaytanto.html';
-                        console.log("Deep subdirectory detected in production, using relative path: ../../tietosuojakaytanto.html");
-                    } else if (path.includes('/pages/')) {
-                        // We're directly in the pages directory (one level deep)
-                        privacyPolicyPath = 'tietosuojakaytanto.html';
-                        console.log("Pages directory detected in production, using relative path: tietosuojakaytanto.html");
-                    } else {
-                        // We're at the root
-                        privacyPolicyPath = 'pages/tietosuojakaytanto.html';
-                        console.log("Root directory detected in production, using path: pages/tietosuojakaytanto.html");
                     }
-                }
-                
-                console.log("Final privacy policy path:", privacyPolicyPath);
-                
-                // Open the privacy policy page in a new tab
-                window.open(privacyPolicyPath, '_blank');
-            });
+                    
+                    console.log("Final privacy policy path:", privacyPolicyPath);
+                    
+                    // Open the privacy policy page in a new tab
+                    window.open(privacyPolicyPath, '_blank');
+                });
+            } catch (error) {
+                console.error("Error creating banner:", error);
+            }
         } else {
             console.log("Banner not created: cookieConsent exists, cookieReject exists, or banner already present");
             console.log("cookieConsent:", localStorage.getItem('cookieConsent'));
@@ -391,6 +415,26 @@
             console.log("Banner already exists, no need for final attempt");
         }
     }, 3000); // Erittäin pitkä viive (3s)
+    
+    // 5. Tarkistetaan vielä kerran pitkän viiveen jälkeen
+    setTimeout(function() {
+        console.log("Final check after 5s delay");
+        if (!document.querySelector('.cookie-consent') && !localStorage.getItem('cookieConsent') && !localStorage.getItem('cookieReject')) {
+            console.log("Banner still not created after 5s, making absolute final attempt");
+            
+            // Tarkistetaan, onko Google Tag mahdollisesti ladattu ilman suostumusta
+            if (typeof gtag === 'function' && !localStorage.getItem('cookieConsent')) {
+                console.log("WARNING: Google Tag is loaded without consent. This might be causing issues.");
+                
+                // Pakota evästepalkki näkyviin
+                createBannerDirectly();
+            } else {
+                createBannerDirectly();
+            }
+        } else {
+            console.log("Banner exists or consent already given, no need for final check");
+        }
+    }, 5000); // Erittäin pitkä viive (5s)
     
     // Load Font Awesome if not already loaded
     if (!document.querySelector('link[href*="font-awesome"]')) {
