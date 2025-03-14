@@ -60,8 +60,8 @@
     }
     
     // Check if we're in production environment
-    const isProduction = window.location.hostname.includes('aipatrik.fi') || 
-                         window.location.hostname.includes('www.aipatrik.fi');
+    const isProduction = window.location.hostname.includes('aipatrik.com') || 
+                         window.location.hostname.includes('www.aipatrik.com');
     
     // For testing in production, we can force the banner to show
     // by adding a URL parameter: ?force_cookie_banner=true
