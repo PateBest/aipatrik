@@ -1,0 +1,5 @@
+[33mcommit 49a691b9c16588e9cba80c3bbba0b06fbe854f24[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: PateBest <aipatrik@outlook.com>
+Date:   Fri Mar 14 03:41:38 2025 +0200
+
+    Parannettu evästeiden suostumuspalkin näkyvyyttä tuotantoympäristössä käyttäen paikallisen ympäristön toteutusta mallina
