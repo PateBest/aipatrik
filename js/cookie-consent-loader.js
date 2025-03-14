@@ -285,7 +285,7 @@
                             </div>
                             <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; flex-wrap: wrap;">
                                 <button class="cookie-accept" style="background: linear-gradient(135deg, #00ccaa, #0066cc); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 100, 255, 0.4); white-space: nowrap; min-width: 120px; text-align: center;">Hyväksyn</button>
-                                <button class="cookie-reject" style="background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.15); padding: 0.6rem 1.5rem; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; white-space: nowrap; min-width: 120px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Kieltäydyn</button>
+                                <button class="cookie-reject" style="background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.15); padding: 0.6rem 1.5rem; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; white-space: nowrap; min-width: 120px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Vain välttämättömät</button>
                                 <button class="btn-secondary cookie-more-info" style="background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 0.6rem 1.5rem; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; white-space: nowrap; min-width: 120px; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Lisätietoja</button>
                             </div>
                         </div>
@@ -364,7 +364,7 @@
                             }, 500);
                             
                             // Show notification
-                            showNotification('Evästeet on estetty. Jotkin toiminnot saattavat olla rajoitettuja.', 'reject');
+                            showNotification('Vain välttämättömät evästeet käytössä. Jotkin toiminnot saattavat olla rajoitettuja.', 'reject');
                         });
                         
                         moreInfoButton.addEventListener('click', function() {
@@ -548,7 +548,7 @@
                             banner.style.color = 'white';
                             banner.style.textAlign = 'center';
                             banner.style.borderTop = '2px solid #00ccaa';
-                            banner.innerHTML = '<p>Käytämme evästeitä parantaaksemme sivuston käyttökokemusta. <button onclick="document.querySelector(\'.cookie-consent\').style.display=\'none\'; localStorage.setItem(\'cookieConsent\', \'true\'); window.location.reload();" style="background: #00ccaa; border: none; padding: 5px 10px; margin-left: 10px; cursor: pointer; border-radius: 5px;">Hyväksyn</button></p>';
+                            banner.innerHTML = '<p>Käytämme evästeitä parantaaksemme sivuston käyttökokemusta. <button onclick="document.querySelector(\'.cookie-consent\').style.display=\'none\'; localStorage.setItem(\'cookieConsent\', \'true\'); window.location.reload();" style="background: #00ccaa; border: none; padding: 5px 10px; margin-left: 10px; cursor: pointer; border-radius: 5px;">Hyväksyn</button> <button onclick="document.querySelector(\'.cookie-consent\').style.display=\'none\'; localStorage.setItem(\'cookieReject\', \'true\');" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px 10px; margin-left: 10px; cursor: pointer; border-radius: 5px; color: white;">Vain välttämättömät</button></p>';
                             
                             if (document.body) {
                                 document.body.appendChild(banner);
