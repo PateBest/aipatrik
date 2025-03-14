@@ -349,17 +349,48 @@
     console.log("Is production environment:", isProduction);
     console.log("Force banner parameter:", forceBanner);
     
-    // Always create the banner after a short delay, regardless of document state
-    setTimeout(function() {
-        console.log("Executing delayed banner creation");
-        createBannerDirectly();
-    }, 500);
+    // Varmistetaan, että DOM on valmis ennen palkin luomista
+    function ensureDomReady(callback) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', callback);
+            console.log("Waiting for DOMContentLoaded event");
+        } else {
+            // DOM on jo valmis
+            callback();
+            console.log("DOM already ready, executing callback immediately");
+        }
+    }
     
-    // Also try with window.onload as a fallback
+    // Käytetään useita eri tapoja varmistamaan, että palkki luodaan
+    
+    // 1. Varmistetaan, että DOM on valmis ja luodaan palkki
+    ensureDomReady(function() {
+        console.log("DOM ready, creating banner with delay");
+        setTimeout(createBannerDirectly, 1000); // Pidempi viive (1s)
+    });
+    
+    // 2. Luodaan palkki window.onload-tapahtumassa
     window.addEventListener('load', function() {
         console.log("Window load event fired");
-        setTimeout(createBannerDirectly, 100);
+        setTimeout(createBannerDirectly, 1500); // Vielä pidempi viive (1.5s)
     });
+    
+    // 3. Varmuuden vuoksi luodaan palkki myös viiveellä
+    setTimeout(function() {
+        console.log("Executing delayed banner creation (2s delay)");
+        createBannerDirectly();
+    }, 2000); // Pisin viive (2s)
+    
+    // 4. Viimeinen yritys vielä pidemmällä viiveellä
+    setTimeout(function() {
+        console.log("Final attempt to create banner (3s delay)");
+        if (!document.querySelector('.cookie-consent')) {
+            console.log("Banner still not created, making final attempt");
+            createBannerDirectly();
+        } else {
+            console.log("Banner already exists, no need for final attempt");
+        }
+    }, 3000); // Erittäin pitkä viive (3s)
     
     // Load Font Awesome if not already loaded
     if (!document.querySelector('link[href*="font-awesome"]')) {
