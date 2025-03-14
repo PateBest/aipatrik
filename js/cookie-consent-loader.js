@@ -59,9 +59,27 @@
         console.log("Cookie consent CSS already loaded");
     }
     
+    // Check if we're in production environment
+    const isProduction = window.location.hostname.includes('aipatrik.fi') || 
+                         window.location.hostname.includes('www.aipatrik.fi');
+    
+    // For testing in production, we can force the banner to show
+    // by adding a URL parameter: ?force_cookie_banner=true
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceBanner = urlParams.get('force_cookie_banner') === 'true';
+    
     // Function to create the banner directly if needed
     function createBannerDirectly() {
         console.log("Creating banner directly");
+        
+        // In production with force parameter, we'll show the banner regardless of localStorage
+        if (forceBanner && isProduction) {
+            console.log("Force banner parameter detected in production, showing banner regardless of localStorage");
+            // Clear localStorage for testing
+            localStorage.removeItem('cookieConsent');
+            localStorage.removeItem('cookieReject');
+        }
+        
         if (!localStorage.getItem('cookieConsent') && !localStorage.getItem('cookieReject') && !document.querySelector('.cookie-consent')) {
             console.log("Conditions met, creating banner");
             
@@ -305,6 +323,8 @@
     
     // Ensure the banner is created when the page is loaded
     console.log("Current document.readyState:", document.readyState);
+    console.log("Is production environment:", isProduction);
+    console.log("Force banner parameter:", forceBanner);
     
     // Always create the banner after a short delay, regardless of document state
     setTimeout(function() {
@@ -329,8 +349,10 @@
         console.log("Font Awesome already loaded");
     }
     
-    // Add a reset button for testing (only in development)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // Add a reset button for testing (in development or when forced in production)
+    if (window.location.hostname === 'localhost' || 
+        window.location.hostname === '127.0.0.1' || 
+        (isProduction && forceBanner)) {
         const resetButton = document.createElement('button');
         resetButton.textContent = 'Reset Cookie Consent';
         resetButton.style.position = 'fixed';
