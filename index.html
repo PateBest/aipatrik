@@ -2,14 +2,27 @@
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9QDDPLJZ9P"></script>
+    <!-- Google tag (gtag.js) - Only loads after cookie consent -->
     <script>
+      // Initialize dataLayer
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-9QDDPLJZ9P');
+      
+      // Check if user has already given consent
+      if (localStorage.getItem('cookieConsent') === 'true') {
+        // Load Google Analytics
+        (function() {
+          var ga = document.createElement('script');
+          ga.type = 'text/javascript';
+          ga.async = true;
+          ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-9QDDPLJZ9P';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(ga, s);
+          
+          gtag('js', new Date());
+          gtag('config', 'G-9QDDPLJZ9P');
+        })();
+      }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI PATRIK - Tekoälyn työkalut ja opastus</title>
@@ -23,6 +36,7 @@
     <link rel="stylesheet" href="css/mobile-nav.css">
     <link rel="stylesheet" href="css/ai-character.css">
     <link rel="stylesheet" href="css/active-nav.css">
+    <link rel="stylesheet" href="css/cookie-consent.css">
     
     <!-- Three.js library - Primary source -->
     <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
@@ -782,5 +796,6 @@
     <script src="js/main.js"></script>
     <script src="js/ai-character.js"></script>
     <script src="js/active-nav.js"></script>
+    <script src="js/cookie-consent-loader.js"></script>
 </body>
 </html> 
