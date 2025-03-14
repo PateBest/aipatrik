@@ -59,9 +59,26 @@
         console.log("Cookie consent CSS already loaded");
     }
     
-    // Check if we're in production environment
-    const isProduction = window.location.hostname.includes('aipatrik.com') || 
-                         window.location.hostname.includes('www.aipatrik.com');
+    // Debug current hostname
+    console.log("Current hostname:", window.location.hostname);
+    console.log("Current protocol:", window.location.protocol);
+    console.log("Current URL:", window.location.href);
+    
+    // Check if we're in production environment - multiple ways to detect
+    const isProductionByDomain = window.location.hostname.includes('aipatrik.com') || 
+                                window.location.hostname.includes('www.aipatrik.com');
+    
+    // Alternative check - if not localhost and not file protocol, assume production
+    const isProductionAlternative = window.location.hostname !== 'localhost' && 
+                                   window.location.hostname !== '127.0.0.1' && 
+                                   window.location.protocol !== 'file:';
+    
+    // Use either method to determine if we're in production
+    const isProduction = isProductionByDomain || isProductionAlternative;
+    
+    console.log("Is production by domain check:", isProductionByDomain);
+    console.log("Is production by alternative check:", isProductionAlternative);
+    console.log("Final production environment determination:", isProduction);
     
     // For testing in production, we can force the banner to show
     // by adding a URL parameter: ?force_cookie_banner=true
@@ -73,12 +90,18 @@
         console.log("Creating banner directly");
         
         // In production with force parameter, we'll show the banner regardless of localStorage
-        if (forceBanner && isProduction) {
-            console.log("Force banner parameter detected in production, showing banner regardless of localStorage");
+        if (forceBanner) {
+            console.log("Force banner parameter detected, showing banner regardless of localStorage");
             // Clear localStorage for testing
             localStorage.removeItem('cookieConsent');
             localStorage.removeItem('cookieReject');
         }
+        
+        // Check localStorage values for debugging
+        console.log("Current localStorage values:");
+        console.log("cookieConsent:", localStorage.getItem('cookieConsent'));
+        console.log("cookieReject:", localStorage.getItem('cookieReject'));
+        console.log("Banner already exists:", !!document.querySelector('.cookie-consent'));
         
         if (!localStorage.getItem('cookieConsent') && !localStorage.getItem('cookieReject') && !document.querySelector('.cookie-consent')) {
             console.log("Conditions met, creating banner");
@@ -352,7 +375,8 @@
     // Add a reset button for testing (in development or when forced in production)
     if (window.location.hostname === 'localhost' || 
         window.location.hostname === '127.0.0.1' || 
-        (isProduction && forceBanner)) {
+        window.location.protocol === 'file:' ||
+        forceBanner) {
         const resetButton = document.createElement('button');
         resetButton.textContent = 'Reset Cookie Consent';
         resetButton.style.position = 'fixed';
@@ -373,6 +397,7 @@
             localStorage.removeItem('cookieReject');
             localStorage.removeItem('cookieRejectDate');
             alert('Cookie consent reset. Refresh the page to see the banner again.');
+            location.reload(); // Reload the page to show the banner immediately
         });
         
         document.body.appendChild(resetButton);
