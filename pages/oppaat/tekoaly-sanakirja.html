@@ -12,8 +12,8 @@
       gtag('config', 'G-9QDDPLJZ9P');
     </script><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Midjourney AI Opas - Tekoälyllä Kuvien Luominen - AI Patrik</title>
-    <meta name="description" content="Kattava opas Midjourney AI -kuvageneraattoriin. Opi luomaan upeita kuvia tekoälyn avulla, ymmärrä työkalun ominaisuudet ja hinnoittelu, sekä saa vinkkejä parhaiden tulosten saavuttamiseen.">
+    <title>Tekoälyn sanakirja 2025 - AI Patrik</title>
+    <meta name="description" content="Kattava sanakirja tekoälyn keskeisistä termeistä ja käsitteistä - Ymmärrä tekoälyyn liittyvää sanastoa helposti ja selkeästi.">
     <!-- Favicon -->
     <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../../css/styles.css">
@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="../../css/ai-character.css">
     <link rel="stylesheet" href="../../css/active-nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Sivukohtaiset tyylit -->
     <style>
         /* Sosiaalisen median painikkeet ja kielenvaihto */
         .top-bar {
@@ -396,72 +398,100 @@
         }
         
         .guide-cta {
-            background: linear-gradient(135deg, rgba(0, 100, 200, 0.8), rgba(0, 150, 255, 0.8));
+            background: linear-gradient(135deg, rgba(0, 100, 200, 0.6), rgba(0, 150, 255, 0.6));
             padding: 2.5rem;
             border-radius: 16px;
-            margin-top: 3rem;
             text-align: center;
             color: white;
-            box-shadow: 0 10px 30px rgba(0, 100, 255, 0.4);
-            border: 1px solid rgba(0, 200, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 100, 255, 0.3);
+            border: 1px solid rgba(0, 200, 255, 0.2);
             position: relative;
             overflow: hidden;
+            margin: 1rem 0 3rem;
         }
         
-        .guide-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #ffffff, var(--accent-color));
-            opacity: 0.8;
-        }
-        
-        .guide-cta h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        .guide-cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);
         }
         
         .guide-cta p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
             text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .guide-cta .btn, .btn {
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            color: var(--primary-color);
+        .cta-button {
+            background: linear-gradient(135deg, #00a67e, #00c4a7);
+            color: white;
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3);
             border: none;
-            padding: 14px 28px;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 18px 40px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
+            transform: scale(1.05);
         }
         
-        .guide-cta .btn:hover, .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        .cta-button i {
+            margin-left: 12px;
+            font-size: 1.3em;
+            transition: transform 0.3s ease;
         }
         
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 15px 35px rgba(0, 166, 126, 0.4);
+            background: linear-gradient(135deg, #00b78f, #00d4b1);
+        }
+        
+        .cta-button:active {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 166, 126, 0.3);
+        }
+        
+        .cta-button:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Responsiivisuus */
         @media (max-width: 768px) {
-            .guide-section {
-                padding: 2rem;
+            .related-articles {
+                grid-template-columns: 1fr;
             }
             
-            .related-cards-grid {
-                grid-template-columns: 1fr;
+            .term-card {
+                padding: 1.2rem;
+            }
+            
+            .guide-cta {
+                padding: 2rem 1.5rem;
+            }
+            
+            .guide-cta h2 {
+                font-size: 1.8rem;
+            }
+            
+            .guide-cta p {
+                font-size: 1.1rem;
+            }
+            
+            .cta-button {
+                font-size: 1.1rem;
+                padding: 15px 30px;
             }
         }
         
@@ -744,6 +774,139 @@
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 166, 126, 0.3);
         }
+        
+        /* Sanakirjan term-card tyylit */
+        .term-card {
+            background: linear-gradient(135deg, rgba(0, 166, 126, 0.05), rgba(0, 196, 167, 0.1));
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .term-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .term-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .term-card p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+        
+        .term-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .term-card strong {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* Parannukset määritelmien ja esimerkkien erottuvuuteen */
+        .term-card p:first-of-type {
+            background: rgba(0, 166, 126, 0.08);
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid rgba(0, 166, 126, 0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .term-card p:last-of-type {
+            background: rgba(0, 100, 200, 0.08);
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid rgba(0, 100, 200, 0.3);
+        }
+        
+        .term-card p strong {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: inline-block;
+            margin-right: 5px;
+            text-shadow: 0 0 5px rgba(0, 166, 126, 0.2);
+        }
+        
+        /* Liittyvät artikkelit */
+        .related-articles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .related-article {
+            background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5));
+            padding: 1.5rem;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 150, 255, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .related-article h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);
+        }
+        
+        .related-article p {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            flex-grow: 1;
+        }
+        
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        
+        .read-more i {
+            margin-left: 5px;
+            transition: transform 0.2s ease;
+        }
+        
+        .read-more:hover {
+            color: #00d4b1;
+        }
+        
+        .read-more:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Responsiivisuus */
+        @media (max-width: 768px) {
+            .related-articles {
+                grid-template-columns: 1fr;
+            }
+            
+            .term-card {
+                padding: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -811,165 +974,37 @@
         
         <div class="container">
             <div class="section-header" style="text-align: center; margin-bottom: 40px; position: relative; z-index: 1;">
-                <h2 class="section-title">Midjourney AI Opas</h2>
+                <h2 class="section-title">Tekoälyn sanakirja 2025</h2>
                 <p style="font-size: 1.2rem; line-height: 1.5; max-width: 800px; margin: 1rem auto 0; color: #e0e0e0;">
-                    Kattava opas Midjourney AI -kuvageneraattoriin. Opi luomaan upeita kuvia tekoälyn avulla, ymmärrä työkalun ominaisuudet ja hinnoittelu, sekä saa vinkkejä parhaiden tulosten saavuttamiseen.
+                    Kattava opas tekoälyn keskeisiin termeihin ja käsitteisiin - Ymmärrä tekoälymaailman sanastoa helposti ja selkeästi
                 </p>
             </div>
             
             <div class="guide-container">
                 <!-- SISÄLTÖ ALKAA TÄSTÄ -->
                 
-                <!-- Esimerkki sisältöosio - kopioi tämä rakenne jokaiselle osiolle -->
+                <!-- Johdanto -->
                 <div class="guide-section">
-                    <h2>Mikä on Midjourney AI?</h2>
+                    <h2>Johdanto tekoälyn sanastoon</h2>
                     
                     <div class="image-container" style="text-align: center; margin: 30px 0;">
-                        <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=Midjourney+AI+Kuvageneraattori" alt="Midjourney AI kuvageneraattori käyttöliittymä" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourney AI luo upeita kuvia tekstikuvausten perusteella</p>
+                        <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=Tekoälyn+sanakirja" alt="Tekoälyn sanakirja" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoälyn termistö voi tuntua monimutkaiselta, mutta tämä sanakirja auttaa sinua ymmärtämään keskeiset käsitteet</p>
                     </div>
                     
                     <div class="guide-content">
                         <p>
-                            Midjourney on yksi suosituimmista tekoälypohjaisista kuvageneraattoreista, joka luo hämmästyttävän yksityiskohtaisia ja visuaalisesti vaikuttavia kuvia pelkän tekstikuvauksen perusteella. Toisin kuin monet muut tekoälytyökalut, Midjourney toimii pääasiassa Discord-alustan kautta, mikä tekee siitä ainutlaatuisen ja yhteisöllisen työkalun.
+                            Tekoäly on nopeasti kehittyvä ala, joka tuo mukanaan jatkuvasti uusia termejä ja käsitteitä. Tämä sanakirja on luotu auttamaan sinua ymmärtämään tekoälyyn liittyvää sanastoa, olipa kyseessä sitten <a href="../tyokalut.html">tekoälytyökalujen</a> käyttö, alan uutisten seuraaminen tai tekoälyyn liittyvien keskustelujen ymmärtäminen.
                         </p>
                         
                         <p>
-                            Midjourney käyttää kehittynyttä koneoppimista ja diffuusiomalleja luodakseen kuvia, jotka voivat olla tyyliltään kaikkea valokuvamaisen realistisesta taiteellisiin maalauksiin ja abstrakteihin teoksiin. Käyttäjät voivat ohjata kuvan tyyliä, tunnelmaa ja yksityiskohtia yksinkertaisilla tekstikomennoilla.
+                            Olemme koonneet tähän sanakirjaan keskeisimmät tekoälyyn liittyvät termit ja selittäneet ne selkeästi ja ymmärrettävästi. Termit on järjestetty aihepiireittäin, jotta löydät helposti etsimäsi tiedon. Jokaisen termin kohdalla on myös käytännön esimerkkejä, jotka auttavat ymmärtämään käsitteen merkitystä ja soveltamista.
                         </p>
-                        
-                        <p>
-                            Midjourney on erityisen suosittu:
-                        </p>
-                        
-                        <ul>
-                            <li>Taiteilijoiden ja suunnittelijoiden keskuudessa inspiraation lähteenä</li>
-                            <li>Markkinoinnin ja mainonnan ammattilaisten työkaluna visuaalisen sisällön luomiseen</li>
-                            <li>Pelikehittäjien ja elokuvantekijöiden konseptitaiteen tuottamiseen</li>
-                            <li>Harrastajien ja luovien ihmisten työkaluna, joka mahdollistaa ideoiden visualisoinnin ilman perinteisiä taiteellisia taitoja</li>
-                        </ul>
-                        
-                        <div class="guide-tips">
-                            <h4>Huomioitavaa</h4>
-                            <p>
-                                Toisin kuin jotkin kilpailijat, Midjourney ei tarjoa ilmaista kokeiluversiota. Palvelun käyttö edellyttää kuukausimaksullista tilausta, jonka hinta alkaa 10 dollarista kuukaudessa. Tämä kustannus on kuitenkin monien mielestä perusteltu, kun huomioidaan kuvien laatu ja työkalun monipuolisuus.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="section-divider"></div>
-                
-                <!-- Toinen sisältöosio -->
-                <div class="guide-section">
-                    <h2>Midjourney AI:n käyttöönotto</h2>
-                    
-                    <div class="image-container" style="text-align: center; margin: 30px 0;">
-                        <img src="https://placehold.co/800x400/3d8bfd/FFFFFF/png?text=Midjourney+Käyttöönotto" alt="Midjourney käyttöönotto Discord-palvelussa" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourneyn käyttöönotto on yksinkertaista Discord-palvelun kautta</p>
-                    </div>
-                    
-                    <div class="guide-content">
-                        <h3>Vaihe 1: Discord-tilin luominen</h3>
-                        <p>
-                            Koska Midjourney toimii pääasiassa Discord-alustan kautta, tarvitset ensin Discord-tilin. Jos sinulla ei vielä ole tiliä, voit luoda sellaisen osoitteessa <a href="https://discord.com/" target="_blank">discord.com</a>. Discord on ilmainen viestintäalusta, joka on suosittu erityisesti pelaajien ja yhteisöjen keskuudessa.
-                        </p>
-                        
-                        <h3>Vaihe 2: Midjourney-tilauksen hankkiminen</h3>
-                        <p>
-                            Siirry Midjourneyn viralliselle verkkosivustolle osoitteessa <a href="https://www.midjourney.com/" target="_blank">midjourney.com</a> ja kirjaudu sisään Discord-tililläsi. Valitse sopiva tilaussuunnitelma:
-                        </p>
-                        <ul>
-                            <li><strong>Basic-suunnitelma</strong> (10 $/kk): Sisältää 3,3 tuntia nopeaa GPU-aikaa, mikä riittää noin 200 kuvan luomiseen kuukaudessa.</li>
-                            <li><strong>Standard-suunnitelma</strong> (30 $/kk): Sisältää 15 tuntia nopeaa GPU-aikaa ja rajoittamattoman määrän "Relax"-tilassa tehtäviä kuvia.</li>
-                            <li><strong>Pro-suunnitelma</strong> (60 $/kk): Sisältää 30 tuntia nopeaa GPU-aikaa, rajoittamattoman määrän "Relax"-tilassa tehtäviä kuvia, ja mahdollisuuden käyttää "Stealth"-tilaa yksityisyyden suojaamiseksi.</li>
-                            <li><strong>Mega-suunnitelma</strong> (120 $/kk): Sisältää 60 tuntia nopeaa GPU-aikaa ja kaikki Pro-suunnitelman ominaisuudet.</li>
-                        </ul>
-                        <p>
-                            Vuositilauksissa saat 20 % alennuksen kuukausihinnasta.
-                        </p>
-                        
-                        <h3>Vaihe 3: Midjourney-botin lisääminen Discord-palvelimelle</h3>
-                        <p>
-                            Kun olet hankkinut tilauksen, voit käyttää Midjourneyta joko:
-                        </p>
-                        <ul>
-                            <li>Midjourneyn virallisella Discord-palvelimella, johon sinut lisätään automaattisesti tilauksen yhteydessä</li>
-                            <li>Lisäämällä Midjourney-botin omalle Discord-palvelimellesi</li>
-                        </ul>
-                        
-                        <div class="guide-example">
-                            <h4>Esimerkki: Midjourney-botin lisääminen omalle palvelimelle</h4>
-                            <p>
-                                1. Luo uusi Discord-palvelin tai käytä olemassa olevaa palvelinta, jolla sinulla on ylläpitäjän oikeudet.<br>
-                                2. Siirry Midjourneyn verkkosivustolle ja etsi "Add to Server" -painike.<br>
-                                3. Valitse palvelin, jolle haluat lisätä botin.<br>
-                                4. Hyväksy tarvittavat käyttöoikeudet.<br>
-                                5. Botti lisätään palvelimellesi, ja voit alkaa käyttää sitä välittömästi.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="section-divider"></div>
-                
-                <!-- Kolmas sisältöosio -->
-                <div class="guide-section">
-                    <h2>Midjourney AI:n tehokas käyttö</h2>
-                    
-                    <div class="image-container" style="text-align: center; margin: 30px 0;">
-                        <img src="https://placehold.co/800x400/6f42c1/FFFFFF/png?text=Midjourney+Tehokas+Käyttö" alt="Midjourney AI:n tehokas käyttö ja promptien kirjoittaminen" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tehokkailla prompteilla saat Midjourneystä parhaat tulokset</p>
-                    </div>
-                    
-                    <div class="guide-content">
-                        <h3>Peruskäyttö ja komennot</h3>
-                        <p>
-                            Midjourneyn käyttö perustuu tekstikehotteisiin eli "prompteihin". Kaikki komennot alkavat kauttaviivalla (/). Tärkeimmät komennot ovat:
-                        </p>
-                        <ul>
-                            <li><strong>/imagine</strong> - Luo kuvia tekstikuvauksen perusteella</li>
-                            <li><strong>/blend</strong> - Yhdistää 2-5 kuvaa yhdeksi uudeksi kuvaksi</li>
-                            <li><strong>/describe</strong> - Analysoi kuvaa ja ehdottaa prompteja sen perusteella</li>
-                            <li><strong>/fast</strong> ja <strong>/relax</strong> - Vaihtaa nopeamman ja hitaamman (mutta ilmaisen) tilan välillä</li>
-                        </ul>
-                        
-                        <h3>Tehokkaiden promptien kirjoittaminen</h3>
-                        <p>
-                            Hyvän promptin kirjoittaminen on avain onnistuneisiin kuviin. Tässä muutamia vinkkejä:
-                        </p>
-                        <ol>
-                            <li><strong>Ole tarkka ja kuvaileva</strong> - Mitä yksityiskohtaisempi promptisi on, sitä paremmin Midjourney ymmärtää mitä haluat.</li>
-                            <li><strong>Käytä tyyliviittauksia</strong> - Voit viitata tiettyihin taiteilijoihin, taidesuuntauksiin tai medioihin (esim. "öljymaalaus", "valokuvamainen", "Salvador Dalin tyyliin").</li>
-                            <li><strong>Määrittele valaistus ja tunnelma</strong> - Esimerkiksi "auringonlasku", "dramaattinen valaistus" tai "utuinen tunnelma".</li>
-                            <li><strong>Käytä parametreja</strong> - Voit hienosäätää tuloksia parametreilla kuten --ar (kuvasuhde), --q (laatu) ja --stylize (tyylitaso).</li>
-                        </ol>
-                        
-                        <div class="guide-example">
-                            <h4>Esimerkki: Tehokas prompt</h4>
-                            <p>
-                                <code>/imagine prompt: valokuvamainen muotokuva viikinkisoturista, dramaattinen valaistus, yksityiskohtainen haarniska, taustalla myrskyinen meri, cinematic lighting, 8k resolution --ar 2:3 --q 2</code>
-                            </p>
-                            <p>
-                                Tämä prompt määrittelee selkeästi aiheen (viikinkisoturi), tyylin (valokuvamainen), valaistuksen (dramaattinen), taustan (myrskyinen meri) ja tekniset parametrit (kuvasuhde 2:3, laatutaso 2).
-                            </p>
-                        </div>
-                        
-                        <h3>Kuvien jatkokäsittely</h3>
-                        <p>
-                            Kun Midjourney on luonut neljä kuvavaihtoehtoa, voit:
-                        </p>
-                        <ul>
-                            <li><strong>Upscale (U1-U4)</strong> - Suurenna valittu kuva parempilaatuiseksi</li>
-                            <li><strong>Variation (V1-V4)</strong> - Luo uusia variaatioita valitusta kuvasta</li>
-                            <li><strong>Regenerate</strong> - Luo kokonaan uudet neljä kuvaa samalla promptilla</li>
-                            <li><strong>Web-käyttöliittymä</strong> - Käytä Midjourneyn web-käyttöliittymää kuvien hallintaan, muokkaamiseen ja lataamiseen</li>
-                        </ul>
                         
                         <div class="guide-tips">
                             <h4>Vinkki</h4>
                             <p>
-                                Kokeile erilaisia tyylejä ja parametreja löytääksesi itsellesi sopivimmat asetukset. Tallenna onnistuneet promptit myöhempää käyttöä varten. Monet käyttäjät pitävät "promptikirjastoa", johon he keräävät toimivia prompteja eri tarkoituksiin.
+                                Voit käyttää tätä sanakirjaa sekä hakuteoksena että oppimateriaalina. Jos haluat saada yleiskuvan tekoälyn keskeisistä käsitteistä, suosittelemme lukemaan sanakirjan alusta loppuun. Jos taas etsit tietoa tietystä termistä, voit siirtyä suoraan kyseiseen osioon.
                             </p>
                         </div>
                     </div>
@@ -977,51 +1012,356 @@
                 
                 <div class="section-divider"></div>
                 
-                <!-- Neljäs sisältöosio -->
+                <!-- Tekoälyn peruskäsitteet -->
                 <div class="guide-section">
-                    <h2>Tietoturva ja yksityisyys</h2>
+                    <h2>Tekoälyn peruskäsitteet</h2>
+                    
+                    <div class="guide-content">
+                        <p>
+                            Tässä osiossa käsittelemme tekoälyn keskeisimmät peruskäsitteet, jotka luovat pohjan koko alan ymmärtämiselle. Nämä termit ovat olennaisia kaikille, jotka haluavat perehtyä tekoälyyn.
+                        </p>
+                        
+                        <div class="term-card">
+                            <h3>Tekoäly (Artificial Intelligence, AI)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoäly viittaa tietokonejärjestelmiin, jotka pystyvät suorittamaan tehtäviä, jotka tyypillisesti vaativat ihmisälyä. Näitä ovat esimerkiksi visuaalinen havainnointi, puheentunnistus, päätöksenteko ja kielten kääntäminen.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> ChatGPT on tekoälyjärjestelmä, joka pystyy ymmärtämään ja tuottamaan ihmisen kaltaista tekstiä, vastaamaan kysymyksiin ja auttamaan erilaisissa tehtävissä.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Koneoppiminen (Machine Learning, ML)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Koneoppiminen on tekoälyn osa-alue, jossa tietokoneet "oppivat" datasta ilman, että niitä on erikseen ohjelmoitu tiettyyn tehtävään. Järjestelmä parantaa suorituskykyään kokemuksen myötä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Netflixin suosittelujärjestelmä oppii katseluhistoriastasi ja suosittelee elokuvia ja sarjoja, joista saattaisit pitää.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Syväoppiminen (Deep Learning)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Syväoppiminen on koneoppimisen osa-alue, joka käyttää neuroverkkoja, joissa on useita kerroksia (syviä neuroverkkoja) monimutkaiseen tiedon käsittelyyn ja mallintamiseen.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Kasvojentunnistusjärjestelmät käyttävät syväoppimista tunnistaakseen ja erottaakseen ihmiskasvot kuvista tai videoista.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Neuroverkko (Neural Network)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Neuroverkko on koneoppimisen malli, joka on saanut inspiraationsa ihmisaivojen toiminnasta. Se koostuu toisiinsa kytketyistä "neuroneista", jotka käsittelevät ja välittävät tietoa.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Kuvantunnistusjärjestelmät käyttävät neuroverkkoja tunnistaakseen objekteja, eläimiä tai ihmisiä kuvista.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Algoritmi (Algorithm)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Algoritmi on vaiheittainen ohje tai prosessi, jota tietokone seuraa tehtävän suorittamiseksi. Tekoälyssä algoritmit määrittävät, miten järjestelmä oppii datasta ja tekee päätöksiä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Googlen hakualgoritmi määrittää, mitkä verkkosivut näytetään hakutuloksissa ja missä järjestyksessä.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <!-- Kielimallit ja generatiivinen tekoäly -->
+                <div class="guide-section">
+                    <h2>Kielimallit ja generatiivinen tekoäly</h2>
+                    
+                    <div class="guide-content">
+                        <p>
+                            Tässä osiossa käsittelemme kielimalleihin ja generatiiviseen tekoälyyn liittyviä termejä. Nämä teknologiat ovat mullistaneet tavan, jolla tekoäly voi luoda tekstiä, kuvia ja muuta sisältöä.
+                        </p>
+                        
+                        <div class="term-card">
+                            <h3>Kielimalli (Language Model)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Kielimalli on tekoälyjärjestelmä, joka on koulutettu ymmärtämään ja tuottamaan ihmiskieltä. Se oppii kielen rakenteita, sanastoa ja merkityksiä suurista tekstiaineistoista.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> GPT (Generative Pre-trained Transformer) on kielimalli, joka pystyy tuottamaan johdonmukaista ja kontekstiin sopivaa tekstiä.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Generatiivinen tekoäly (Generative AI)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Generatiivinen tekoäly viittaa tekoälyjärjestelmiin, jotka pystyvät luomaan uutta sisältöä, kuten tekstiä, kuvia, musiikkia tai videota, oppimansa perusteella.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> DALL-E on generatiivinen tekoälyjärjestelmä, joka luo kuvia tekstikuvausten perusteella.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Transformer-malli (Transformer Model)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Transformer on neuroverkkoarkkitehtuuri, joka on erityisen tehokas käsittelemään sekvenssidataa, kuten tekstiä. Se käyttää "huomiomekanismia" (attention mechanism) ymmärtääkseen sanojen välisiä suhteita.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> BERT (Bidirectional Encoder Representations from Transformers) on Googlen kehittämä transformer-malli, jota käytetään hakukoneiden tulosten parantamiseen.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Hienosäätö (Fine-tuning)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Hienosäätö on prosessi, jossa ennalta koulutettu kielimalli koulutetaan uudelleen tiettyyn tehtävään tai aihealueeseen sopivaksi pienemmällä, kohdennetulla datasetillä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Lääketieteellinen chatbot voidaan luoda hienosäätämällä yleiskäyttöinen kielimalli lääketieteellisellä tekstiaineistolla.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Hallusinaatio (Hallucination)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Hallusinaatio viittaa tilanteeseen, jossa kielimalli tuottaa virheellistä tai keksittyä tietoa, joka vaikuttaa uskottavalta mutta ei perustu todellisuuteen.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Kielimalli saattaa keksiä olemattomia tutkimuksia, kirjoja tai tapahtumia vastauksena käyttäjän kysymykseen.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Kehote (Prompt)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Kehote on käyttäjän antama syöte tai ohje generatiiviselle tekoälylle, joka ohjaa mallin tuottamaa sisältöä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> "Kirjoita runo auringonlaskusta meren rannalla" on kehote, joka ohjaa kielimallia tuottamaan tietynlaisen runon.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Kehotesuunnittelu (Prompt Engineering)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Kehotesuunnittelu on taito muotoilla kehotteita siten, että ne tuottavat halutunlaisia vastauksia generatiiviselta tekoälyltä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Sen sijaan, että kysyisi "Kerro minulle ilmastonmuutoksesta", kehotesuunnittelija saattaisi muotoilla kehotteen muotoon "Selitä ilmastonmuutoksen syyt, vaikutukset ja mahdolliset ratkaisut 10-vuotiaalle lapselle, käyttäen yksinkertaisia esimerkkejä."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <!-- Tekoälyn etiikka ja vastuullisuus -->
+                <div class="guide-section">
+                    <h2>Tekoälyn etiikka ja vastuullisuus</h2>
+                    
+                    <div class="guide-content">
+                        <p>
+                            Tässä osiossa käsittelemme tekoälyn etiikkaan ja vastuulliseen kehittämiseen liittyviä termejä. Nämä käsitteet ovat yhä tärkeämpiä tekoälyn yleistyessä yhteiskunnassamme.
+                        </p>
+                        
+                        <div class="term-card">
+                            <h3>Tekoälyn etiikka (AI Ethics)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyn etiikka on tutkimusala, joka keskittyy moraalisiin kysymyksiin ja periaatteisiin tekoälyn kehittämisessä, käyttöönotossa ja käytössä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Tekoälyn etiikan kysymyksiä ovat esimerkiksi: Miten varmistamme, että tekoäly ei syrji tiettyjä ihmisryhmiä? Kuka on vastuussa tekoälyn tekemistä päätöksistä?
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Algoritminen harha (Algorithmic Bias)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Algoritminen harha viittaa tilanteeseen, jossa tekoälyjärjestelmä tuottaa systemaattisesti puolueellisia tai epäoikeudenmukaisia tuloksia tietyille ryhmille.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Rekrytointitekoäly, joka suosii miespuolisia hakijoita, koska se on koulutettu datalla, jossa miesvaltaiset alat ovat yliedustettuina.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Läpinäkyvyys (Transparency)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Läpinäkyvyys tekoälyssä viittaa siihen, kuinka hyvin tekoälyjärjestelmän toimintaa ja päätöksentekoprosessia voidaan ymmärtää ja selittää.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Lääketieteellinen tekoäly, joka pystyy selittämään, mitkä tekijät vaikuttivat sen tekemään diagnoosiin.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Selitettävyys (Explainability)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Selitettävyys viittaa tekoälyjärjestelmän kykyyn selittää päätöksensä ja toimintansa ihmisille ymmärrettävällä tavalla.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Pankki, joka käyttää tekoälyä lainapäätöksissä, voi tarjota asiakkaalle selkeän selityksen siitä, miksi lainahakemus hyväksyttiin tai hylättiin.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Vastuullinen tekoäly (Responsible AI)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Vastuullinen tekoäly viittaa tekoälyjärjestelmien kehittämiseen ja käyttöön tavalla, joka on eettinen, läpinäkyvä, oikeudenmukainen ja kunnioittaa ihmisten oikeuksia ja yksityisyyttä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Yritys, joka testaa tekoälyjärjestelmäänsä erilaisten väestöryhmien kanssa varmistaakseen, että se toimii oikeudenmukaisesti kaikille.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Tekoälyn turvallisuus (AI Safety)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyn turvallisuus keskittyy varmistamaan, että tekoälyjärjestelmät toimivat turvallisesti, luotettavasti ja ennustettavasti, eivätkä aiheuta vahinkoa ihmisille tai yhteiskunnalle.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Itseohjautuvan auton turvallisuusprotokollat, jotka varmistavat, että auto pysähtyy turvallisesti, jos se havaitsee jalankulkijan tiellä.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <!-- Tekoälyn sovellukset ja käyttökohteet -->
+                <div class="guide-section">
+                    <h2>Tekoälyn sovellukset ja käyttökohteet</h2>
+                    
+                    <div class="guide-content">
+                        <p>
+                            Tässä osiossa käsittelemme tekoälyn erilaisia sovelluksia ja käyttökohteita eri aloilla. Tekoäly on mullistanut monia toimialoja ja sen käyttö laajenee jatkuvasti uusille alueille.
+                        </p>
+                        
+                        <div class="term-card">
+                            <h3>Luonnollisen kielen käsittely (Natural Language Processing, NLP)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Luonnollisen kielen käsittely on tekoälyn osa-alue, joka keskittyy tietokoneiden ja ihmiskielen väliseen vuorovaikutukseen. Se mahdollistaa tietokoneiden kyvyn ymmärtää, tulkita ja tuottaa ihmiskieltä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Siri, Alexa ja Google Assistant ovat virtuaaliavustajia, jotka käyttävät NLP:tä ymmärtääkseen käyttäjien puhetta ja vastatakseen kysymyksiin.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Konenäkö (Computer Vision)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Konenäkö on tekoälyn osa-alue, joka mahdollistaa tietokoneiden kyvyn "nähdä" ja tulkita visuaalista dataa, kuten kuvia ja videoita.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Itseohjautuvat autot käyttävät konenäköä tunnistaakseen liikennemerkit, jalankulkijat ja muut ajoneuvot.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Suosittelujärjestelmä (Recommendation System)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Suosittelujärjestelmä on tekoälysovellus, joka analysoi käyttäjän mieltymyksiä ja käyttäytymistä suositellakseen tuotteita, palveluita tai sisältöä, josta käyttäjä todennäköisesti pitää.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Amazonin "Asiakkaat, jotka ostivat tämän tuotteen, ostivat myös..." -suositukset perustuvat suosittelujärjestelmään.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Ennustava analytiikka (Predictive Analytics)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Ennustava analytiikka käyttää tekoälyä ja tilastollisia menetelmiä analysoidakseen nykyistä ja historiallista dataa tehdäkseen ennusteita tulevista tapahtumista tai käyttäytymisestä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Pankit käyttävät ennustavaa analytiikkaa arvioidakseen lainahakijoiden luottoriskiä ja petosyritysten tunnistamiseen.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Robotiikka (Robotics)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Robotiikka yhdistää tekoälyn fyysisiin laitteisiin, jotka voivat suorittaa tehtäviä automaattisesti tai ihmisen ohjauksessa.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Teollisuusrobotit, jotka kokoonpanevat autoja tehtaissa, tai kirurgiset robotit, jotka avustavat lääkäreitä leikkauksissa.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Tekoälyavusteinen terveydenhuolto (AI-Assisted Healthcare)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyavusteinen terveydenhuolto käyttää tekoälyä parantamaan terveydenhuollon palveluita, kuten diagnoosien tekemistä, hoitosuunnitelmien laatimista ja lääketieteellisen tutkimuksen edistämistä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Tekoäly, joka analysoi röntgenkuvia tunnistaakseen syövän merkkejä aikaisemmin ja tarkemmin kuin ihmislääkärit.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <!-- Tekoälyn tulevaisuus ja haasteet -->
+                <div class="guide-section">
+                    <h2>Tekoälyn tulevaisuus ja haasteet</h2>
                     
                     <div class="image-container" style="text-align: center; margin: 30px 0;">
-                        <img src="https://placehold.co/800x400/20c997/FFFFFF/png?text=Midjourney+Tietoturva" alt="Midjourney tietoturva ja yksityisyys" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourneyn käytössä on hyvä huomioida tietoturva- ja yksityisyysnäkökohdat</p>
+                        <img src="https://placehold.co/800x400/00a67e/FFFFFF/png?text=Tekoälyn+tulevaisuus" alt="Tekoälyn tulevaisuus" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Tekoälyn kehitys tuo mukanaan sekä mahdollisuuksia että haasteita</p>
                     </div>
                     
                     <div class="guide-content">
-                        <h3>Julkiset vs. yksityiset kuvat</h3>
                         <p>
-                            Oletusarvoisesti kaikki Midjourneyllä luodut kuvat ovat julkisia ja näkyvät Midjourneyn julkisessa galleriassa. Tämä tarkoittaa, että muut käyttäjät voivat nähdä luomasi kuvat ja käyttämäsi promptit. Tämä on tärkeä huomioida, jos aiot luoda arkaluontoista tai liiketoimintaan liittyvää sisältöä.
+                            Tekoälyn nopea kehitys herättää kysymyksiä sen tulevaisuudesta ja vaikutuksista yhteiskuntaan. Tässä osiossa käsittelemme tekoälyn tulevaisuuteen liittyviä käsitteitä ja haasteita.
                         </p>
                         
-                        <p>
-                            Jos tarvitset yksityisyyttä kuvillesi, sinun on hankittava Pro- tai Mega-tilaus, joka sisältää "Stealth"-tilan. Stealth-tilassa luomasi kuvat eivät näy julkisessa galleriassa, ja vain sinä voit nähdä ne.
-                        </p>
+                        <div class="term-card">
+                            <h3>Yleinen tekoäly (Artificial General Intelligence, AGI)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Yleinen tekoäly viittaa hypoteettiseen tekoälyyn, joka pystyy ymmärtämään, oppimaan ja suorittamaan mitä tahansa älyllistä tehtävää, jonka ihminen voi tehdä.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Toisin kuin nykyiset tekoälyt, jotka ovat erikoistuneet tiettyihin tehtäviin (kuten kuvantunnistus tai tekstin tuottaminen), AGI voisi oppia pelaamaan shakkia, kirjoittamaan runoja ja suunnittelemaan rakennuksia ilman erillistä koulutusta jokaiseen tehtävään.
+                            </p>
+                        </div>
                         
-                        <h3>Tekijänoikeudet ja käyttöoikeudet</h3>
-                        <p>
-                            Midjourneyn käyttöehdot määrittelevät, että sinulla on oikeudet luomiisi kuviin, mutta Midjourney pidättää myös oikeuden käyttää niitä. Tämä on tärkeä huomioida, jos aiot käyttää kuvia kaupallisiin tarkoituksiin.
-                        </p>
+                        <div class="term-card">
+                            <h3>Supertekoäly (Artificial Superintelligence, ASI)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Supertekoäly on hypoteettinen tekoäly, joka ylittää ihmisen älyllisen kapasiteetin kaikilla osa-alueilla, mukaan lukien luovuus, sosiaalinen älykkyys ja ongelmanratkaisu.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Supertekoäly voisi ratkaista monimutkaisia tieteellisiä ongelmia, kuten syövän parantamisen tai ilmastonmuutoksen torjumisen, tavalla, joka ylittää ihmiskunnan kollektiivisen älykkyyden.
+                            </p>
+                        </div>
                         
-                        <ul>
-                            <li>Basic- ja Standard-tilauksilla luotuja kuvia voi käyttää kaupallisesti, jos yrityksesi vuosittainen liikevaihto on alle 1 miljoonaa dollaria.</li>
-                            <li>Yli miljoonan dollarin liikevaihdon yritysten on käytettävä Pro- tai Mega-tilausta kaupallisiin tarkoituksiin.</li>
-                            <li>Kaikki käyttäjät saavat täydet oikeudet luomiinsa kuviin, mutta Midjourney pidättää oikeuden käyttää niitä palvelunsa parantamiseen ja markkinointiin.</li>
-                        </ul>
+                        <div class="term-card">
+                            <h3>Tekoälyn säätely (AI Regulation)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyn säätely viittaa lakeihin, säännöksiin ja ohjeisiin, joiden tarkoituksena on varmistaa tekoälyn turvallinen, eettinen ja vastuullinen kehitys ja käyttö.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> EU:n tekoälyasetus (AI Act) on ensimmäinen kattava lainsäädäntökehys, joka luokittelee tekoälyjärjestelmät niiden riskitason mukaan ja asettaa vaatimuksia korkean riskin järjestelmille.
+                            </p>
+                        </div>
                         
-                        <h3>Sisältörajoitukset</h3>
-                        <p>
-                            Midjourney noudattaa tiukkoja sisältörajoituksia, jotka kieltävät:
-                        </p>
-                        <ul>
-                            <li>Aikuisviihteen ja seksuaalisen sisällön luomisen</li>
-                            <li>Väkivaltaisen tai järkyttävän sisällön luomisen</li>
-                            <li>Poliittisesti arkaluontoisen sisällön luomisen</li>
-                            <li>Tekijänoikeudella suojattujen hahmojen tai brändien käytön ilman lupaa</li>
-                        </ul>
+                        <div class="term-card">
+                            <h3>Tekoälyn vaikutus työelämään (AI Impact on Employment)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyn vaikutus työelämään viittaa siihen, miten tekoälyn kehitys ja käyttöönotto muuttavat työmarkkinoita, työtehtäviä ja ammatteja.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Automatisaatio voi korvata rutiininomaisia tehtäviä, kuten kassatyöntekijöiden tai kirjanpitäjien työtä, mutta samalla se voi luoda uusia työpaikkoja tekoälyn kehittämisessä, valvonnassa ja soveltamisessa.
+                            </p>
+                        </div>
                         
                         <div class="guide-tips">
-                            <h4>Huomioitavaa</h4>
+                            <h4>Vinkki</h4>
                             <p>
-                                Midjourney käyttää tekoälyä sisällön moderointiin, ja sääntöjen rikkominen voi johtaa tilin väliaikaiseen tai pysyvään sulkemiseen. Jos olet epävarma, onko suunnittelemasi sisältö sallittua, on parempi olla varovainen tai kysyä neuvoa Midjourneyn yhteisöltä.
+                                Tekoälyn kehitystä seuraamalla voit ennakoida sen vaikutuksia omaan alaasi ja kehittää taitoja, jotka täydentävät tekoälyn kyvykkyyksiä sen sijaan, että kilpailisit sen kanssa.
                             </p>
                         </div>
                     </div>
@@ -1029,129 +1369,116 @@
                 
                 <div class="section-divider"></div>
                 
-                <!-- Viides sisältöosio -->
+                <!-- Tekoälyn käyttö arjessa -->
                 <div class="guide-section">
-                    <h2>Midjourney AI:n käyttötapaukset eri aloilla</h2>
-                    
-                    <div class="image-container" style="text-align: center; margin: 30px 0;">
-                        <img src="https://placehold.co/800x400/fd7e14/FFFFFF/png?text=Midjourney+Käyttötapaukset" alt="Midjourney käyttötapaukset eri aloilla" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p class="caption" style="margin-top: 10px; font-style: italic; color: #888;">Midjourneyta voidaan hyödyntää monipuolisesti eri aloilla</p>
-                    </div>
+                    <h2>Tekoälyn käyttö arjessa</h2>
                     
                     <div class="guide-content">
-                        <h3>Markkinointi ja mainonta</h3>
                         <p>
-                            Midjourney on mullistanut markkinoinnin ja mainonnan visuaalisen sisällön tuotannon:
+                            Tekoäly on jo osa jokapäiväistä elämäämme, vaikka emme aina tiedosta sitä. Tässä osiossa käsittelemme termejä, jotka liittyvät tekoälyn arkisiin sovelluksiin.
                         </p>
-                        <ul>
-                            <li>Sosiaalisen median kuvien luominen nopeasti ja kustannustehokkaasti</li>
-                            <li>Tuotekonseptien visualisointi ja prototyyppien luominen</li>
-                            <li>Mainoskampanjoiden visuaalisen ilmeen suunnittelu</li>
-                            <li>Brändimielikuvien vahvistaminen persoonallisilla kuvilla</li>
-                        </ul>
                         
-                        <h3>Suunnittelu ja arkkitehtuuri</h3>
-                        <p>
-                            Suunnittelijat ja arkkitehdit käyttävät Midjourneyta:
-                        </p>
-                        <ul>
-                            <li>Konseptien ja ideoiden nopeaan visualisointiin</li>
-                            <li>Sisustussuunnitelmien havainnollistamiseen asiakkaille</li>
-                            <li>Rakennusten ja tilojen visualisointiin eri ympäristöissä ja valaistuksissa</li>
-                            <li>Inspiraation lähteenä uusille suunnitteluratkaisuille</li>
-                        </ul>
-                        
-                        <h3>Pelinkehitys ja viihde</h3>
-                        <p>
-                            Pelinkehittäjät ja viihdeteollisuuden ammattilaiset hyödyntävät Midjourneyta:
-                        </p>
-                        <ul>
-                            <li>Hahmosuunnitteluun ja konseptitaiteen luomiseen</li>
-                            <li>Peliympäristöjen ja maailmojen visualisointiin</li>
-                            <li>Elokuvien ja TV-sarjojen storyboardien tekemiseen</li>
-                            <li>Visuaalisten efektien ideointiin</li>
-                        </ul>
-                        
-                        <h3>Koulutus ja opetus</h3>
-                        <p>
-                            Opettajat ja kouluttajat käyttävät Midjourneyta:
-                        </p>
-                        <ul>
-                            <li>Opetusmateriaalien elävöittämiseen</li>
-                            <li>Historiallisten tapahtumien ja paikkojen visualisointiin</li>
-                            <li>Tieteellisten konseptien havainnollistamiseen</li>
-                            <li>Opiskelijoiden luovuuden ja mielikuvituksen stimulointiin</li>
-                        </ul>
-                        
-                        <h3>Henkilökohtainen käyttö ja harrastukset</h3>
-                        <p>
-                            Yksityishenkilöt hyödyntävät Midjourneyta monin tavoin:
-                        </p>
-                        <ul>
-                            <li>Taideprojekteihin ja luovaan ilmaisuun</li>
-                            <li>Roolipelien ja lautapelien kuvituksiin</li>
-                            <li>Henkilökohtaisten projektien visualisointiin</li>
-                            <li>Sosiaalisen median profiilien ja sisällön elävöittämiseen</li>
-                        </ul>
-                        
-                        <div class="guide-example">
-                            <h4>Esimerkki: Kirjailijan työkalu</h4>
+                        <div class="term-card">
+                            <h3>Älykoti (Smart Home)</h3>
                             <p>
-                                Monet kirjailijat käyttävät Midjourneyta visualisoidakseen kirjojensa hahmoja, ympäristöjä ja kohtauksia. Tämä auttaa sekä kirjoitusprosessissa että markkinointimateriaalien luomisessa. Esimerkiksi fantasiakirjailija voi luoda kuvituksia kirjansa maailmasta, hahmoista ja taistelukohtauksista, mikä auttaa lukijoita uppoutumaan tarinaan syvemmin.
+                                <strong>Määritelmä:</strong> Älykoti viittaa kotiin, jossa laitteet ja järjestelmät on yhdistetty verkkoon ja niitä voidaan ohjata ja automatisoida tekoälyn avulla.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Älykodin järjestelmä voi säätää lämpötilaa, valaistusta ja turvallisuusjärjestelmiä asukkaiden mieltymysten ja käyttäytymisen perusteella.
                             </p>
                         </div>
+                        
+                        <div class="term-card">
+                            <h3>Virtuaaliavustaja (Virtual Assistant)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Virtuaaliavustaja on tekoälypohjainen ohjelmisto, joka voi suorittaa tehtäviä tai palveluita käyttäjälle puhekomentojen, tekstin tai eleiden perusteella.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Siri, Alexa ja Google Assistant ovat virtuaaliavustajia, jotka voivat vastata kysymyksiin, soittaa musiikkia, asettaa muistutuksia ja ohjata muita älylaitteita.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Personoitu sisältö (Personalized Content)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Personoitu sisältö viittaa sisältöön, joka on räätälöity käyttäjän mieltymysten, käyttäytymisen ja historian perusteella tekoälyalgoritmien avulla.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Sosiaalisen median uutisvirrat, suoratoistopalveluiden suositukset ja verkkokauppojen tuote-ehdotukset ovat esimerkkejä personoidusta sisällöstä.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Tekoälyavusteinen tuottavuus (AI-Enhanced Productivity)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyavusteinen tuottavuus viittaa tekoälyn käyttöön työkaluissa ja ohjelmistoissa, jotka auttavat ihmisiä työskentelemään tehokkaammin ja luovemmin.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Tekstinkäsittelyohjelmat, jotka ehdottavat lauseiden täydennyksiä, sähköpostisovellukset, jotka luokittelevat viestejä tärkeyden mukaan, ja kalenterisovellukset, jotka ehdottavat optimaalisia kokousaikoja.
+                            </p>
+                        </div>
+                        
+                        <div class="term-card">
+                            <h3>Tekoälyavusteinen oppiminen (AI-Enhanced Learning)</h3>
+                            <p>
+                                <strong>Määritelmä:</strong> Tekoälyavusteinen oppiminen viittaa tekoälyn käyttöön koulutuksessa ja oppimisessa, jossa tekoäly mukautuu oppijan tarpeisiin ja tarjoaa personoitua opetusta.
+                            </p>
+                            <p>
+                                <strong>Esimerkki:</strong> Kieltenoppimissovellukset, jotka tunnistavat käyttäjän vahvuudet ja heikkoudet ja mukauttavat harjoituksia niiden mukaan, tai matematiikan opetusohjelmat, jotka tarjoavat räätälöityjä tehtäviä oppijan taitotason perusteella.
+                            </p>
+                        </div>
+                        
+                        <p>
+                            Tekoäly on jo niin integroitunut jokapäiväiseen elämäämme, että emme usein edes huomaa käyttävämme sitä. Tulevaisuudessa tekoälyn rooli arjessamme tulee todennäköisesti vain kasvamaan, kun yhä useammat laitteet ja palvelut hyödyntävät tekoälyä toiminnassaan.
+                        </p>
                     </div>
                 </div>
                 
                 <div class="section-divider"></div>
                 
                 <!-- CTA-osio -->
-                <div class="guide-cta" style="background: linear-gradient(135deg, rgba(0, 100, 200, 0.6), rgba(0, 150, 255, 0.6)); padding: 2.5rem; border-radius: 16px; text-align: center; color: white; box-shadow: 0 10px 30px rgba(0, 100, 255, 0.3); border: 1px solid rgba(0, 200, 255, 0.2); position: relative; overflow: hidden; margin: 1rem 0 3rem;">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.2rem; color: white; text-shadow: 0 2px 8px rgba(0, 100, 255, 0.4);">Kokeile Midjourneyta jo tänään!</h3>
-                    <p style="font-size: 1.3rem; margin-bottom: 2rem; color: #e0e0e0; text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); max-width: 800px; margin-left: auto; margin-right: auto;">Aloita tekoälykuvien luominen ja vapauta luovuutesi. Midjourney tarjoaa helpon tavan visualisoida ideoitasi ja luoda ammattimaisia kuvia ilman graafisen suunnittelun taitoja.</p>
-                    <a href="https://www.midjourney.com/" class="btn" target="_blank" style="background: linear-gradient(135deg, #00a67e, #00c4a7); color: white; font-weight: 700; font-size: 1.3rem; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); box-shadow: 0 8px 25px rgba(0, 166, 126, 0.3); border: none; border-radius: 50px; padding: 18px 40px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-flex; align-items: center; justify-content: center; margin-top: 10px; transform: scale(1.05);">
-                        <span style="display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-robot" style="margin-right: 12px; font-size: 1.3em;"></i>
-                            Aloita Midjourney
-                        </span>
+                <div class="guide-cta">
+                    <h2>Aloita tekoälyn hyödyntäminen jo tänään!</h2>
+                    <p>Nyt kun tunnet tekoälyn keskeiset käsitteet, on aika siirtyä teoriasta käytäntöön. Tutustu tekoälytyökaluihin ja aloita niiden käyttö omissa projekteissasi.</p>
+                    <a href="https://chat.openai.com" class="cta-button" target="_blank">
+                        Kokeile ChatGPT:tä <i class="fas fa-arrow-right"></i>
                     </a>
-                    <div style="margin-top: 15px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">Tilaukset alkaen 10 $/kk - Luo jopa 200 kuvaa kuukaudessa</div>
                 </div>
                 
                 <div class="section-divider"></div>
                 
-                <!-- Lue lisää -osio -->
+                <!-- Lue lisää aiheesta -->
                 <div class="guide-section">
                     <h2>Lue lisää aiheesta</h2>
-                    <div class="related-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px;">
-                        <!-- Kortti 1 -->
-                        <a href="dalle-opas.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
+                    
+                    <div class="related-articles" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px;">
+                        <a href="chatgpt-opas.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
                             <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
-                                <i class="fas fa-image"></i>
+                                <i class="fas fa-book-open"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">DALL-E Opas</h4>
-                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Tutustu OpenAI:n DALL-E kuvageneraattoriin ja vertaa sen ominaisuuksia Midjourneyn kanssa.</p>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">ChatGPT Käyttöopas 2025</h4>
+                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Kattava opas ChatGPT:n tehokkaaseen käyttöön - opi hyödyntämään tekoälyä arjessa ja työssä.</p>
                         </a>
                         
-                        <!-- Kortti 2 -->
-                        <a href="ai-kuvageneraattorit.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
+                        <a href="../blogi/tekoalyn-tulevaisuus.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
                             <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
-                                <i class="fas fa-paint-brush"></i>
+                                <i class="fas fa-newspaper"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">AI-kuvageneraattorit</h4>
-                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Vertaile eri tekoälypohjaisia kuvageneraattoreita ja löydä tarpeisiisi sopivin työkalu.</p>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">Tekoälyn tulevaisuus</h4>
+                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Mitä tekoälyn kehitys tuo tullessaan? Tutustu alan trendeihin ja tulevaisuuden näkymiin.</p>
                         </a>
                         
-                        <!-- Kortti 3 -->
-                        <a href="runway-opas.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
+                        <a href="../arvostelut/tekoalytyokalut-vertailussa.html" class="related-card" style="display: block; background: linear-gradient(135deg, rgba(0, 50, 100, 0.5), rgba(0, 70, 140, 0.5)); padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s ease; border: 1px solid rgba(0, 150, 255, 0.15); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); height: 100%; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.2)';">
                             <div style="font-size: 2.2rem; margin-bottom: 15px; color: var(--accent-color); text-align: center;">
-                                <i class="fas fa-film"></i>
+                                <i class="fas fa-tools"></i>
                             </div>
-                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">Runway Opas</h4>
-                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Tutustu Runway-työkaluun, joka vie tekoälykuvat liikkeeseen ja mahdollistaa videoiden luomisen.</p>
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: white; font-size: 1.2rem; text-align: center; text-shadow: 0 1px 5px rgba(0, 100, 255, 0.3);">Tekoälytyökalut vertailussa</h4>
+                            <p style="margin-bottom: 0; font-size: 0.95rem; text-align: center; color: #e0e0e0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">Vertailu suosituimmista tekoälytyökaluista - löydä omiin tarpeisiisi sopiva työkalu.</p>
                         </a>
                     </div>
                 </div>
+                
+                <!-- SISÄLTÖ LOPPUU TÄHÄN -->
             </div>
         </div>
     </section>
